@@ -16,4 +16,9 @@ public class ProductsRepositoryMemory : IProductsRepository
     {
         return _products.Find(p => p.GetFields().Id == id);
     }
+
+    public void Delete(Product product)
+    {
+        _products.Remove(product);
+    }
 }

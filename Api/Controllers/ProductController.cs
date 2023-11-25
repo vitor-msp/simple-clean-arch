@@ -11,11 +11,14 @@ public class ProductController : ControllerBase
 {
     private readonly ICreateProduct _createProductUseCase;
     private readonly IGetProduct _getProductUseCase;
+    private readonly IDeleteProduct _deleteProductuseCase;
 
-    public ProductController(ICreateProduct createProductUseCase, IGetProduct getProductUseCase)
+    public ProductController(
+        ICreateProduct createProductUseCase, IGetProduct getProductUseCase, IDeleteProduct deleteProductuseCase)
     {
         _createProductUseCase = createProductUseCase;
         _getProductUseCase = getProductUseCase;
+        _deleteProductuseCase = deleteProductuseCase;
     }
 
     [HttpPost]
@@ -39,6 +42,22 @@ public class ProductController : ControllerBase
         try
         {
             var output = _getProductUseCase.Execute(id);
+            if (output == null) return NotFound();
+            return Ok(output);
+        }
+        catch (Exception error)
+        {
+            var output = ErrorPresenter.From(error.Message);
+            return BadRequest(output);
+        }
+    }
+
+    [HttpDelete("{id}")]
+    public ActionResult<GetProductOutput> Delete(long id)
+    {
+        try
+        {
+            var output = _deleteProductuseCase.Execute(id);
             if (output == null) return NotFound();
             return Ok(output);
         }

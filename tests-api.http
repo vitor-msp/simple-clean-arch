@@ -26,3 +26,6 @@ Content-Type: application/json
 
 ###
 GET http://localhost:5142/products/638365211452 HTTP/1.1
+
+###
+DELETE http://localhost:5142/products/638365243590 HTTP/1.1

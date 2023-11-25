@@ -6,4 +6,5 @@ public interface IProductsRepository
 {
     void Save(Product product);
     Product? Get(long id);
+    void Delete(Product product);
 }

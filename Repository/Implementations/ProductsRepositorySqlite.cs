@@ -28,4 +28,12 @@ public class ProductsRepositorySqlite : IProductsRepository
         if (productRegistry == null) return null;
         return productRegistry.GetEntity();
     }
+
+    public void Delete(Product product)
+    {
+        var productRegistry = _database.Products.Find(product.GetFields().Id);
+        if (productRegistry == null) throw new Exception("product not found");
+        _database.Products.Remove(productRegistry);
+        _database.SaveChanges();
+    }
 }
