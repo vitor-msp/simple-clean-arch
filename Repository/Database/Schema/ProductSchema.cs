@@ -8,6 +8,7 @@ public class ProductSchema
     public string Description { get; set; } = "";
     public double Price { get; set; }
     public DateTime CreatedAt { get; set; }
+    public string Category { get; set; } = "";
 
     public ProductSchema() { }
 
@@ -17,10 +18,11 @@ public class ProductSchema
         Description = fields.Description;
         Price = fields.Price;
         CreatedAt = fields.CreatedAt;
+        Category = fields.Category;
     }
 
     public Product GetEntity()
     {
-        return new Product(ProductFields.Rebuild(Id, Description, Price, CreatedAt));
+        return new Product(ProductFields.Rebuild(Id, Description, Price, CreatedAt, Category));
     }
 }

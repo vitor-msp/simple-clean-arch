@@ -8,6 +8,7 @@ public class ProductFields
     public double Price { get; set; }
     private readonly DateTime _createdAt = DateTime.Now;
     public DateTime CreatedAt { get { return _createdAt; } }
+    public string Category { get; set; } = "";
 
     public ProductFields() { }
 
@@ -17,12 +18,13 @@ public class ProductFields
         _createdAt = createdAt;
     }
 
-    public static ProductFields Rebuild(long id, string description, double price, DateTime createdAt)
+    public static ProductFields Rebuild(long id, string description, double price, DateTime createdAt, string category)
     {
         return new ProductFields(id, createdAt)
         {
             Description = description,
-            Price = price
+            Price = price,
+            Category = category
         };
     }
 }
