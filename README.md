@@ -1,6 +1,7 @@
 # Simple Clean Arch
 
 #### Simple project template using clean architecture developed in C#
+![code screenshot](assets/code-screenshot.png)
 
 ## Execution
 
