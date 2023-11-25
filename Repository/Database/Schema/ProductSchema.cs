@@ -14,15 +14,20 @@ public class ProductSchema
 
     public ProductSchema(ProductFields fields)
     {
-        Id = fields.Id;
-        Description = fields.Description;
-        Price = fields.Price;
-        CreatedAt = fields.CreatedAt;
-        Category = fields.Category;
+        Hydrate(fields);
     }
 
     public Product GetEntity()
     {
         return new Product(ProductFields.Rebuild(Id, Description, Price, CreatedAt, Category));
+    }
+
+    public void Hydrate(ProductFields fields)
+    {
+        Id = fields.Id;
+        Description = fields.Description;
+        Price = fields.Price;
+        CreatedAt = fields.CreatedAt;
+        Category = fields.Category;
     }
 }

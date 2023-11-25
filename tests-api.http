@@ -28,4 +28,16 @@ Content-Type: application/json
 GET http://localhost:5142/products/638365211452 HTTP/1.1
 
 ###
+PATCH http://localhost:5142/products/638365239895 HTTP/1.1
+Content-Type: application/json
+
+{
+    "Product": {
+        "Description": "pen",
+        "Price": 10.00,
+        "Category": "office"
+    }
+}
+
+###
 DELETE http://localhost:5142/products/638365243590 HTTP/1.1

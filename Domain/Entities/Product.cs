@@ -17,6 +17,18 @@ public class Product
         return _fields;
     }
 
+    public void Update(ProductUpdateableFields fields)
+    {
+        if (fields.Price != null)
+        {
+            ValidatePrice((double)fields.Price);
+            _fields.Price = (double)fields.Price;
+
+        }
+        if (fields.Description != null) _fields.Description = fields.Description;
+        if (fields.Category != null) _fields.Category = fields.Category;
+    }
+
     public static void ValidatePrice(double price)
     {
         if (price <= _minPrice || price > _maxPrice)

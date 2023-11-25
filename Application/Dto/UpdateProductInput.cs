@@ -3,27 +3,23 @@ using SimpleCleanArch.Domain.Entities;
 
 namespace SimpleCleanArch.Application.Dto;
 
-public class CreateProductInput
+public class UpdateProductInput
 {
     public InternalProduct Product { get; set; }
 
     public class InternalProduct
     {
-        [Required(ErrorMessage = "description is required")]
         [MinLength(3)]
         [MaxLength(10)]
-        public string Description { get; set; } = "";
+        public string? Description { get; set; }
 
-        [Required(ErrorMessage = "price is required")]
         [Range(0.0, 100.0)]
-        public double Price { get; set; }
+        public double? Price { get; set; }
+        public string? Category { get; set; }
 
-        [Required(ErrorMessage = "category is required")]
-        public string Category { get; set; } = "";
-
-        public ProductFields GetFields()
+        public ProductUpdateableFields GetFields()
         {
-            return new ProductFields()
+            return new ProductUpdateableFields()
             {
                 Description = Description,
                 Price = Price,

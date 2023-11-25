@@ -17,8 +17,21 @@ public class ProductsRepositorySqlite : IProductsRepository
 
     public void Save(Product product)
     {
+        var productRegistry = _database.Products.Find(product.GetFields().Id);
+        if (productRegistry == null) Add(product);
+        else Update(productRegistry, product);
+    }
+
+    private void Add(Product product)
+    {
         var productRegistry = new ProductSchema(product.GetFields());
         _database.Products.Add(productRegistry);
+        _database.SaveChanges();
+    }
+
+    private void Update(ProductSchema productRegistry, Product product)
+    {
+        productRegistry.Hydrate(product.GetFields());
         _database.SaveChanges();
     }
 
