@@ -19,7 +19,7 @@ public class CreateProduct : ICreateProduct
 
     public CreateProductOutput Execute(CreateProductInput input)
     {
-        var product = new Product(input.Product);
+        var product = new Product(input.Product.GetFields());
         _repository.Save(product);
         long productId = product.GetFields().Id;
         _mail.Send($"created product id {productId}");
