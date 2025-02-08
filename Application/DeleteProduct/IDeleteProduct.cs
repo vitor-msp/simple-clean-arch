@@ -4,5 +4,5 @@ namespace SimpleCleanArch.Application.Contract.UseCases;
 
 public interface IDeleteProduct
 {
-    DeleteProductOutput? Execute(long id);
+    Task<DeleteProductOutput?> Execute(long id);
 }

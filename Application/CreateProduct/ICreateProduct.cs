@@ -2,7 +2,7 @@ using SimpleCleanArch.Application.Dto;
 
 namespace SimpleCleanArch.Application.Contract.UseCases;
 
-public interface IGetProduct
+public interface ICreateProduct
 {
-    GetProductOutput? Execute(long id);
+    Task<CreateProductOutput> Execute(CreateProductInput input);
 }
