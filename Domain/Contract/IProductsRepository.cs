@@ -4,7 +4,8 @@ namespace SimpleCleanArch.Domain.Contract;
 
 public interface IProductsRepository
 {
-    void Save(Product product);
     Product? Get(long id);
+    void Create(Product product);
+    void Update(Product product);
     void Delete(Product product);
 }

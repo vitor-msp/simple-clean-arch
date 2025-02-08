@@ -2,36 +2,52 @@ namespace SimpleCleanArch.Domain.Entities;
 
 public class Product
 {
+    // self-generated fields
+    public long Id { get; }
+    public DateTime CreatedAt { get; }
+
+    // required fields
+    public required string Name { get; init; }
+    private double _price;
+    public required double Price
+    {
+        get { return _price; }
+        set
+        {
+            if (value <= _minPrice || value > _maxPrice)
+                throw new Exception("price must be greater than $0 and less than or equal $100");
+            _price = value;
+        }
+    }
+
+    // optional fields
+    public string? Description { get; set; }
+    public string? Category { get; set; }
+
+    // control fields (not persisted)
     private static readonly double _minPrice = 0;
     private static readonly double _maxPrice = 100;
-    private readonly ProductFields _fields;
 
-    public Product(ProductFields fields)
+    public Product()
     {
-        ValidatePrice(fields.Price);
-        _fields = fields;
+        Id = DateTime.Now.Ticks / 1000000;
+        CreatedAt = DateTime.Now;
     }
 
-    public ProductFields GetFields()
+    private Product(long id, DateTime createdAt)
     {
-        return _fields;
+        Id = id;
+        CreatedAt = createdAt;
     }
 
-    public void Update(ProductUpdateableFields fields)
+    public static Product Rebuild(long id, DateTime createdAt, string name, double price, string description, string category)
     {
-        if (fields.Price != null)
+        return new Product(id, createdAt)
         {
-            ValidatePrice((double)fields.Price);
-            _fields.Price = (double)fields.Price;
-
-        }
-        if (fields.Description != null) _fields.Description = fields.Description;
-        if (fields.Category != null) _fields.Category = fields.Category;
-    }
-
-    public static void ValidatePrice(double price)
-    {
-        if (price <= _minPrice || price > _maxPrice)
-            throw new Exception("price must be greater than $0 and less than or equal $100");
+            Name = name,
+            Price = price,
+            Description = description,
+            Category = category
+        };
     }
 }
