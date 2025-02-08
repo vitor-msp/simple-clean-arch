@@ -5,20 +5,27 @@ namespace SimpleCleanArch.Repository.Implementations;
 
 public class ProductsRepositoryMemory : IProductsRepository
 {
-    private readonly List<Product> _products = new();
+    private readonly List<Product> _products = [];
 
-    public void Save(Product product)
+    public Task<Product?> Get(long id)
+        => Task.FromResult(_products.Find(p => p.Id == id));
+
+    public async Task Create(Product product)
     {
         _products.Add(product);
     }
 
-    public Product? Get(long id)
+    public async Task Update(Product product)
     {
-        return _products.Find(p => p.GetFields().Id == id);
+        var index = _products.FindIndex(p => p.Id == product.Id);
+        if (index == -1) throw new Exception($"Product id {product.Id} not found.");
+        _products[index] = product;
     }
 
-    public void Delete(Product product)
+    public async Task Delete(Product product)
     {
         _products.Remove(product);
     }
+
+    public async Task Commit() { }
 }

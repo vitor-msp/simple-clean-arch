@@ -5,48 +5,38 @@ using SimpleCleanArch.Repository.Database.Schema;
 
 namespace SimpleCleanArch.Repository.Implementations;
 
-public class ProductsRepositorySqlite : IProductsRepository
+public class ProductsRepositorySqlite(ProductsContext database) : IProductsRepository
 {
-    private readonly ProductsContext _database;
+    private readonly ProductsContext _database = database;
 
-    public ProductsRepositorySqlite(ProductsContext database)
+    public async Task<Product?> Get(long id)
     {
-        _database = database;
-
+        var product = await _database.Products.FindAsync(id);
+        if (product is null) return null;
+        return product.GetEntity();
     }
 
-    public void Save(Product product)
+    public async Task Create(Product product)
     {
-        var productRegistry = _database.Products.Find(product.GetFields().Id);
-        if (productRegistry == null) Add(product);
-        else Update(productRegistry, product);
+        await _database.Products.AddAsync(new ProductSchema(product));
     }
 
-    private void Add(Product product)
+    public async Task Update(Product product)
     {
-        var productRegistry = new ProductSchema(product.GetFields());
-        _database.Products.Add(productRegistry);
-        _database.SaveChanges();
+        var savedProduct = await _database.Products.FindAsync(product.Id)
+            ?? throw new Exception($"product id {product.Id} not found");
+        savedProduct.Hydrate(product);
     }
 
-    private void Update(ProductSchema productRegistry, Product product)
+    public async Task Delete(Product product)
     {
-        productRegistry.Hydrate(product.GetFields());
-        _database.SaveChanges();
+        var savedProduct = await _database.Products.FindAsync(product.Id)
+            ?? throw new Exception($"product id {product.Id} not found");
+        _database.Products.Remove(savedProduct);
     }
 
-    public Product? Get(long id)
+    public async Task Commit()
     {
-        var productRegistry = _database.Products.Find(id);
-        if (productRegistry == null) return null;
-        return productRegistry.GetEntity();
-    }
-
-    public void Delete(Product product)
-    {
-        var productRegistry = _database.Products.Find(product.GetFields().Id);
-        if (productRegistry == null) throw new Exception("product not found");
-        _database.Products.Remove(productRegistry);
-        _database.SaveChanges();
+        await _database.SaveChangesAsync();
     }
 }

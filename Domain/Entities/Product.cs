@@ -40,7 +40,7 @@ public class Product
         CreatedAt = createdAt;
     }
 
-    public static Product Rebuild(long id, DateTime createdAt, string name, double price, string description, string category)
+    public static Product Rebuild(long id, DateTime createdAt, string name, double price, string? description, string? category)
     {
         return new Product(id, createdAt)
         {
