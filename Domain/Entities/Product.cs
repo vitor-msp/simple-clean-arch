@@ -1,6 +1,8 @@
+using SimpleCleanArch.Domain.Contract;
+
 namespace SimpleCleanArch.Domain.Entities;
 
-public class Product
+public class Product : IProduct
 {
     // self-generated fields
     public long Id { get; }

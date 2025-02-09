@@ -1,4 +1,4 @@
-namespace SimpleCleanArch.Application.Contract;
+namespace SimpleCleanArch.Domain.Contract.Infra;
 
 public interface IMailGateway
 {
