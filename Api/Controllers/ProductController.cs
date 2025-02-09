@@ -1,10 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SimpleCleanArch.Api.Presenters;
-using SimpleCleanArch.Application.CreateProduct;
-using SimpleCleanArch.Application.DeleteProduct;
+using SimpleCleanArch.Application.Contract;
 using SimpleCleanArch.Application.Exceptions;
-using SimpleCleanArch.Application.GetProduct;
-using SimpleCleanArch.Application.UpdateProduct;
 using SimpleCleanArch.Domain;
 
 namespace SimpleCleanArch.Api.Controllers;
