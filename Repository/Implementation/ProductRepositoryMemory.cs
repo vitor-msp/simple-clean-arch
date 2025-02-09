@@ -3,6 +3,7 @@ using SimpleCleanArch.Domain.Contract.Repository;
 
 namespace SimpleCleanArch.Repository.Implementation;
 
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
 public class ProductRepositoryMemory : IProductRepository
 {
     private readonly List<IProduct> _products = [];
@@ -29,3 +30,4 @@ public class ProductRepositoryMemory : IProductRepository
 
     public async Task Commit() { }
 }
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
