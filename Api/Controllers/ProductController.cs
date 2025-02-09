@@ -47,8 +47,12 @@ public class ProductController(
         try
         {
             var output = await _getProduct.Execute(id);
-            if (output is null) return NotFound();
             return Ok(output);
+        }
+        catch (NotFoundException error)
+        {
+            var output = ErrorPresenter.GenerateJson(error.Message);
+            return NotFound(output);
         }
         catch (Exception error)
         {
