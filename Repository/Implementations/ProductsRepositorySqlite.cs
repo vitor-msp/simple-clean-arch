@@ -24,14 +24,14 @@ public class ProductsRepositorySqlite(ProductsContext database) : IProductsRepos
     public async Task Update(Product product)
     {
         var savedProduct = await _database.Products.FindAsync(product.Id)
-            ?? throw new Exception($"product id {product.Id} not found");
+            ?? throw new Exception($"Product id {product.Id} not found.");
         savedProduct.Hydrate(product);
     }
 
     public async Task Delete(Product product)
     {
         var savedProduct = await _database.Products.FindAsync(product.Id)
-            ?? throw new Exception($"product id {product.Id} not found");
+            ?? throw new Exception($"Product id {product.Id} not found.");
         _database.Products.Remove(savedProduct);
     }
 

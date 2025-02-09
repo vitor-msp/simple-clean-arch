@@ -15,7 +15,7 @@ public class Product
         set
         {
             if (value <= _minPrice || value > _maxPrice)
-                throw new Exception("price must be greater than $0 and less than or equal $100");
+                throw new Exception($"Price must be between {_minPrice} and {_maxPrice}.");
             _price = value;
         }
     }

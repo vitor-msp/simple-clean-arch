@@ -3,9 +3,7 @@ using SimpleCleanArch.Repository.Database.Schema;
 
 namespace SimpleCleanArch.Repository.Database.Context;
 
-public class ProductsContext : DbContext
+public class ProductsContext(DbContextOptions<ProductsContext> options) : DbContext(options)
 {
-    public ProductsContext(DbContextOptions<ProductsContext> options) : base(options) { }
-
     public DbSet<ProductSchema> Products { get; set; }
 }

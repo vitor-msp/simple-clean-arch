@@ -9,7 +9,7 @@ public class UpdateProduct(IProductsRepository repository) : IUpdateProduct
     public async Task Execute(long id, UpdateProductInput input)
     {
         var product = await _repository.Get(id)
-            ?? throw new Exception($"product id {id} not found");
+            ?? throw new Exception($"Product id {id} not found.");
         input.Update(product);
         await _repository.Update(product);
         await _repository.Commit();
