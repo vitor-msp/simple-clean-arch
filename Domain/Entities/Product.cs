@@ -15,7 +15,7 @@ public class Product
         set
         {
             if (value <= _minPrice || value > _maxPrice)
-                throw new Exception($"Price must be between {_minPrice} and {_maxPrice}.");
+                throw new DomainException($"Price must be between {_minPrice} and {_maxPrice}.");
             _price = value;
         }
     }

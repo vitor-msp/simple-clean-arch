@@ -1,89 +1,99 @@
 using Microsoft.AspNetCore.Mvc;
-using SimpleCleanArch.Application.Contract.UseCases;
-using SimpleCleanArch.Application.Dto;
 using SimpleCleanArch.Api.Presenters;
+using SimpleCleanArch.Application.CreateProduct;
+using SimpleCleanArch.Application.DeleteProduct;
+using SimpleCleanArch.Application.Exceptions;
+using SimpleCleanArch.Application.GetProduct;
+using SimpleCleanArch.Application.UpdateProduct;
+using SimpleCleanArch.Domain;
 
 namespace SimpleCleanArch.Api.Controllers;
 
 [ApiController]
 [Route("products")]
-public class ProductController : ControllerBase
+public class ProductController(
+    ICreateProduct createProduct, IGetProduct getProduct,
+    IDeleteProduct deleteProduct, IUpdateProduct updateProduct
+) : ControllerBase
 {
-    private readonly ICreateProduct _createProductUseCase;
-    private readonly IGetProduct _getProductUseCase;
-    private readonly IDeleteProduct _deleteProductuseCase;
-    private readonly IUpdateProduct _updateProductuseCase;
-
-    public ProductController(
-        ICreateProduct createProductUseCase, IGetProduct getProductUseCase, 
-        IDeleteProduct deleteProductuseCase, IUpdateProduct updateProductuseCase)
-    {
-        _createProductUseCase = createProductUseCase;
-        _getProductUseCase = getProductUseCase;
-        _deleteProductuseCase = deleteProductuseCase;
-        _updateProductuseCase = updateProductuseCase;
-    }
+    private readonly ICreateProduct _createProduct = createProduct;
+    private readonly IGetProduct _getProduct = getProduct;
+    private readonly IDeleteProduct _deleteProduct = deleteProduct;
+    private readonly IUpdateProduct _updateProduct = updateProduct;
 
     [HttpPost]
-    public ActionResult<CreateProductOutput> Post(CreateProductInput input)
+    public async Task<ActionResult<CreateProductOutput>> Post(CreateProductInput input)
     {
         try
         {
-            var output = _createProductUseCase.Execute(input);
-            return Ok(output);
+            var output = await _createProduct.Execute(input);
+            return new CreatedAtRouteResult("GetProduct", new { id = output.ProductId }, output);
+        }
+        catch (DomainException error)
+        {
+            var output = ErrorPresenter.GenerateJson(error.Message);
+            return UnprocessableEntity(output);
         }
         catch (Exception error)
         {
-            var output = ErrorPresenter.From(error.Message);
-            return BadRequest(output);
+            var output = ErrorPresenter.GenerateJson(error.Message);
+            return StatusCode(StatusCodes.Status500InternalServerError, output);
         }
     }
 
-    [HttpGet("{id}")]
-    public ActionResult<GetProductOutput> Get(long id)
+    [HttpGet("{id}", Name = "GetProduct")]
+    public async Task<ActionResult<GetProductOutput>> Get(long id)
     {
         try
         {
-            var output = _getProductUseCase.Execute(id);
-            if (output == null) return NotFound();
+            var output = await _getProduct.Execute(id);
+            if (output is null) return NotFound();
             return Ok(output);
         }
         catch (Exception error)
         {
-            var output = ErrorPresenter.From(error.Message);
-            return BadRequest(output);
+            var output = ErrorPresenter.GenerateJson(error.Message);
+            return StatusCode(StatusCodes.Status500InternalServerError, output);
         }
     }
 
     [HttpPatch("{id}")]
-    public ActionResult<GetProductOutput> Patch(long id, UpdateProductInput input)
+    public async Task<ActionResult> Patch(long id, UpdateProductInput input)
     {
         try
         {
-            var output = _updateProductuseCase.Execute(id, input);
-            if (output == null) return NotFound();
-            return Ok(output);
+            await _updateProduct.Execute(id, input);
+            return NoContent();
+        }
+        catch (NotFoundException error)
+        {
+            var output = ErrorPresenter.GenerateJson(error.Message);
+            return NotFound(output);
         }
         catch (Exception error)
         {
-            var output = ErrorPresenter.From(error.Message);
-            return BadRequest(output);
+            var output = ErrorPresenter.GenerateJson(error.Message);
+            return StatusCode(StatusCodes.Status500InternalServerError, output);
         }
     }
 
     [HttpDelete("{id}")]
-    public ActionResult<GetProductOutput> Delete(long id)
+    public async Task<ActionResult> Delete(long id)
     {
         try
         {
-            var output = _deleteProductuseCase.Execute(id);
-            if (output == null) return NotFound();
-            return Ok(output);
+            await _deleteProduct.Execute(id);
+            return NoContent();
+        }
+        catch (NotFoundException error)
+        {
+            var output = ErrorPresenter.GenerateJson(error.Message);
+            return NotFound(output);
         }
         catch (Exception error)
         {
-            var output = ErrorPresenter.From(error.Message);
-            return BadRequest(output);
+            var output = ErrorPresenter.GenerateJson(error.Message);
+            return StatusCode(StatusCodes.Status500InternalServerError, output);
         }
     }
 }

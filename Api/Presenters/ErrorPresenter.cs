@@ -8,7 +8,7 @@ public class ErrorPresenter
 
     private ErrorPresenter() { }
 
-    public static string From(string errorMessage)
+    public static string GenerateJson(string errorMessage)
     {
         var output = new ErrorPresenter()
         {
