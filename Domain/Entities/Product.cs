@@ -42,7 +42,8 @@ public class Product : IProduct
         CreatedAt = createdAt;
     }
 
-    public static Product Rebuild(long id, DateTime createdAt, string name, double price, string? description, string? category)
+    public static Product Rebuild(long id, DateTime createdAt, string name,
+        double price, string? description, string? category)
         => new(id, createdAt)
         {
             Name = name,
