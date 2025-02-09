@@ -1,11 +1,12 @@
+using SimpleCleanArch.Application.Contract;
 using SimpleCleanArch.Application.Exceptions;
-using SimpleCleanArch.Domain.Contract;
+using SimpleCleanArch.Domain.Contract.Repository;
 
-namespace SimpleCleanArch.Application.UpdateProduct;
+namespace SimpleCleanArch.Application;
 
-public class UpdateProduct(IProductsRepository repository) : IUpdateProduct
+public class UpdateProduct(IProductRepository repository) : IUpdateProduct
 {
-    private readonly IProductsRepository _repository = repository;
+    private readonly IProductRepository _repository = repository;
 
     public async Task Execute(long id, UpdateProductInput input)
     {

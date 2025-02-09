@@ -1,4 +1,4 @@
-namespace SimpleCleanArch.Application.DeleteProduct;
+namespace SimpleCleanArch.Application.Contract;
 
 public interface IDeleteProduct
 {

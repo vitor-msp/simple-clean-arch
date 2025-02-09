@@ -1,7 +1,12 @@
 using System.ComponentModel.DataAnnotations;
-using SimpleCleanArch.Domain.Entities;
+using SimpleCleanArch.Domain.Contract;
 
-namespace SimpleCleanArch.Application.UpdateProduct;
+namespace SimpleCleanArch.Application.Contract;
+
+public interface IUpdateProduct
+{
+    Task Execute(long id, UpdateProductInput input);
+}
 
 public class UpdateProductInput
 {
@@ -14,7 +19,7 @@ public class UpdateProductInput
     [MaxLength(10)]
     public string? Category { get; set; }
 
-    public void Update(Product product)
+    public void Update(IProduct product)
     {
         if (Price is not null)
             product.Price = (double)Price;

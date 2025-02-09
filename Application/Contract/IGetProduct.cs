@@ -1,6 +1,11 @@
-using SimpleCleanArch.Domain.Entities;
+using SimpleCleanArch.Domain.Contract;
 
-namespace SimpleCleanArch.Application.GetProduct;
+namespace SimpleCleanArch.Application.Contract;
+
+public interface IGetProduct
+{
+    Task<GetProductOutput> Execute(long id);
+}
 
 public class GetProductOutput
 {
@@ -11,7 +16,7 @@ public class GetProductOutput
     public string? Description { get; set; }
     public string? Category { get; set; }
 
-    public static GetProductOutput FromEntity(Product product)
+    public static GetProductOutput FromEntity(IProduct product)
         => new()
         {
             Id = product.Id,

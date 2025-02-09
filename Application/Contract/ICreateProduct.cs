@@ -1,7 +1,13 @@
 using System.ComponentModel.DataAnnotations;
+using SimpleCleanArch.Domain.Contract;
 using SimpleCleanArch.Domain.Entities;
 
-namespace SimpleCleanArch.Application.CreateProduct;
+namespace SimpleCleanArch.Application.Contract;
+
+public interface ICreateProduct
+{
+    Task<CreateProductOutput> Execute(CreateProductInput input);
+}
 
 public class CreateProductInput
 {
@@ -20,12 +26,17 @@ public class CreateProductInput
     [MaxLength(10)]
     public string? Category { get; set; }
 
-    public Product GetEntity()
-        => new()
+    public IProduct GetEntity()
+        => new Product()
         {
             Name = Name,
             Price = Price,
             Description = Description,
             Category = Category,
         };
+}
+
+public class CreateProductOutput
+{
+    public long ProductId { get; set; }
 }

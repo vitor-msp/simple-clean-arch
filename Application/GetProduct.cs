@@ -1,11 +1,12 @@
+using SimpleCleanArch.Application.Contract;
 using SimpleCleanArch.Application.Exceptions;
-using SimpleCleanArch.Domain.Contract;
+using SimpleCleanArch.Domain.Contract.Repository;
 
-namespace SimpleCleanArch.Application.GetProduct;
+namespace SimpleCleanArch.Application;
 
-public class GetProduct(IProductsRepository repository) : IGetProduct
+public class GetProduct(IProductRepository repository) : IGetProduct
 {
-    private readonly IProductsRepository _repository = repository;
+    private readonly IProductRepository _repository = repository;
 
     public async Task<GetProductOutput> Execute(long id)
     {
