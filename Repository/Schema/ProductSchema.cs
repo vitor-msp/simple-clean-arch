@@ -1,6 +1,7 @@
+using SimpleCleanArch.Domain.Contract;
 using SimpleCleanArch.Domain.Entities;
 
-namespace SimpleCleanArch.Repository.Database.Schema;
+namespace SimpleCleanArch.Repository.Schema;
 
 public class ProductSchema
 {
@@ -13,12 +14,12 @@ public class ProductSchema
 
     public ProductSchema() { }
 
-    public ProductSchema(Product product)
+    public ProductSchema(IProduct product)
     {
         Hydrate(product);
     }
 
-    public void Hydrate(Product product)
+    public void Hydrate(IProduct product)
     {
         Id = product.Id;
         CreatedAt = product.CreatedAt;
@@ -28,6 +29,6 @@ public class ProductSchema
         Category = product.Category;
     }
 
-    public Product GetEntity()
+    public IProduct GetEntity()
         => Product.Rebuild(Id, CreatedAt, Name, Price, Description, Category);
 }
