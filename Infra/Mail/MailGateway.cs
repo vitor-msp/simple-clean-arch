@@ -1,5 +1,5 @@
 using Microsoft.Extensions.Options;
-using SimpleCleanArch.Application.Contract;
+using SimpleCleanArch.Domain.Contract.Infra;
 
 namespace SimpleCleanArch.Infra;
 
@@ -8,8 +8,8 @@ public class MailGateway(IOptions<MailConfiguration> options) : IMailGateway
     private readonly string _connectionString = options.Value.ConnectionString
         ?? throw new Exception("Missing Mail Gateway configuration.");
 
-    public async Task SendMail(string message)
+    public async Task SendMail(SendMailInput input)
     {
-        Console.WriteLine(message);
+        Console.WriteLine(input.Recipient);
     }
 }
