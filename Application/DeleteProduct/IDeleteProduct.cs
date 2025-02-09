@@ -1,8 +1,6 @@
-using SimpleCleanArch.Application.Dto;
-
-namespace SimpleCleanArch.Application.Contract.UseCases;
+namespace SimpleCleanArch.Application.DeleteProduct;
 
 public interface IDeleteProduct
 {
-    Task<DeleteProductOutput?> Execute(long id);
+    Task Execute(long id);
 }

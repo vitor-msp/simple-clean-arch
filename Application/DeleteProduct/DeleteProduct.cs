@@ -1,23 +1,20 @@
 using SimpleCleanArch.Domain.Contract;
-using SimpleCleanArch.Application.Contract.UseCases;
-using SimpleCleanArch.Application.Dto;
-using SimpleCleanArch.Application.Contract.Gateways;
+using SimpleCleanArch.Application.Contract;
 using System.Text.Json;
 
-namespace SimpleCleanArch.Application.UseCases;
+namespace SimpleCleanArch.Application.DeleteProduct;
 
 public class DeleteProduct(IProductsRepository repository, ISendMailGateway mail) : IDeleteProduct
 {
     private readonly IProductsRepository _repository = repository;
     private readonly ISendMailGateway _mail = mail;
 
-    public async Task<DeleteProductOutput?> Execute(long id)
+    public async Task Execute(long id)
     {
-        var product = await _repository.Get(id);
-        if (product is null) return null;
+        var product = await _repository.Get(id)
+            ?? throw new Exception($"product id {id} not found");
         await _mail.Send(JsonSerializer.Serialize(product));
         await _repository.Delete(product);
         await _repository.Commit();
-        return new() { ProductId = id };
     }
 }

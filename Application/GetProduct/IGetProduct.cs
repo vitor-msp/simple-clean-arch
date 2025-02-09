@@ -1,6 +1,4 @@
-using SimpleCleanArch.Application.Dto;
-
-namespace SimpleCleanArch.Application.Contract.UseCases;
+namespace SimpleCleanArch.Application.GetProduct;
 
 public interface IGetProduct
 {

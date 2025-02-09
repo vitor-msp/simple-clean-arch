@@ -1,4 +1,4 @@
-using SimpleCleanArch.Application.Contract.Gateways;
+using SimpleCleanArch.Application.Contract;
 
 namespace SimpleCleanArch.Infra;
 

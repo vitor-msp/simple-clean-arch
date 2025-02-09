@@ -1,8 +1,6 @@
-using SimpleCleanArch.Application.Dto;
-
-namespace SimpleCleanArch.Application.Contract.UseCases;
+namespace SimpleCleanArch.Application.UpdateProduct;
 
 public interface IUpdateProduct
 {
-    Task<UpdateProductOutput?> Execute(long id, UpdateProductInput input);
+    Task Execute(long id, UpdateProductInput input);
 }

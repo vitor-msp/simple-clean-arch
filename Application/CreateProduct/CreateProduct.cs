@@ -1,9 +1,7 @@
 using SimpleCleanArch.Domain.Contract;
-using SimpleCleanArch.Application.Contract.UseCases;
-using SimpleCleanArch.Application.Contract.Gateways;
-using SimpleCleanArch.Application.Dto;
+using SimpleCleanArch.Application.Contract;
 
-namespace SimpleCleanArch.Application.UseCases;
+namespace SimpleCleanArch.Application.CreateProduct;
 
 public class CreateProduct(IProductsRepository repository, ISendMailGateway mail) : ICreateProduct
 {

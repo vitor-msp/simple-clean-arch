@@ -1,4 +1,4 @@
-namespace SimpleCleanArch.Application.Dto;
+namespace SimpleCleanArch.Application.CreateProduct;
 
 public class CreateProductOutput
 {

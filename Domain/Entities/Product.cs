@@ -41,13 +41,11 @@ public class Product
     }
 
     public static Product Rebuild(long id, DateTime createdAt, string name, double price, string? description, string? category)
-    {
-        return new Product(id, createdAt)
+        => new(id, createdAt)
         {
             Name = name,
             Price = price,
             Description = description,
             Category = category
         };
-    }
 }

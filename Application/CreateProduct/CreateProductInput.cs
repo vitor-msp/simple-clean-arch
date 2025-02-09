@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using SimpleCleanArch.Domain.Entities;
 
-namespace SimpleCleanArch.Application.Dto;
+namespace SimpleCleanArch.Application.CreateProduct;
 
 public class CreateProductInput
 {

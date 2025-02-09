@@ -1,8 +1,6 @@
-using SimpleCleanArch.Application.Contract.UseCases;
-using SimpleCleanArch.Application.Dto;
 using SimpleCleanArch.Domain.Contract;
 
-namespace SimpleCleanArch.Application.UseCases;
+namespace SimpleCleanArch.Application.GetProduct;
 
 public class GetProduct(IProductsRepository repository) : IGetProduct
 {

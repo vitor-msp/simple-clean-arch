@@ -1,20 +1,17 @@
 using SimpleCleanArch.Domain.Contract;
-using SimpleCleanArch.Application.Contract.UseCases;
-using SimpleCleanArch.Application.Dto;
 
-namespace SimpleCleanArch.Application.UseCases;
+namespace SimpleCleanArch.Application.UpdateProduct;
 
 public class UpdateProduct(IProductsRepository repository) : IUpdateProduct
 {
     private readonly IProductsRepository _repository = repository;
 
-    public async Task<UpdateProductOutput?> Execute(long id, UpdateProductInput input)
+    public async Task Execute(long id, UpdateProductInput input)
     {
-        var product = await _repository.Get(id);
-        if (product is null) return null;
+        var product = await _repository.Get(id)
+            ?? throw new Exception($"product id {id} not found");
         input.Update(product);
         await _repository.Update(product);
         await _repository.Commit();
-        return new() { ProductId = product.Id };
     }
 }

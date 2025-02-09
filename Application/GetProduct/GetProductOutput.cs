@@ -1,6 +1,6 @@
 using SimpleCleanArch.Domain.Entities;
 
-namespace SimpleCleanArch.Application.Dto;
+namespace SimpleCleanArch.Application.GetProduct;
 
 public class GetProductOutput
 {

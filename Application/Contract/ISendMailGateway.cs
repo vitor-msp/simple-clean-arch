@@ -1,4 +1,4 @@
-namespace SimpleCleanArch.Application.Contract.Gateways;
+namespace SimpleCleanArch.Application.Contract;
 
 public interface ISendMailGateway
 {
