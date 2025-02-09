@@ -1,4 +1,4 @@
-CREATE TABLE Products (
+CREATE TABLE IF NOT EXISTS Products (
     Id int not null primary key,
     CreatedAt datetime not null,
     Name varchar(10) not null,

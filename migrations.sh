@@ -1,16 +1,16 @@
 #!/bin/bash
 
+command=$1
+
 error(){
     echo "Invalid argument! Options: up, down."
     exit 1
 }
 
-if [ -z "$1" ]; then
+if [ -z "$command" ]; then
     error
-elif [ $1 == "up" ]; then
-    sqlite3 products.db < Repository/Database/Migrations/up.sql
-elif [ $1 == "down" ]; then
-    sqlite3 products.db < Repository/Database/Migrations/down.sql
+elif [ $command == "up" ] || [ $command == "down" ]; then
+    sqlite3 products.db < Repository/Database/Migrations/$command.sql
 else
     error
 fi
