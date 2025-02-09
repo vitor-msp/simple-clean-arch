@@ -1,3 +1,5 @@
+using SimpleCleanArch.Domain.ValueObjects;
+
 namespace SimpleCleanArch.Domain.Contract;
 
 public interface IProduct
@@ -13,4 +15,10 @@ public interface IProduct
     // optional fields
     public string? Description { get; set; }
     public string? Category { get; set; }
+
+    // methods
+    public void AddProductVariant(Color color, Size size);
+    public void RemoveProductVariant(string sku);
+    public IProductVariant GetProductVariant(string sku);
+    public List<IProductVariant> ListProductVariants();
 }

@@ -36,4 +36,6 @@ public class ProductVariant : IProductVariant
             Color = color,
             Size = size
         };
+
+    public object Clone() => Rebuild(Id, CreatedAt, Product, Color, Size);
 }

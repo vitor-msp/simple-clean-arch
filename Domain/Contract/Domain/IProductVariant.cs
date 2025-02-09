@@ -2,7 +2,7 @@ using SimpleCleanArch.Domain.ValueObjects;
 
 namespace SimpleCleanArch.Domain.Contract;
 
-public interface IProductVariant
+public interface IProductVariant: ICloneable
 {
     // self-generated fields
     public long Id { get; }
