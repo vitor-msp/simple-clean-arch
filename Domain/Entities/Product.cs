@@ -67,10 +67,10 @@ public class Product : IProduct
         _productVariants.RemoveAt(index);
     }
 
-    public IProductVariant GetProductVariant(string sku)
+    public IProductVariant? GetProductVariant(string sku)
     {
-        var variant = _productVariants.Find(variant => variant.Sku == sku)
-            ?? throw new DomainException($"Product variant sku {sku} not found.");
+        var variant = _productVariants.Find(variant => variant.Sku == sku);
+        if (variant is null) return null;
         return (IProductVariant)variant.Clone();
     }
 

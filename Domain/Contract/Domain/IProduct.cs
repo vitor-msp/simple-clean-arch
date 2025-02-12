@@ -13,6 +13,6 @@ public interface IProduct
 
     public void AddProductVariant(Color color, Size size);
     public void RemoveProductVariant(string sku);
-    public IProductVariant GetProductVariant(string sku);
+    public IProductVariant? GetProductVariant(string sku);
     public List<IProductVariant> ListProductVariants();
 }

@@ -1,3 +1,6 @@
+using SimpleCleanArch.Domain.Contract;
+using SimpleCleanArch.Domain.ValueObjects;
+
 namespace SimpleCleanArch.Tests.Domain;
 
 public class ProductTest
@@ -8,6 +11,26 @@ public class ProductTest
     private readonly double _price = 10.60;
     private readonly string _description = "my product Description";
     private readonly string _category = "category";
+    private readonly Color _color = Color.Blue;
+    private readonly Size _size = Size.Large;
+
+    private Product GetProduct(List<IProductVariant>? variants) => Product.Rebuild(
+        id: _id,
+        createdAt: _createdAt,
+        name: _name,
+        price: _price,
+        description: _description,
+        category: _category,
+        variants: variants ?? []
+    );
+
+    private Product GetProductWithVariant()
+        => GetProduct([ProductVariant.Rebuild(
+                id: _id,
+                createdAt: _createdAt,
+                color: _color,
+                size: _size
+            )]);
 
     [Fact]
     public void CreateProduct_Success()
@@ -57,5 +80,59 @@ public class ProductTest
         Assert.Equal(_description, product.Description);
         Assert.Equal(_category, product.Category);
         Assert.Equal([], product.ListProductVariants());
+    }
+
+    [Fact]
+    public void GetProductVariant_Success()
+    {
+        var product = GetProductWithVariant();
+        var sku = "my_product-blue-large";
+        var variant = product.GetProductVariant(sku);
+        Assert.NotNull(variant);
+        Assert.Equal(_id, variant.Id);
+        Assert.Equal(_createdAt, variant.CreatedAt);
+        Assert.Equal(_color, variant.Color);
+        Assert.Equal(_size, variant.Size);
+        Assert.Equal(product, variant.Product);
+        Assert.Equal(sku, variant.Sku);
+    }
+
+    [Fact]
+    public void AddProductVariant_Success()
+    {
+        var product = GetProductWithVariant();
+        var color = Color.Red;
+        var size = Size.Small;
+        product.AddProductVariant(color, size);
+        var sku = "my_product-red-small";
+        var variant = product.GetProductVariant(sku);
+        Assert.NotNull(variant);
+        Assert.IsType<long>(variant.Id);
+        Assert.IsType<DateTime>(variant.CreatedAt);
+        Assert.Equal(color, variant.Color);
+        Assert.Equal(size, variant.Size);
+        Assert.Equal(product, variant.Product);
+        Assert.Equal(sku, variant.Sku);
+    }
+
+    [Fact]
+    public void ListProductVariants_Success()
+    {
+        var product = GetProductWithVariant();
+        var color = Color.Red;
+        var size = Size.Small;
+        product.AddProductVariant(color, size);
+        var variants = product.ListProductVariants();
+        Assert.Equal(2, variants.Count);
+    }
+
+    [Fact]
+    public void RemoveProductVariant_Success()
+    {
+        var product = GetProductWithVariant();
+        var sku = "my_product-blue-large";
+        product.RemoveProductVariant(sku);
+        var variants = product.ListProductVariants();
+        Assert.Empty(variants);
     }
 }

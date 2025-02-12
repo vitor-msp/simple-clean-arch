@@ -15,7 +15,10 @@ public class ProductVariant : IProductVariant
         {
             if (Product is null)
                 throw new Exception("Product is not setted.");
-            return $"{Product.Name.ToLower()}-{Color.ToString().ToLower()}-{Size.ToString().ToLower()}";
+            var name = FormatSkuText(Product.Name);
+            var color = FormatSkuText(Color.ToString());
+            var size = FormatSkuText(Size.ToString());
+            return $"{name}-{color}-{size}";
         }
     }
 
@@ -44,4 +47,7 @@ public class ProductVariant : IProductVariant
         variant.Product = Product;
         return variant;
     }
+
+    private static string FormatSkuText(string text)
+        => text.ToLower().Replace(" ", "_");
 }
