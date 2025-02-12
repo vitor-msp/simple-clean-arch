@@ -9,12 +9,11 @@ namespace SimpleCleanArch.Api.Controllers;
 [ApiController]
 [Route("products")]
 public class ProductController(
-    ICreateProduct createProduct, IGetProduct getProduct,
+    ICreateProduct createProduct,
     IDeleteProduct deleteProduct, IUpdateProduct updateProduct
 ) : ControllerBase
 {
     private readonly ICreateProduct _createProduct = createProduct;
-    private readonly IGetProduct _getProduct = getProduct;
     private readonly IDeleteProduct _deleteProduct = deleteProduct;
     private readonly IUpdateProduct _updateProduct = updateProduct;
 
@@ -30,26 +29,6 @@ public class ProductController(
         {
             var output = ErrorPresenter.GenerateJson(error.Message);
             return UnprocessableEntity(output);
-        }
-        catch (Exception error)
-        {
-            var output = ErrorPresenter.GenerateJson(error.Message);
-            return StatusCode(StatusCodes.Status500InternalServerError, output);
-        }
-    }
-
-    [HttpGet("{id}", Name = "GetProduct")]
-    public async Task<ActionResult<GetProductOutput>> Get(long id)
-    {
-        try
-        {
-            var output = await _getProduct.Execute(id);
-            return Ok(output);
-        }
-        catch (NotFoundException error)
-        {
-            var output = ErrorPresenter.GenerateJson(error.Message);
-            return NotFound(output);
         }
         catch (Exception error)
         {

@@ -22,7 +22,6 @@ public static class DependencyInjection
         services.AddDbContext<ProductContext>(options => options.UseSqlite(sqliteConnection));
 
         services.AddScoped<ICreateProduct, CreateProduct>();
-        services.AddScoped<IGetProduct, GetProduct>();
         services.AddScoped<IUpdateProduct, UpdateProduct>();
         services.AddScoped<IDeleteProduct, DeleteProduct>();
 
