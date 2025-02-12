@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using SimpleCleanArch.Domain.Contract;
 using SimpleCleanArch.Domain.Entities;
+using SimpleCleanArch.Domain.ValueObjects;
 
 namespace SimpleCleanArch.Application.Contract;
 
@@ -26,14 +27,26 @@ public class CreateProductInput
     [MaxLength(10)]
     public string? Category { get; set; }
 
+    public List<ProductVariant> ProductVariants = [];
+
+    public class ProductVariant
+    {
+        public Color Color { get; set; }
+        public Size Size { get; set; }
+    }
+
     public IProduct GetEntity()
-        => new Product()
+    {
+        var product = new Product()
         {
             Name = Name,
             Price = Price,
             Description = Description,
             Category = Category,
         };
+        ProductVariants.ForEach(variant => product.AddProductVariant(variant.Color, variant.Size));
+        return product;
+    }
 }
 
 public class CreateProductOutput
