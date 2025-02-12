@@ -1,1 +1,11 @@
 global using Xunit;
+global using SimpleCleanArch.Api.Controllers;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.Data.Sqlite;
+global using Microsoft.EntityFrameworkCore;
+global using Moq;
+global using SimpleCleanArch.Application;
+global using SimpleCleanArch.Application.Contract;
+global using SimpleCleanArch.Infra;
+global using SimpleCleanArch.Repository.Context;
+global using SimpleCleanArch.Repository.Implementation;

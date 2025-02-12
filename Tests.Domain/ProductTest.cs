@@ -1,6 +1,3 @@
-using SimpleCleanArch.Domain.Contract;
-using SimpleCleanArch.Domain.ValueObjects;
-
 namespace SimpleCleanArch.Tests.Domain;
 
 public class ProductTest
