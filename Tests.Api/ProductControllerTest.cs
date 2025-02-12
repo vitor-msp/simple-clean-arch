@@ -47,4 +47,21 @@ public class ProductControllerTest
         Assert.Equal(input.Description, productSchema.Description);
         Assert.Equal(input.Category, productSchema.Category);
     }
+
+    [Fact]
+    public async Task PostProduct_InvalidPrice()
+    {
+        var input = new CreateProductInput()
+        {
+            Name = _name,
+            Price = -10,
+            Description = _description,
+            Category = _category,
+        };
+        var (controller, context) = MakeSut();
+        var output = await controller.Post(input);
+        Assert.IsType<UnprocessableEntityObjectResult>(output.Result);
+        var productsSchema = await context.Products.ToListAsync();
+        Assert.Empty(productsSchema);
+    }
 }
