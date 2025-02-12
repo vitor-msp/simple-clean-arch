@@ -4,7 +4,7 @@ namespace SimpleCleanArch.Domain.Contract;
 
 public interface IProductVariant : ICloneable
 {
-    public long Id { get; }
+    public Guid Id { get; }
     public DateTime CreatedAt { get; }
     public Color Color { get; init; }
     public Size Size { get; init; }

@@ -5,7 +5,7 @@ namespace SimpleCleanArch.Domain.Entities;
 
 public class ProductVariant : IProductVariant
 {
-    public long Id { get; }
+    public Guid Id { get; }
     public DateTime CreatedAt { get; }
     public required Color Color { get; init; }
     public required Size Size { get; init; }
@@ -25,17 +25,17 @@ public class ProductVariant : IProductVariant
 
     public ProductVariant()
     {
-        Id = DateTime.Now.Ticks / 1000000;
+        Id = Guid.NewGuid();
         CreatedAt = DateTime.Now;
     }
 
-    private ProductVariant(long id, DateTime createdAt)
+    private ProductVariant(Guid id, DateTime createdAt)
     {
         Id = id;
         CreatedAt = createdAt;
     }
 
-    public static IProductVariant Rebuild(long id, DateTime createdAt, Color color, Size size)
+    public static IProductVariant Rebuild(Guid id, DateTime createdAt, Color color, Size size)
         => new ProductVariant(id, createdAt)
         {
             Color = color,

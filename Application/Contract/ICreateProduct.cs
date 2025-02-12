@@ -38,5 +38,5 @@ public class CreateProductInput
 
 public class CreateProductOutput
 {
-    public long ProductId { get; set; }
+    public Guid ProductId { get; set; }
 }

@@ -15,7 +15,7 @@ public class ProductVariantTest
             Color = _color,
             Size = _size,
         };
-        Assert.IsType<long>(productVariant.Id);
+        Assert.IsType<Guid>(productVariant.Id);
         Assert.Equal("notebook-blue-medium", productVariant.Sku);
         Assert.IsType<DateTime>(productVariant.CreatedAt);
     }
@@ -23,7 +23,7 @@ public class ProductVariantTest
     [Fact]
     public void RebuildProductVariant_Sucess()
     {
-        var id = DateTime.Now.Ticks / 1000000;
+        var id = Guid.NewGuid();
         var createdAt = DateTime.Now;
         var productVariant = ProductVariant.Rebuild(
             id: id,

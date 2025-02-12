@@ -2,7 +2,7 @@ namespace SimpleCleanArch.Tests.Domain;
 
 public class ProductTest
 {
-    private readonly long _id = DateTime.Now.Ticks / 1000000;
+    private readonly Guid _id = Guid.NewGuid();
     private readonly DateTime _createdAt = DateTime.Now;
     private readonly string _name = "my product";
     private readonly double _price = 10.60;
@@ -39,7 +39,7 @@ public class ProductTest
             Description = _description,
             Category = _category
         };
-        Assert.IsType<long>(product.Id);
+        Assert.IsType<Guid>(product.Id);
         Assert.IsType<DateTime>(product.CreatedAt);
     }
 
@@ -104,7 +104,7 @@ public class ProductTest
         var sku = "my_product-red-small";
         var variant = product.GetProductVariant(sku);
         Assert.NotNull(variant);
-        Assert.IsType<long>(variant.Id);
+        Assert.IsType<Guid>(variant.Id);
         Assert.IsType<DateTime>(variant.CreatedAt);
         Assert.Equal(color, variant.Color);
         Assert.Equal(size, variant.Size);

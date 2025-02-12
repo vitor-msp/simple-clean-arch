@@ -9,7 +9,7 @@ public class ProductRepositorySqlite(ProductContext database) : IProductReposito
 {
     private readonly ProductContext _database = database;
 
-    public async Task<IProduct?> Get(long id)
+    public async Task<IProduct?> Get(Guid id)
     {
         var productSchema = await _database.Products.FindAsync(id);
         if (productSchema is null) return null;

@@ -4,7 +4,7 @@ namespace SimpleCleanArch.Domain.Contract;
 
 public interface IProduct
 {
-    public long Id { get; }
+    public Guid Id { get; }
     public DateTime CreatedAt { get; }
     public string Name { get; init; }
     public double Price { get; set; }

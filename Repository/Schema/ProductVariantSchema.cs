@@ -6,7 +6,7 @@ namespace SimpleCleanArch.Domain.Contract;
 
 public class ProductVariantSchema
 {
-    public long Id { get; set; }
+    public Guid Id { get; set; }
     public string Sku { get; set; } = "";
     public DateTime CreatedAt { get; set; }
     public required ProductSchema Product { get; set; }

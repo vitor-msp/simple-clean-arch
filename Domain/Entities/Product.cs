@@ -5,7 +5,7 @@ namespace SimpleCleanArch.Domain.Entities;
 
 public class Product : IProduct
 {
-    public long Id { get; }
+    public Guid Id { get; }
     public DateTime CreatedAt { get; }
     public required string Name { get; init; }
     private double _price;
@@ -27,11 +27,11 @@ public class Product : IProduct
 
     public Product()
     {
-        Id = DateTime.Now.Ticks / 1000000;
+        Id = Guid.NewGuid();
         CreatedAt = DateTime.Now;
     }
 
-    private Product(long id, DateTime createdAt, List<IProductVariant> variants)
+    private Product(Guid id, DateTime createdAt, List<IProductVariant> variants)
     {
         Id = id;
         CreatedAt = createdAt;
@@ -39,7 +39,7 @@ public class Product : IProduct
         variants.ForEach(variant => variant.Product = this);
     }
 
-    public static Product Rebuild(long id, DateTime createdAt, string name,
+    public static Product Rebuild(Guid id, DateTime createdAt, string name,
         double price, string? description, string? category, List<IProductVariant> variants)
         => new(id, createdAt, variants)
         {

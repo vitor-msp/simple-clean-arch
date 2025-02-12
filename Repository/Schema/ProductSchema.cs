@@ -5,7 +5,7 @@ namespace SimpleCleanArch.Repository.Schema;
 
 public class ProductSchema
 {
-    public long Id { get; set; }
+    public Guid Id { get; set; }
     public DateTime CreatedAt { get; set; }
     public string Name { get; set; } = "";
     public double Price { get; set; }

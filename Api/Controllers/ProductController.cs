@@ -38,7 +38,7 @@ public class ProductController(
     }
 
     [HttpPatch("{id}")]
-    public async Task<ActionResult> Patch(long id, UpdateProductInput input)
+    public async Task<ActionResult> Patch(Guid id, UpdateProductInput input)
     {
         try
         {
@@ -58,7 +58,7 @@ public class ProductController(
     }
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult> Delete(long id)
+    public async Task<ActionResult> Delete(Guid id)
     {
         try
         {
