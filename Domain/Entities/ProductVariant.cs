@@ -1,6 +1,7 @@
+using SimpleCleanArch.Domain.Contract;
 using SimpleCleanArch.Domain.ValueObjects;
 
-namespace SimpleCleanArch.Domain.Contract;
+namespace SimpleCleanArch.Domain.Entities;
 
 public class ProductVariant : IProductVariant
 {

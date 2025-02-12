@@ -1,3 +1,4 @@
+using SimpleCleanArch.Domain.Entities;
 using SimpleCleanArch.Domain.ValueObjects;
 using SimpleCleanArch.Repository.Schema;
 
