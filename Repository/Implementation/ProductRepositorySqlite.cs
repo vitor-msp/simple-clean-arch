@@ -11,9 +11,9 @@ public class ProductRepositorySqlite(ProductContext database) : IProductReposito
 
     public async Task<IProduct?> Get(long id)
     {
-        var product = await _database.Products.FindAsync(id);
-        if (product is null) return null;
-        return product.GetEntity();
+        var productSchema = await _database.Products.FindAsync(id);
+        if (productSchema is null) return null;
+        return productSchema.GetEntity();
     }
 
     public async Task Create(IProduct product)
@@ -23,16 +23,16 @@ public class ProductRepositorySqlite(ProductContext database) : IProductReposito
 
     public async Task Update(IProduct product)
     {
-        var savedProduct = await _database.Products.FindAsync(product.Id)
+        var productSchema = await _database.Products.FindAsync(product.Id)
             ?? throw new Exception($"Product id {product.Id} not found.");
-        savedProduct.Hydrate(product);
+        productSchema.Update(product);
     }
 
     public async Task Delete(IProduct product)
     {
-        var savedProduct = await _database.Products.FindAsync(product.Id)
+        var productSchema = await _database.Products.FindAsync(product.Id)
             ?? throw new Exception($"Product id {product.Id} not found.");
-        _database.Products.Remove(savedProduct);
+        _database.Products.Remove(productSchema);
     }
 
     public async Task Commit()

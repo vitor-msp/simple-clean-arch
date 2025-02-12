@@ -4,16 +4,20 @@ namespace SimpleCleanArch.Domain.Contract;
 
 public class ProductVariant : IProductVariant
 {
-    // self-generated fields
     public long Id { get; }
-    public string Sku
-        => $"{Product.Name.ToLower()}-{Color.ToString().ToLower()}-{Size.ToString().ToLower()}";
     public DateTime CreatedAt { get; }
-
-    // required fields
-    public required IProduct Product { get; init; }
     public required Color Color { get; init; }
     public required Size Size { get; init; }
+    public IProduct? Product { get; set; }
+    public string Sku
+    {
+        get
+        {
+            if (Product is null)
+                throw new Exception("Product is not setted.");
+            return $"{Product.Name.ToLower()}-{Color.ToString().ToLower()}-{Size.ToString().ToLower()}";
+        }
+    }
 
     public ProductVariant()
     {
@@ -27,15 +31,17 @@ public class ProductVariant : IProductVariant
         CreatedAt = createdAt;
     }
 
-    public static IProductVariant Rebuild(long id, DateTime createdAt,
-        IProduct product, Color color, Size size
-    )
+    public static IProductVariant Rebuild(long id, DateTime createdAt, Color color, Size size)
         => new ProductVariant(id, createdAt)
         {
-            Product = product,
             Color = color,
             Size = size
         };
 
-    public object Clone() => Rebuild(Id, CreatedAt, Product, Color, Size);
+    public object Clone()
+    {
+        var variant = Rebuild(Id, CreatedAt, Color, Size);
+        variant.Product = Product;
+        return variant;
+    }
 }

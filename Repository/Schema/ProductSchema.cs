@@ -11,15 +11,34 @@ public class ProductSchema
     public double Price { get; set; }
     public string? Description { get; set; }
     public string? Category { get; set; }
+    public List<ProductVariantSchema> ProductVariants { get; set; } = [];
 
     public ProductSchema() { }
 
     public ProductSchema(IProduct product)
     {
         Hydrate(product);
+        CreateProductVariants(product);
     }
 
-    public void Hydrate(IProduct product)
+    public void Update(IProduct product)
+    {
+        Hydrate(product);
+        var variants = product.ListProductVariants();
+        ProductVariants = EliminateDeletedProductVariants(variants);
+        UpdateProductVariants(variants);
+    }
+
+    public IProduct GetEntity()
+    {
+        var variants = new List<IProductVariant>();
+        ProductVariants.ForEach(variantSchema =>
+            variants.Add(ProductVariant.Rebuild(variantSchema.Id,
+                variantSchema.CreatedAt, variantSchema.Color, variantSchema.Size)));
+        return Product.Rebuild(Id, CreatedAt, Name, Price, Description, Category, variants);
+    }
+
+    private void Hydrate(IProduct product)
     {
         Id = product.Id;
         CreatedAt = product.CreatedAt;
@@ -29,6 +48,23 @@ public class ProductSchema
         Category = product.Category;
     }
 
-    public IProduct GetEntity()
-        => Product.Rebuild(Id, CreatedAt, Name, Price, Description, Category);
+    private void CreateProductVariants(IProduct product)
+        => product.ListProductVariants().ForEach(variant =>
+            ProductVariants.Add(new ProductVariantSchema(variant) { Product = this }));
+
+    private List<ProductVariantSchema> EliminateDeletedProductVariants(List<IProductVariant> variants)
+        => ProductVariants.Where(variantSchema =>
+            variants.Any(variant => variant.Sku == variantSchema.Sku)).ToList();
+
+    private void UpdateProductVariants(List<IProductVariant> variants)
+    {
+        variants.ForEach(variant =>
+        {
+            var variantSchema = ProductVariants.Find(variantSchema => variantSchema.Sku == variant.Sku);
+            if (variantSchema is null)
+                ProductVariants.Add(new ProductVariantSchema(variant) { Product = this });
+            else
+                variantSchema.Update(variant);
+        });
+    }
 }

@@ -5,11 +5,8 @@ namespace SimpleCleanArch.Domain.Entities;
 
 public class Product : IProduct
 {
-    // self-generated fields
     public long Id { get; }
     public DateTime CreatedAt { get; }
-
-    // required fields
     public required string Name { get; init; }
     private double _price;
     public required double Price
@@ -22,16 +19,10 @@ public class Product : IProduct
             _price = value;
         }
     }
-
-    // optional fields
     public string? Description { get; set; }
     public string? Category { get; set; }
-
-    // control fields (not persisted)
     private static readonly double _minPrice = 0;
     private static readonly double _maxPrice = 100;
-
-    // entities
     private readonly List<IProductVariant> _productVariants = [];
 
     public Product()
@@ -40,15 +31,17 @@ public class Product : IProduct
         CreatedAt = DateTime.Now;
     }
 
-    private Product(long id, DateTime createdAt)
+    private Product(long id, DateTime createdAt, List<IProductVariant> variants)
     {
         Id = id;
         CreatedAt = createdAt;
+        _productVariants = variants;
+        variants.ForEach(variant => variant.Product = this);
     }
 
     public static Product Rebuild(long id, DateTime createdAt, string name,
-        double price, string? description, string? category)
-        => new(id, createdAt)
+        double price, string? description, string? category, List<IProductVariant> variants)
+        => new(id, createdAt, variants)
         {
             Name = name,
             Price = price,

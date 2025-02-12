@@ -47,7 +47,8 @@ public class ProductTest
             name: _name,
             price: _price,
             description: _description,
-            category: _category
+            category: _category,
+            []
         );
         Assert.Equal(_id, product.Id);
         Assert.Equal(_createdAt, product.CreatedAt);
@@ -55,5 +56,6 @@ public class ProductTest
         Assert.Equal(_price, product.Price);
         Assert.Equal(_description, product.Description);
         Assert.Equal(_category, product.Category);
+        Assert.Equal([], product.ListProductVariants());
     }
 }

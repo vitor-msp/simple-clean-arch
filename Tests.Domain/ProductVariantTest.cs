@@ -31,14 +31,13 @@ public class ProductVariantTest
         var productVariant = ProductVariant.Rebuild(
             id: id,
             createdAt: createdAt,
-            product: _product,
             color: _color,
             size: _size
         );
+        productVariant.Product = _product;
         Assert.Equal(id, productVariant.Id);
         Assert.Equal("notebook-blue-medium", productVariant.Sku);
         Assert.Equal(createdAt, productVariant.CreatedAt);
-        Assert.Equal(_product, productVariant.Product);
         Assert.Equal(_color, productVariant.Color);
         Assert.Equal(_size, productVariant.Size);
     }
