@@ -49,15 +49,10 @@ public class Product : IProduct
             Category = category
         };
 
-    public void AddProductVariant(Color color, Size size, string? description)
+    public void AddProductVariant(IProductVariant variant)
     {
-        _productVariants.Add(new ProductVariant()
-        {
-            Product = this,
-            Color = color,
-            Size = size,
-            Description = description
-        });
+        variant.Product = this;
+        _productVariants.Add(variant);
     }
 
     public void RemoveProductVariant(string sku)

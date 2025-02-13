@@ -45,7 +45,13 @@ public class CreateProductInput
             Description = Description,
             Category = Category,
         };
-        ProductVariants.ForEach(variant => product.AddProductVariant(variant.Color, variant.Size, variant.Description));
+        ProductVariants.ForEach(variant => product.AddProductVariant(
+            new Domain.Entities.ProductVariant()
+            {
+                Color = variant.Color,
+                Size = variant.Size,
+                Description = variant.Description
+            }));
         return product;
     }
 }

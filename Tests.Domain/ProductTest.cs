@@ -56,7 +56,7 @@ public class ProductTest
     public void RebuildProduct_Success()
     {
         var id = Guid.NewGuid();
-        var createdAt=DateTime.Now;
+        var createdAt = DateTime.Now;
         var product = Product.Rebuild
         (
             id: id,
@@ -95,16 +95,18 @@ public class ProductTest
     public void AddProductVariant_Success()
     {
         var product = GetProductWithVariant();
-        var color = Color.Red;
-        var size = Size.Small;
-        product.AddProductVariant(color, size, null);
+        product.AddProductVariant(new ProductVariant()
+        {
+            Color = Color.Red,
+            Size = Size.Small
+        });
         var sku = "my_product-red-small";
         var variant = product.GetProductVariant(sku);
         Assert.NotNull(variant);
         Assert.IsType<Guid>(variant.Id);
         Assert.IsType<DateTime>(variant.CreatedAt);
-        Assert.Equal(color, variant.Color);
-        Assert.Equal(size, variant.Size);
+        Assert.Equal(Color.Red, variant.Color);
+        Assert.Equal(Size.Small, variant.Size);
         Assert.Equal(product, variant.Product);
         Assert.Equal(sku, variant.Sku);
     }
@@ -113,9 +115,11 @@ public class ProductTest
     public void ListProductVariants_Success()
     {
         var product = GetProductWithVariant();
-        var color = Color.Red;
-        var size = Size.Small;
-        product.AddProductVariant(color, size, null);
+        product.AddProductVariant(new ProductVariant()
+        {
+            Color = Color.Red,
+            Size = Size.Small,
+        });
         var variants = product.ListProductVariants();
         Assert.Equal(2, variants.Count);
     }
