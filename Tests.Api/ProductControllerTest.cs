@@ -149,4 +149,33 @@ public class ProductControllerTest
         Assert.Equal(Size.Large, variantBlueLarge.Size);
         Assert.Equal("blue large description", variantBlueLarge.Description);
     }
+
+    [Fact]
+    public async Task DeleteProduct_Success()
+    {
+        var productId = Guid.NewGuid();
+        var productSchema = new ProductSchema()
+        {
+            Id = productId,
+            CreatedAt = DateTime.Now,
+            Name = "my product",
+            Price = 10.56,
+            Description = "my product description",
+            Category = "category",
+        };
+        var variant = new ProductVariantSchema()
+        {
+            Color = Color.Red,
+            Size = Size.Small,
+            Product = productSchema,
+            Description = "red small description"
+        };
+        productSchema.ProductVariants = [variant];
+        var (controller, context) = MakeSut();
+        await context.Products.AddAsync(productSchema);
+        var output = await controller.Delete(productId);
+        Assert.IsType<NoContentResult>(output);
+        var deletedProductSchema = await context.Products.FindAsync(productId);
+        Assert.Null(deletedProductSchema);
+    }
 }
