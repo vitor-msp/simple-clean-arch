@@ -4,20 +4,14 @@ public class ProductTest
 {
     private readonly Guid _id = Guid.NewGuid();
     private readonly DateTime _createdAt = DateTime.Now;
-    private readonly string _name = "my product";
-    private readonly double _price = 10.60;
-    private readonly string _description = "my product Description";
-    private readonly string _category = "category";
-    private readonly Color _color = Color.Blue;
-    private readonly Size _size = Size.Large;
 
     private Product GetProduct(List<IProductVariant>? variants) => Product.Rebuild(
         id: _id,
         createdAt: _createdAt,
-        name: _name,
-        price: _price,
-        description: _description,
-        category: _category,
+        name: "my product",
+        price: 10.6,
+        description: "my product description",
+        category: "category",
         variants: variants ?? []
     );
 
@@ -25,8 +19,8 @@ public class ProductTest
         => GetProduct([ProductVariant.Rebuild(
                 id: _id,
                 createdAt: _createdAt,
-                color: _color,
-                size: _size,
+                color: Color.Blue,
+                size: Size.Medium,
                 description: null
             )]);
 
@@ -35,10 +29,10 @@ public class ProductTest
     {
         var product = new Product()
         {
-            Name = _name,
-            Price = _price,
-            Description = _description,
-            Category = _category
+            Name = "name",
+            Price = 16.2,
+            Description = "description",
+            Category = "category"
         };
         Assert.IsType<Guid>(product.Id);
         Assert.IsType<DateTime>(product.CreatedAt);
@@ -50,10 +44,10 @@ public class ProductTest
         var invalidPrice = -2.75;
         Action action = () => new Product()
         {
-            Name = _name,
+            Name = "product",
             Price = invalidPrice,
-            Description = _description,
-            Category = _category
+            Description = "description",
+            Category = "category"
         };
         Assert.Throws<DomainException>(action);
     }
@@ -61,22 +55,24 @@ public class ProductTest
     [Fact]
     public void RebuildProduct_Success()
     {
+        var id = Guid.NewGuid();
+        var createdAt=DateTime.Now;
         var product = Product.Rebuild
         (
-            id: _id,
-            createdAt: _createdAt,
-            name: _name,
-            price: _price,
-            description: _description,
-            category: _category,
+            id: id,
+            createdAt: createdAt,
+            name: "product",
+            price: 15.1,
+            description: "description",
+            category: "category",
             []
         );
-        Assert.Equal(_id, product.Id);
-        Assert.Equal(_createdAt, product.CreatedAt);
-        Assert.Equal(_name, product.Name);
-        Assert.Equal(_price, product.Price);
-        Assert.Equal(_description, product.Description);
-        Assert.Equal(_category, product.Category);
+        Assert.Equal(id, product.Id);
+        Assert.Equal(createdAt, product.CreatedAt);
+        Assert.Equal("product", product.Name);
+        Assert.Equal(15.1, product.Price);
+        Assert.Equal("description", product.Description);
+        Assert.Equal("category", product.Category);
         Assert.Equal([], product.ListProductVariants());
     }
 
@@ -84,13 +80,13 @@ public class ProductTest
     public void GetProductVariant_Success()
     {
         var product = GetProductWithVariant();
-        var sku = "my_product-blue-large";
+        var sku = "my_product-blue-medium";
         var variant = product.GetProductVariant(sku);
         Assert.NotNull(variant);
         Assert.Equal(_id, variant.Id);
         Assert.Equal(_createdAt, variant.CreatedAt);
-        Assert.Equal(_color, variant.Color);
-        Assert.Equal(_size, variant.Size);
+        Assert.Equal(Color.Blue, variant.Color);
+        Assert.Equal(Size.Medium, variant.Size);
         Assert.Equal(product, variant.Product);
         Assert.Equal(sku, variant.Sku);
     }
@@ -128,7 +124,7 @@ public class ProductTest
     public void RemoveProductVariant_Success()
     {
         var product = GetProductWithVariant();
-        var sku = "my_product-blue-large";
+        var sku = "my_product-blue-medium";
         product.RemoveProductVariant(sku);
         var variants = product.ListProductVariants();
         Assert.Empty(variants);

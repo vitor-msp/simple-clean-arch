@@ -2,11 +2,6 @@ namespace Tests.Api;
 
 public class ProductControllerTest
 {
-    private readonly string _name = "my product";
-    private readonly double _price = 10.69;
-    private readonly string _description = "my product description";
-    private readonly string _category = "category";
-
     private static (ProductController controller, ProductContext context) MakeSut()
     {
         var connection = new SqliteConnection("Filename=:memory:");
@@ -39,10 +34,10 @@ public class ProductControllerTest
         };
         var input = new CreateProductInput()
         {
-            Name = _name,
-            Price = _price,
-            Description = _description,
-            Category = _category,
+            Name = "my product",
+            Price = 10.69,
+            Description = "my product description",
+            Category = "category",
             ProductVariants = variants,
         };
         var (controller, context) = MakeSut();
@@ -52,12 +47,11 @@ public class ProductControllerTest
         var productId = Assert.IsType<Guid>(outputContent.ProductId);
         var productSchema = await context.Products.FindAsync(productId);
         Assert.NotNull(productSchema);
-        Assert.Equal(productId, productSchema.Id);
         Assert.IsType<DateTime>(productSchema.CreatedAt);
-        Assert.Equal(input.Name, productSchema.Name);
-        Assert.Equal(input.Price, productSchema.Price);
-        Assert.Equal(input.Description, productSchema.Description);
-        Assert.Equal(input.Category, productSchema.Category);
+        Assert.Equal("my product", productSchema.Name);
+        Assert.Equal(10.69, productSchema.Price);
+        Assert.Equal("my product description", productSchema.Description);
+        Assert.Equal("category", productSchema.Category);
         Assert.Equal(2, productSchema.ProductVariants.Count);
         var variantBlueLarge = productSchema.ProductVariants.Find(v => v.Sku == "my_product-blue-large");
         Assert.NotNull(variantBlueLarge);
@@ -74,10 +68,10 @@ public class ProductControllerTest
     {
         var input = new CreateProductInput()
         {
-            Name = _name,
+            Name = "product",
             Price = -10,
-            Description = _description,
-            Category = _category,
+            Description = "description",
+            Category = "category",
         };
         var (controller, context) = MakeSut();
         var output = await controller.Post(input);

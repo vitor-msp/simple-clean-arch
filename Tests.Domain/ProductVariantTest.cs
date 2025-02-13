@@ -2,18 +2,14 @@ namespace SimpleCleanArch.Tests;
 
 public class ProductVariantTest
 {
-    private readonly IProduct _product = new Product() { Name = "notebook", Price = 99.90 };
-    private readonly Color _color = Color.Blue;
-    private readonly Size _size = Size.Medium;
-
     [Fact]
     public void CreateProductVariant_Success()
     {
         var productVariant = new ProductVariant()
         {
-            Product = _product,
-            Color = _color,
-            Size = _size,
+            Product = new Product() { Name = "notebook", Price = 99.90 },
+            Color = Color.Blue,
+            Size = Size.Medium,
         };
         Assert.IsType<Guid>(productVariant.Id);
         Assert.Equal("notebook-blue-medium", productVariant.Sku);
@@ -28,15 +24,15 @@ public class ProductVariantTest
         var productVariant = ProductVariant.Rebuild(
             id: id,
             createdAt: createdAt,
-            color: _color,
-            size: _size,
+            color: Color.Blue,
+            size: Size.Medium,
             description: null
         );
-        productVariant.Product = _product;
+        productVariant.Product = new Product() { Name = "notebook", Price = 99.90 };
         Assert.Equal(id, productVariant.Id);
         Assert.Equal("notebook-blue-medium", productVariant.Sku);
         Assert.Equal(createdAt, productVariant.CreatedAt);
-        Assert.Equal(_color, productVariant.Color);
-        Assert.Equal(_size, productVariant.Size);
+        Assert.Equal(Color.Blue, productVariant.Color);
+        Assert.Equal(Size.Medium, productVariant.Size);
     }
 }
