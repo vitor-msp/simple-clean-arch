@@ -10,4 +10,5 @@ public interface IProductVariant : ICloneable
     public Size Size { get; init; }
     public IProduct? Product { get; set; }
     public string Sku { get; }
+    public string? Description { get; set; }
 }

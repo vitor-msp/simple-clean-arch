@@ -12,6 +12,7 @@ public class ProductVariantSchema
     public required ProductSchema Product { get; set; }
     public Color Color { get; set; }
     public Size Size { get; set; }
+    public string? Description { get; set; }
 
     public ProductVariantSchema() { }
 
@@ -32,7 +33,8 @@ public class ProductVariantSchema
         CreatedAt = variant.CreatedAt;
         Color = variant.Color;
         Size = variant.Size;
+        Description = variant.Description;
     }
 
-    public IProductVariant GetEntity() => ProductVariant.Rebuild(Id, CreatedAt, Color, Size);
+    public IProductVariant GetEntity() => ProductVariant.Rebuild(Id, CreatedAt, Color, Size, Description);
 }

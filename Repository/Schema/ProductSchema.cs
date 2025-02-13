@@ -34,7 +34,7 @@ public class ProductSchema
         var variants = new List<IProductVariant>();
         ProductVariants.ForEach(variantSchema =>
             variants.Add(ProductVariant.Rebuild(variantSchema.Id,
-                variantSchema.CreatedAt, variantSchema.Color, variantSchema.Size)));
+                variantSchema.CreatedAt, variantSchema.Color, variantSchema.Size, variantSchema.Description)));
         return Product.Rebuild(Id, CreatedAt, Name, Price, Description, Category, variants);
     }
 

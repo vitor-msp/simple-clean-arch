@@ -22,6 +22,7 @@ public class ProductVariant : IProductVariant
             return $"{name}-{color}-{size}";
         }
     }
+    public string? Description { get; set; }
 
     public ProductVariant()
     {
@@ -35,16 +36,17 @@ public class ProductVariant : IProductVariant
         CreatedAt = createdAt;
     }
 
-    public static IProductVariant Rebuild(Guid id, DateTime createdAt, Color color, Size size)
+    public static IProductVariant Rebuild(Guid id, DateTime createdAt, Color color, Size size, string? description)
         => new ProductVariant(id, createdAt)
         {
             Color = color,
-            Size = size
+            Size = size,
+            Description = description
         };
 
     public object Clone()
     {
-        var variant = Rebuild(Id, CreatedAt, Color, Size);
+        var variant = Rebuild(Id, CreatedAt, Color, Size, Description);
         variant.Product = Product;
         return variant;
     }

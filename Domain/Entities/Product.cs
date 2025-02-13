@@ -23,7 +23,7 @@ public class Product : IProduct
     public string? Category { get; set; }
     private static readonly double _minPrice = 0;
     private static readonly double _maxPrice = 100;
-    private readonly List<IProductVariant> _productVariants = [];
+    private List<IProductVariant> _productVariants = [];
 
     public Product()
     {
@@ -49,13 +49,14 @@ public class Product : IProduct
             Category = category
         };
 
-    public void AddProductVariant(Color color, Size size)
+    public void AddProductVariant(Color color, Size size, string? description)
     {
         _productVariants.Add(new ProductVariant()
         {
             Product = this,
             Color = color,
-            Size = size
+            Size = size,
+            Description = description
         });
     }
 
@@ -79,5 +80,27 @@ public class Product : IProduct
         var newList = new List<IProductVariant>();
         _productVariants.ForEach(variant => newList.Add((IProductVariant)variant.Clone()));
         return newList;
+    }
+
+    public void UpdateProductVariants(List<IProductVariant> newVariants)
+    {
+        _productVariants = EliminateDeletedProductVariants(newVariants);
+        UpdateOrCreateProductVariants(newVariants);
+    }
+
+    private List<IProductVariant> EliminateDeletedProductVariants(List<IProductVariant> newVariants)
+        => _productVariants.Where(variant
+            => newVariants.Any(newVariant => newVariant.Sku == variant.Sku)).ToList();
+
+    private void UpdateOrCreateProductVariants(List<IProductVariant> newVariants)
+    {
+        newVariants.ForEach(newVariant =>
+        {
+            var variant = _productVariants.Find(variant => variant.Sku == newVariant.Sku);
+            if (variant is null)
+                _productVariants.Add(newVariant);
+            else
+                variant.Description = newVariant.Description;
+        });
     }
 }

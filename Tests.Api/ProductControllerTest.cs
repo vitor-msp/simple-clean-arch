@@ -85,4 +85,74 @@ public class ProductControllerTest
         var productsSchema = await context.Products.ToListAsync();
         Assert.Empty(productsSchema);
     }
+
+    [Fact]
+    public async Task PatchProduct_Success()
+    {
+        var productSchema = new ProductSchema()
+        {
+            Id = Guid.NewGuid(),
+            CreatedAt = DateTime.Now,
+            Name = "my product",
+            Price = 10.56,
+            Description = "my product description",
+            Category = "category",
+        };
+        var variant1 = new ProductVariantSchema()
+        {
+            Color = Color.Red,
+            Size = Size.Small,
+            Product = productSchema,
+            Description = "red small description"
+        };
+        var variant2 = new ProductVariantSchema()
+        {
+            Color = Color.Green,
+            Size = Size.Medium,
+            Product = productSchema,
+            Description = "green medium description"
+        };
+        productSchema.ProductVariants = [variant1, variant2];
+        var (controller, context) = MakeSut();
+        await context.Products.AddAsync(productSchema);
+        var input = new UpdateProductInput()
+        {
+            Price = 15.74,
+            Description = "new description",
+            Category = "new category",
+            ProductVariants = [
+                new UpdateProductInput.ProductVariant()
+                {
+                    Color = Color.Green,
+                    Size = Size.Medium,
+                    Description = "green medium new description"
+                },
+                new UpdateProductInput.ProductVariant()
+                {
+                    Color = Color.Blue,
+                    Size = Size.Large,
+                    Description = "blue large description"
+                },
+            ]
+        };
+        var output = await controller.Patch(productSchema.Id, input);
+        Assert.IsType<NoContentResult>(output);
+        Assert.Equal("my product", productSchema.Name);
+        Assert.Equal(15.74, productSchema.Price);
+        Assert.Equal("new description", productSchema.Description);
+        Assert.Equal("new category", productSchema.Category);
+        Assert.Equal(2, productSchema.ProductVariants.Count);
+        var variantRedSmall = productSchema.ProductVariants.Find(v => v.Sku == "my_product-red-small");
+        Assert.Null(variantRedSmall);
+        var variantGreenMedium = productSchema.ProductVariants.Find(v => v.Sku == "my_product-green-medium");
+        Assert.NotNull(variantGreenMedium);
+        Assert.Equal(Color.Green, variantGreenMedium.Color);
+        Assert.Equal(Size.Medium, variantGreenMedium.Size);
+        Assert.Equal("green medium new description", variantGreenMedium.Description);
+        var variantBlueLarge = productSchema.ProductVariants.Find(v => v.Sku == "my_product-blue-large");
+        Assert.NotNull(variantBlueLarge);
+        Assert.Equal(Color.Blue, variantBlueLarge.Color);
+        Assert.Equal(Size.Large, variantBlueLarge.Size);
+        Assert.Equal("blue large description", variantBlueLarge.Description);
+    }
 }

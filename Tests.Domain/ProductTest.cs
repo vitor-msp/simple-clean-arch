@@ -26,7 +26,8 @@ public class ProductTest
                 id: _id,
                 createdAt: _createdAt,
                 color: _color,
-                size: _size
+                size: _size,
+                description: null
             )]);
 
     [Fact]
@@ -100,7 +101,7 @@ public class ProductTest
         var product = GetProductWithVariant();
         var color = Color.Red;
         var size = Size.Small;
-        product.AddProductVariant(color, size);
+        product.AddProductVariant(color, size, null);
         var sku = "my_product-red-small";
         var variant = product.GetProductVariant(sku);
         Assert.NotNull(variant);
@@ -118,7 +119,7 @@ public class ProductTest
         var product = GetProductWithVariant();
         var color = Color.Red;
         var size = Size.Small;
-        product.AddProductVariant(color, size);
+        product.AddProductVariant(color, size, null);
         var variants = product.ListProductVariants();
         Assert.Equal(2, variants.Count);
     }

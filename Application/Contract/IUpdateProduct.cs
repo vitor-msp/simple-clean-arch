@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using SimpleCleanArch.Domain.Contract;
+using SimpleCleanArch.Domain.ValueObjects;
 
 namespace SimpleCleanArch.Application.Contract;
 
@@ -19,13 +20,35 @@ public class UpdateProductInput
     [MaxLength(10)]
     public string? Category { get; set; }
 
+    public List<ProductVariant> ProductVariants { get; set; } = [];
+
+    public class ProductVariant
+    {
+        [Required]
+        public Color Color { get; set; }
+
+        [Required]
+        public Size Size { get; set; }
+
+        [Required]
+        public string Description { get; set; } = "";
+    }
+
     public void Update(IProduct product)
     {
         if (Price is not null)
             product.Price = (double)Price;
-        if (Description is not null)
-            product.Description = Description;
-        if (Category is not null)
-            product.Category = Category;
+        product.Description = Description;
+        product.Category = Category;
+        if (ProductVariants.Count < 0) return;
+        var newVariants = ProductVariants.Select<ProductVariant, IProductVariant>(variant
+            => new Domain.Entities.ProductVariant()
+            {
+                Product = product,
+                Color = variant.Color,
+                Size = variant.Size,
+                Description = variant.Description,
+            });
+        product.UpdateProductVariants(newVariants.ToList());
     }
 }

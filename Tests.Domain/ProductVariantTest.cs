@@ -29,7 +29,8 @@ public class ProductVariantTest
             id: id,
             createdAt: createdAt,
             color: _color,
-            size: _size
+            size: _size,
+            description: null
         );
         productVariant.Product = _product;
         Assert.Equal(id, productVariant.Id);

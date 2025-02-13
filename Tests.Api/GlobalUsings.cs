@@ -10,3 +10,5 @@ global using SimpleCleanArch.Infra;
 global using SimpleCleanArch.Repository.Context;
 global using SimpleCleanArch.Repository.Implementation;
 global using SimpleCleanArch.Domain.ValueObjects;
+global using SimpleCleanArch.Domain.Contract;
+global using SimpleCleanArch.Repository.Schema;

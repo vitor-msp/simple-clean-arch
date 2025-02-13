@@ -33,6 +33,7 @@ public class CreateProductInput
     {
         public Color Color { get; set; }
         public Size Size { get; set; }
+        public string? Description { get; set; }
     }
 
     public IProduct GetEntity()
@@ -44,7 +45,7 @@ public class CreateProductInput
             Description = Description,
             Category = Category,
         };
-        ProductVariants.ForEach(variant => product.AddProductVariant(variant.Color, variant.Size));
+        ProductVariants.ForEach(variant => product.AddProductVariant(variant.Color, variant.Size, variant.Description));
         return product;
     }
 }
