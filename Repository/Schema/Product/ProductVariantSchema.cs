@@ -1,4 +1,3 @@
-using SimpleCleanArch.Domain.Entities;
 using SimpleCleanArch.Domain.ValueObjects;
 using SimpleCleanArch.Repository.Schema;
 
@@ -7,7 +6,7 @@ namespace SimpleCleanArch.Domain.Contract;
 public class ProductVariantSchema
 {
     public Guid Id { get; set; }
-    public string Sku { get; set; } = "";
+    public string? Sku { get; set; }
     public DateTime CreatedAt { get; set; }
     public required ProductSchema Product { get; set; }
     public Color Color { get; set; }
@@ -36,5 +35,5 @@ public class ProductVariantSchema
         Description = variant.Description;
     }
 
-    public IProductVariant GetEntity() => ProductVariant.Rebuild(Id, CreatedAt, Color, Size, Description);
+    public ProductVariantDto GetEntity() => new(Id, CreatedAt, Color, Size, Description, Sku);
 }

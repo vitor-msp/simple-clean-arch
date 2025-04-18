@@ -99,14 +99,16 @@ public class ProductControllerTest
             Color = Color.Red,
             Size = Size.Small,
             Product = productSchema,
-            Description = "red small description"
+            Description = "red small description",
+            Sku = "my_product-red-small",
         };
         var variant2 = new ProductVariantSchema()
         {
             Color = Color.Green,
             Size = Size.Medium,
             Product = productSchema,
-            Description = "green medium description"
+            Description = "green medium description",
+            Sku = "my_product-green-medium",
         };
         productSchema.ProductVariants = [variant1, variant2];
         var (controller, context) = MakeSut();
@@ -121,13 +123,14 @@ public class ProductControllerTest
                 {
                     Color = Color.Green,
                     Size = Size.Medium,
-                    Description = "green medium new description"
+                    Description = "green medium new description",
+                    Sku = "my_product-green-medium",
                 },
                 new UpdateProductInput.ProductVariant()
                 {
                     Color = Color.Blue,
                     Size = Size.Large,
-                    Description = "blue large description"
+                    Description = "blue large description",
                 },
             ]
         };
@@ -170,7 +173,8 @@ public class ProductControllerTest
             Color = Color.Red,
             Size = Size.Small,
             Product = productSchema,
-            Description = "red small description"
+            Description = "red small description",
+            Sku = "my_product-red-small",
         };
         productSchema.ProductVariants = [variant];
         var (controller, context) = MakeSut();

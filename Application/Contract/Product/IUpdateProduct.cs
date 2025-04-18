@@ -24,6 +24,8 @@ public class UpdateProductInput
 
     public class ProductVariant
     {
+        public string? Sku { get; set; }
+
         [Required]
         public Color Color { get; set; }
 
@@ -41,14 +43,14 @@ public class UpdateProductInput
         product.Description = Description;
         product.Category = Category;
         if (ProductVariants.Count < 0) return;
-        var newVariants = ProductVariants.Select<ProductVariant, IProductVariant>(variant
-            => new Domain.Entities.ProductVariant()
-            {
-                Product = product,
-                Color = variant.Color,
-                Size = variant.Size,
-                Description = variant.Description,
-            });
+        var newVariants = ProductVariants.Select(variant
+            => new ProductVariantDto(
+                Color: variant.Color,
+                Size: variant.Size,
+                Description: variant.Description,
+                Sku: variant.Sku
+            )
+        );
         product.UpdateProductVariants(newVariants.ToList());
     }
 }

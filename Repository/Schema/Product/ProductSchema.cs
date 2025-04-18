@@ -31,10 +31,8 @@ public class ProductSchema
 
     public IProduct GetEntity()
     {
-        var variants = new List<IProductVariant>();
-        ProductVariants.ForEach(variantSchema =>
-            variants.Add(ProductVariant.Rebuild(variantSchema.Id,
-                variantSchema.CreatedAt, variantSchema.Color, variantSchema.Size, variantSchema.Description)));
+        var variants = new List<ProductVariantDto>();
+        ProductVariants.ForEach(variantSchema => variants.Add(variantSchema.GetEntity()));
         return Product.Rebuild(Id, CreatedAt, Name, Price, Description, Category, variants);
     }
 
