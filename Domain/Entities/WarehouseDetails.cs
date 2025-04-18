@@ -6,12 +6,18 @@ public class WarehouseDetails : IWarehouseDetails
 {
     public Guid Id { get; }
     public DateTime CreatedAt { get; }
-    public required string City { get; init; }
+    public string? City { get; set; }
+    public IWarehouse? Warehouse { get; set; }
 
     public WarehouseDetails()
     {
         Id = Guid.NewGuid();
         CreatedAt = DateTime.Now;
+    }
+
+    public WarehouseDetails(Warehouse warehouse) : this()
+    {
+        Warehouse = warehouse;
     }
 
     private WarehouseDetails(Guid id, DateTime createdAt)

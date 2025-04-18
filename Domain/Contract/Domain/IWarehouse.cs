@@ -6,4 +6,5 @@ public interface IWarehouse
     public DateTime CreatedAt { get; }
     public string Name { get; init; }
     public string? Description { get; set; }
+    public IWarehouseDetails Details { get; }
 }
