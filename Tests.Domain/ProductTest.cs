@@ -5,7 +5,7 @@ public class ProductTest
     private readonly Guid _id = Guid.NewGuid();
     private readonly DateTime _createdAt = DateTime.Now;
 
-    private Product GetProduct(List<IProductVariant>? variants) => Product.Rebuild(
+    private Product GetProduct(List<ProductVariantDto>? variants) => Product.Rebuild(
         id: _id,
         createdAt: _createdAt,
         name: "my product",
@@ -16,29 +16,29 @@ public class ProductTest
     );
 
     private Product GetProductWithVariant()
-        => GetProduct([ProductVariant.Rebuild(
-                id: _id,
-                createdAt: _createdAt,
-                color: Color.Blue,
-                size: Size.Medium,
-                description: null
+        => GetProduct([new ProductVariantDto(
+                Id: _id,
+                CreatedAt: _createdAt,
+                Color: Color.Blue,
+                Size: Size.Medium,
+                Sku: "my_product-blue-medium"
             )]);
 
     private Product GetProductWithTwoVariants()
     {
-        var variant1 = ProductVariant.Rebuild(
-            id: _id,
-            createdAt: _createdAt,
-            color: Color.Red,
-            size: Size.Small,
-            description: null
+        var variant1 = new ProductVariantDto(
+            Id: _id,
+            CreatedAt: _createdAt,
+            Color: Color.Red,
+            Size: Size.Small,
+            Sku: "my_product-red-small"
         );
-        var variant2 = ProductVariant.Rebuild(
-            id: Guid.NewGuid(),
-            createdAt: _createdAt,
-            color: Color.Green,
-            size: Size.Medium,
-            description: null
+        var variant2 = new ProductVariantDto(
+            Id: Guid.NewGuid(),
+            CreatedAt: _createdAt,
+            Color: Color.Green,
+            Size: Size.Medium,
+            Sku: "my_product-green-medium"
         );
         return GetProduct([variant1, variant2]);
     }
@@ -114,11 +114,10 @@ public class ProductTest
     public void AddProductVariant_Success()
     {
         var product = GetProductWithVariant();
-        product.AddProductVariant(new ProductVariant()
-        {
-            Color = Color.Red,
-            Size = Size.Small
-        });
+        product.AddProductVariant(new ProductVariantDto(
+            Color: Color.Red,
+            Size: Size.Small
+        ));
         var sku = "my_product-red-small";
         var variant = product.GetProductVariant(sku);
         Assert.NotNull(variant);
@@ -134,11 +133,10 @@ public class ProductTest
     public void ListProductVariants_Success()
     {
         var product = GetProductWithVariant();
-        product.AddProductVariant(new ProductVariant()
-        {
-            Color = Color.Red,
-            Size = Size.Small,
-        });
+        product.AddProductVariant(new ProductVariantDto(
+            Color: Color.Red,
+            Size: Size.Small
+        ));
         var variants = product.ProductVariants;
         Assert.Equal(2, variants.Count);
     }
@@ -166,21 +164,19 @@ public class ProductTest
     public void UpdateProductVariant_Success()
     {
         var product = GetProductWithTwoVariants();
-        var newVariants = new List<IProductVariant>
+        var newVariants = new List<ProductVariantDto>
         {
-            new ProductVariant()
-            {
-                Color = Color.Red,
-                Size = Size.Small,
-                Description = "new description",
-                Product = product,
-            },
-            new ProductVariant()
-            {
-                Color = Color.Blue,
-                Size = Size.Large,
-                Product = product,
-            }
+            new ProductVariantDto(
+                Color: Color.Red,
+                Size: Size.Small,
+                Description : "new description",
+                Sku: "my_product-red-small"
+            ),
+            new ProductVariantDto(
+                Color: Color.Blue,
+                Size: Size.Large,
+                Sku: "my_product-blue-large"
+            )
         };
         product.UpdateProductVariants(newVariants);
         Assert.Equal(2, product.ProductVariants.Count);

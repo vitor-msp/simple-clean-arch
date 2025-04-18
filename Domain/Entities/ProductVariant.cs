@@ -9,19 +9,8 @@ public class ProductVariant : IProductVariant
     public DateTime CreatedAt { get; }
     public required Color Color { get; init; }
     public required Size Size { get; init; }
-    public IProduct? Product { get; set; }
-    public string Sku
-    {
-        get
-        {
-            if (Product is null)
-                throw new Exception("Product is not setted.");
-            var name = FormatSkuText(Product.Name);
-            var color = FormatSkuText(Color.ToString());
-            var size = FormatSkuText(Size.ToString());
-            return $"{name}-{color}-{size}";
-        }
-    }
+    public required IProduct Product { get; init; }
+    public string? Sku { get; private set; }
     public string? Description { get; set; }
 
     public ProductVariant()
@@ -30,27 +19,41 @@ public class ProductVariant : IProductVariant
         CreatedAt = DateTime.Now;
     }
 
-    private ProductVariant(Guid id, DateTime createdAt)
+    private ProductVariant(ProductVariantDto variant)
     {
-        Id = id;
-        CreatedAt = createdAt;
+        Id = variant.Id ?? throw new Exception("Cannot create ProductVariant without Id.");
+        CreatedAt = variant.CreatedAt ?? throw new Exception("Cannot create ProductVariant without CreatedAt.");
     }
 
-    public static IProductVariant Rebuild(Guid id, DateTime createdAt, Color color, Size size, string? description)
-        => new ProductVariant(id, createdAt)
+    public static IProductVariant Rebuild(ProductVariantDto variant, IProduct product)
+        => new ProductVariant(variant)
         {
-            Color = color,
-            Size = size,
-            Description = description
+            Color = variant.Color ?? throw new Exception("Cannot create ProductVariant without Color."),
+            Size = variant.Size ?? throw new Exception("Cannot create ProductVariant without Size."),
+            Description = variant.Description,
+            Sku = variant.Sku ?? throw new Exception("Cannot create ProductVariant without Sku."),
+            Product = product,
         };
 
     public object Clone()
     {
-        var variant = Rebuild(Id, CreatedAt, Color, Size, Description);
-        variant.Product = Product;
+        var variant = Rebuild(
+            variant: new ProductVariantDto(Id, CreatedAt, Color, Size, Description, Sku),
+            product: Product);
         return variant;
     }
 
     private static string FormatSkuText(string text)
         => text.ToLower().Replace(" ", "_");
+
+    public IProductVariant GenerateSku()
+    {
+        if (Product is null)
+            throw new Exception("Cannot generate sku without Product.");
+        var name = FormatSkuText(Product.Name);
+        var color = FormatSkuText(Color.ToString());
+        var size = FormatSkuText(Size.ToString());
+        Sku = $"{name}-{color}-{size}";
+        return this;
+    }
 }

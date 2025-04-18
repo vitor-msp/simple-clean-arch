@@ -14,8 +14,8 @@ public interface IProduct
     [JsonIgnore]
     public List<IProductVariant> ProductVariants { get; }
 
-    public void AddProductVariant(IProductVariant variant);
+    public void AddProductVariant(ProductVariantDto variant);
     public void RemoveProductVariant(string sku);
     public IProductVariant? GetProductVariant(string sku);
-    public void UpdateProductVariants(List<IProductVariant> newVariants);
+    public void UpdateProductVariants(List<ProductVariantDto> newVariants);
 }

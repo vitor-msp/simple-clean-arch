@@ -40,28 +40,34 @@ public class Product : IProduct
         CreatedAt = DateTime.Now;
     }
 
-    private Product(Guid id, DateTime createdAt, List<IProductVariant> variants)
+    private Product(Guid id, DateTime createdAt, List<ProductVariantDto> variants)
     {
         Id = id;
         CreatedAt = createdAt;
-        _productVariants = variants;
-        variants.ForEach(variant => variant.Product = this);
+        _productVariants = variants.Select(
+            variant => ProductVariant.Rebuild(variant: variant, product: this))
+        .ToList();
     }
 
     public static Product Rebuild(Guid id, DateTime createdAt, string name,
-        double price, string? description, string? category, List<IProductVariant> variants)
+        double price, string? description, string? category, List<ProductVariantDto> variants)
         => new(id, createdAt, variants)
         {
             Name = name,
             Price = price,
             Description = description,
-            Category = category
+            Category = category,
         };
 
-    public void AddProductVariant(IProductVariant variant)
+    public void AddProductVariant(ProductVariantDto variant)
     {
-        variant.Product = this;
-        _productVariants.Add(variant);
+        _productVariants.Add(new ProductVariant()
+        {
+            Color = variant.Color ?? throw new Exception("Cannot create a product variant without Color."),
+            Size = variant.Size ?? throw new Exception("Cannot create a product variant without Size."),
+            Description = variant.Description,
+            Product = this,
+        }.GenerateSku());
     }
 
     public void RemoveProductVariant(string sku)
@@ -79,23 +85,29 @@ public class Product : IProduct
         return (IProductVariant)variant.Clone();
     }
 
-    public void UpdateProductVariants(List<IProductVariant> newVariants)
+    public void UpdateProductVariants(List<ProductVariantDto> newVariants)
     {
         _productVariants = EliminateDeletedProductVariants(newVariants);
         UpdateOrCreateProductVariants(newVariants);
     }
 
-    private List<IProductVariant> EliminateDeletedProductVariants(List<IProductVariant> newVariants)
+    private List<IProductVariant> EliminateDeletedProductVariants(List<ProductVariantDto> newVariants)
         => _productVariants.Where(variant
             => newVariants.Any(newVariant => newVariant.Sku == variant.Sku)).ToList();
 
-    private void UpdateOrCreateProductVariants(List<IProductVariant> newVariants)
+    private void UpdateOrCreateProductVariants(List<ProductVariantDto> newVariants)
     {
         newVariants.ForEach(newVariant =>
         {
             var variant = _productVariants.Find(variant => variant.Sku == newVariant.Sku);
             if (variant is null)
-                _productVariants.Add(newVariant);
+                _productVariants.Add(new ProductVariant()
+                {
+                    Color = newVariant.Color ?? throw new Exception("Cannot create a product variant without Color."),
+                    Size = newVariant.Size ?? throw new Exception("Cannot create a product variant without Size."),
+                    Description = newVariant.Description,
+                    Product = this,
+                }.GenerateSku());
             else
                 variant.Description = newVariant.Description;
         });
