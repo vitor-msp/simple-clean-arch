@@ -1,5 +1,4 @@
 using SimpleCleanArch.Domain.Contract;
-using SimpleCleanArch.Domain.ValueObjects;
 
 namespace SimpleCleanArch.Domain.Entities;
 
@@ -23,7 +22,17 @@ public class Product : IProduct
     public string? Category { get; set; }
     private static readonly double _minPrice = 0;
     private static readonly double _maxPrice = 100;
+
     private List<IProductVariant> _productVariants = [];
+    public List<IProductVariant> ProductVariants
+    {
+        get
+        {
+            var newList = new List<IProductVariant>();
+            _productVariants.ForEach(variant => newList.Add((IProductVariant)variant.Clone()));
+            return newList;
+        }
+    }
 
     public Product()
     {
@@ -68,13 +77,6 @@ public class Product : IProduct
         var variant = _productVariants.Find(variant => variant.Sku == sku);
         if (variant is null) return null;
         return (IProductVariant)variant.Clone();
-    }
-
-    public List<IProductVariant> ListProductVariants()
-    {
-        var newList = new List<IProductVariant>();
-        _productVariants.ForEach(variant => newList.Add((IProductVariant)variant.Clone()));
-        return newList;
     }
 
     public void UpdateProductVariants(List<IProductVariant> newVariants)

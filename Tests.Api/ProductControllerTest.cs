@@ -1,3 +1,5 @@
+using SimpleCleanArch.Domain.Contract.Infra;
+
 namespace Tests.Api;
 
 public class ProductControllerTest
@@ -10,7 +12,7 @@ public class ProductControllerTest
         var context = new ProductContext(contextOptions);
         context.Database.EnsureCreatedAsync();
         var repository = new ProductRepositorySqlite(context);
-        var mail = new Mock<MailGateway>().Object;
+        var mail = new Mock<IMailGateway>().Object;
         var createProduct = new CreateProduct(repository, mail);
         var deleteProduct = new DeleteProduct(repository, mail);
         var updateProduct = new UpdateProduct(repository);

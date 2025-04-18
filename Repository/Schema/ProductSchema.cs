@@ -24,7 +24,7 @@ public class ProductSchema
     public void Update(IProduct product)
     {
         Hydrate(product);
-        var variants = product.ListProductVariants();
+        var variants = product.ProductVariants;
         ProductVariants = EliminateDeletedProductVariants(variants);
         UpdateProductVariants(variants);
     }
@@ -49,7 +49,7 @@ public class ProductSchema
     }
 
     private void CreateProductVariants(IProduct product)
-        => product.ListProductVariants().ForEach(variant =>
+        => product.ProductVariants.ForEach(variant =>
             ProductVariants.Add(new ProductVariantSchema(variant) { Product = this }));
 
     private List<ProductVariantSchema> EliminateDeletedProductVariants(List<IProductVariant> variants)

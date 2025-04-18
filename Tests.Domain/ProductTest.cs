@@ -73,7 +73,7 @@ public class ProductTest
         Assert.Equal(15.1, product.Price);
         Assert.Equal("description", product.Description);
         Assert.Equal("category", product.Category);
-        Assert.Equal([], product.ListProductVariants());
+        Assert.Equal([], product.ProductVariants);
     }
 
     [Fact]
@@ -120,7 +120,7 @@ public class ProductTest
             Color = Color.Red,
             Size = Size.Small,
         });
-        var variants = product.ListProductVariants();
+        var variants = product.ProductVariants;
         Assert.Equal(2, variants.Count);
     }
 
@@ -130,7 +130,7 @@ public class ProductTest
         var product = GetProductWithVariant();
         var sku = "my_product-blue-medium";
         product.RemoveProductVariant(sku);
-        var variants = product.ListProductVariants();
+        var variants = product.ProductVariants;
         Assert.Empty(variants);
     }
 }
