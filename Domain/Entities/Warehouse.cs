@@ -14,4 +14,17 @@ public class Warehouse : IWarehouse
         Id = Guid.NewGuid();
         CreatedAt = DateTime.Now;
     }
+
+    private Warehouse(Guid id, DateTime createdAt)
+    {
+        Id = id;
+        CreatedAt = createdAt;
+    }
+
+    public static Warehouse Rebuild(Guid id, DateTime createdAt, string name, string? description)
+        => new(id, createdAt)
+        {
+            Name = name,
+            Description = description,
+        };
 }
