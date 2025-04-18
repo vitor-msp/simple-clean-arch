@@ -11,7 +11,8 @@ public class WarehouseControllerTest
         context.Database.EnsureCreatedAsync();
         var repository = new WarehouseRepositorySqlite(context);
         var createWarehouse = new CreateWarehouse(repository);
-        var controller = new WarehouseController(createWarehouse);
+        var deleteWarehouse = new DeleteWarehouse(repository);
+        var controller = new WarehouseController(createWarehouse, deleteWarehouse);
         return (controller, context);
     }
 
@@ -40,5 +41,30 @@ public class WarehouseControllerTest
         Assert.NotEqual(default, warehouseSchema.Details.Id);
         Assert.NotEqual(default, warehouseSchema.Details.CreatedAt);
         Assert.Equal("belo horizonte", warehouseSchema.Details.City);
+    }
+
+    [Fact]
+    public async Task DeleteWarehouse_Success()
+    {
+        var warehouseId = Guid.NewGuid();
+        var warehouseSchema = new WarehouseSchema()
+        {
+            Id = warehouseId,
+            CreatedAt = DateTime.Now,
+            Name = "my-warehouse",
+            Description = "my warehouse",
+            Details = new WarehouseDetailsSchema()
+            {
+                Id = Guid.NewGuid(),
+                CreatedAt = DateTime.Now,
+                City = "belo horizonte",
+            }
+        };
+        var (controller, context) = MakeSut();
+        await context.Warehouses.AddAsync(warehouseSchema);
+        var output = await controller.Delete(warehouseId);
+        Assert.IsType<NoContentResult>(output);
+        var deletedWarehouseSchema = await context.Warehouses.FindAsync(warehouseId);
+        Assert.Null(deletedWarehouseSchema);
     }
 }

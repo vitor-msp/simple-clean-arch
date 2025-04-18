@@ -9,10 +9,12 @@ namespace SimpleCleanArch.Api.Controllers;
 [ApiController]
 [Route("warehouses")]
 public class WarehouseController(
-    ICreateWarehouse createWarehouse
+    ICreateWarehouse createWarehouse,
+    IDeleteWarehouse deleteWarehouse
 ) : ControllerBase
 {
     private readonly ICreateWarehouse _createWarehouse = createWarehouse;
+    private readonly IDeleteWarehouse _deleteWarehouse = deleteWarehouse;
 
     [HttpPost]
     public async Task<ActionResult<CreateWarehouseOutput>> Post(CreateWarehouseInput input)
@@ -31,6 +33,27 @@ public class WarehouseController(
         {
             var output = ErrorPresenter.GenerateJson(error.Message);
             return Conflict(output);
+        }
+        catch (Exception error)
+        {
+            var output = ErrorPresenter.GenerateJson(error.Message);
+            return StatusCode(StatusCodes.Status500InternalServerError, output);
+        }
+    }
+
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> Delete(Guid id)
+    {
+        try
+        {
+            await _deleteWarehouse.Execute(id);
+            return NoContent();
+        }
+        catch (NotFoundException error)
+        {
+            var output = ErrorPresenter.GenerateJson(error.Message);
+            return NotFound(output);
         }
         catch (Exception error)
         {
