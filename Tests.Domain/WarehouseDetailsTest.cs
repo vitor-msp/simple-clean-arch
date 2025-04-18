@@ -1,4 +1,4 @@
-namespace SimpleCleanArch.Tests;
+namespace SimpleCleanArch.Tests.Domain;
 
 public class WarehouseDetailsTest
 {

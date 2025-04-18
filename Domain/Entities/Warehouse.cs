@@ -22,7 +22,7 @@ public class Warehouse : IWarehouse
         _details = new WarehouseDetails(this);
     }
 
-    private Warehouse(Guid id, DateTime createdAt, WarehouseDetails details)
+    private Warehouse(Guid id, DateTime createdAt, IWarehouseDetails details)
     {
         Id = id;
         CreatedAt = createdAt;
@@ -30,8 +30,8 @@ public class Warehouse : IWarehouse
         _details.Warehouse = this;
     }
 
-    public static Warehouse Rebuild(Guid id, DateTime createdAt, string name, string? description, WarehouseDetails details)
-        => new(id, createdAt, details)
+    public static IWarehouse Rebuild(Guid id, DateTime createdAt, string name, string? description, IWarehouseDetails details)
+        => new Warehouse(id, createdAt, details)
         {
             Name = name,
             Description = description,

@@ -1,6 +1,6 @@
 using SimpleCleanArch.Domain.Contract.Infra;
 
-namespace Tests.Api;
+namespace SimpleCleanArch.Tests.Api;
 
 public class ProductControllerTest
 {

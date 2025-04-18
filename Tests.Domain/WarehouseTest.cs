@@ -1,4 +1,4 @@
-namespace SimpleCleanArch.Tests;
+namespace SimpleCleanArch.Tests.Domain;
 
 public class WarehouseTest
 {
@@ -9,7 +9,7 @@ public class WarehouseTest
             Description = "my description",
         };
 
-    private static Warehouse GetWarehouseWithDetails()
+    private static IWarehouse GetWarehouseWithDetails()
         => Warehouse.Rebuild(
             name: "my-warehouse",
             description: "my description",
