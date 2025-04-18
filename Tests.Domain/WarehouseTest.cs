@@ -2,6 +2,19 @@ namespace SimpleCleanArch.Tests;
 
 public class WarehouseTest
 {
+    private static Warehouse GetWarehouse()
+        => Warehouse.Rebuild(
+            name: "my-warehouse",
+            description: "my description",
+            id: Guid.NewGuid(),
+            createdAt: DateTime.Now,
+            details: WarehouseDetails.Rebuild(
+                city: "belo horizonte",
+                id: Guid.NewGuid(),
+                createdAt: DateTime.Now
+            )
+        );
+
     [Fact]
     public void CreateWarehouse_Success()
     {
@@ -42,5 +55,13 @@ public class WarehouseTest
         Assert.Equal(createdAt, warehouse.Details.CreatedAt);
         Assert.Equal("belo horizonte", warehouse.Details.City);
         Assert.Equal(warehouse, warehouse.Details.Warehouse);
+    }
+
+    [Fact]
+    public void EnsureWarehouseDetailsEncapsulation()
+    {
+        var warehouse = GetWarehouse();
+        warehouse.Details.City = "sao paulo";
+        Assert.Equal("belo horizonte", warehouse.Details.City);
     }
 }

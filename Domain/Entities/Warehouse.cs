@@ -8,21 +8,26 @@ public class Warehouse : IWarehouse
     public DateTime CreatedAt { get; }
     public required string Name { get; init; }
     public string? Description { get; set; }
-    public IWarehouseDetails Details { get; }
+
+    private readonly IWarehouseDetails _details;
+    public IWarehouseDetails Details
+    {
+        get => (IWarehouseDetails)_details.Clone();
+    }
 
     public Warehouse()
     {
         Id = Guid.NewGuid();
         CreatedAt = DateTime.Now;
-        Details = new WarehouseDetails(this);
+        _details = new WarehouseDetails(this);
     }
 
     private Warehouse(Guid id, DateTime createdAt, WarehouseDetails details)
     {
         Id = id;
         CreatedAt = createdAt;
-        Details = details;
-        details.Warehouse = this;
+        _details = details;
+        _details.Warehouse = this;
     }
 
     public static Warehouse Rebuild(Guid id, DateTime createdAt, string name, string? description, WarehouseDetails details)

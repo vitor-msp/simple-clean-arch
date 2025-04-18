@@ -26,9 +26,16 @@ public class WarehouseDetails : IWarehouseDetails
         CreatedAt = createdAt;
     }
 
-    public static WarehouseDetails Rebuild(Guid id, DateTime createdAt, string city)
+    public static WarehouseDetails Rebuild(Guid id, DateTime createdAt, string? city)
         => new(id, createdAt)
         {
             City = city,
         };
+
+    public object Clone()
+    {
+        var details = Rebuild(Id, CreatedAt, City);
+        details.Warehouse = Warehouse;
+        return details;
+    }
 }

@@ -1,6 +1,6 @@
 namespace SimpleCleanArch.Domain.Contract;
 
-public interface IWarehouseDetails
+public interface IWarehouseDetails : ICloneable
 {
     public Guid Id { get; }
     public DateTime CreatedAt { get; }
