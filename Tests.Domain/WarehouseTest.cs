@@ -3,6 +3,13 @@ namespace SimpleCleanArch.Tests;
 public class WarehouseTest
 {
     private static Warehouse GetWarehouse()
+        => new()
+        {
+            Name = "my-warehouse",
+            Description = "my description",
+        };
+
+    private static Warehouse GetWarehouseWithDetails()
         => Warehouse.Rebuild(
             name: "my-warehouse",
             description: "my description",
@@ -60,8 +67,21 @@ public class WarehouseTest
     [Fact]
     public void EnsureWarehouseDetailsEncapsulation()
     {
-        var warehouse = GetWarehouse();
+        var warehouse = GetWarehouseWithDetails();
         warehouse.Details.City = "sao paulo";
         Assert.Equal("belo horizonte", warehouse.Details.City);
+    }
+
+    [Fact]
+    public void UpdateWarehouseDetails_Success()
+    {
+        var warehouse = GetWarehouse();
+        var details = new WarehouseDetails
+        {
+            City = "sao paulo",
+        };
+        warehouse.UpdateDetails(details);
+        Assert.Equal("sao paulo", warehouse.Details.City);
+        Assert.Equal(warehouse, warehouse.Details.Warehouse);
     }
 }

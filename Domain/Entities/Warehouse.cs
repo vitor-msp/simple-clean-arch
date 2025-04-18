@@ -36,4 +36,9 @@ public class Warehouse : IWarehouse
             Name = name,
             Description = description,
         };
+
+    public void UpdateDetails(IWarehouseDetails details)
+    {
+        _details.City = details.City;
+    }
 }
