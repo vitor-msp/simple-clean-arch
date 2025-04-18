@@ -36,6 +36,13 @@ public class WarehouseRepositorySqlite(WarehouseContext database) : IWarehouseRe
         _database.Warehouses.Remove(warehouseSchema);
     }
 
+    public async Task Update(IWarehouse warehouse)
+    {
+        var warehouseSchema = await _database.Warehouses.FindAsync(warehouse.Id)
+            ?? throw new Exception($"Warehouse id {warehouse.Id} not found.");
+        warehouseSchema.Update(warehouse);
+    }
+
     public async Task Commit()
     {
         await _database.SaveChangesAsync();

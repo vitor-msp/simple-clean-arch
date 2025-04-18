@@ -10,11 +10,13 @@ namespace SimpleCleanArch.Api.Controllers;
 [Route("warehouses")]
 public class WarehouseController(
     ICreateWarehouse createWarehouse,
-    IDeleteWarehouse deleteWarehouse
+    IDeleteWarehouse deleteWarehouse,
+    IUpdateWarehouse updateWarehouse
 ) : ControllerBase
 {
     private readonly ICreateWarehouse _createWarehouse = createWarehouse;
     private readonly IDeleteWarehouse _deleteWarehouse = deleteWarehouse;
+    private readonly IUpdateWarehouse _updateWarehouse = updateWarehouse;
 
     [HttpPost]
     public async Task<ActionResult<CreateWarehouseOutput>> Post(CreateWarehouseInput input)
@@ -48,6 +50,26 @@ public class WarehouseController(
         try
         {
             await _deleteWarehouse.Execute(id);
+            return NoContent();
+        }
+        catch (NotFoundException error)
+        {
+            var output = ErrorPresenter.GenerateJson(error.Message);
+            return NotFound(output);
+        }
+        catch (Exception error)
+        {
+            var output = ErrorPresenter.GenerateJson(error.Message);
+            return StatusCode(StatusCodes.Status500InternalServerError, output);
+        }
+    }
+
+    [HttpPatch("{id}")]
+    public async Task<ActionResult> Patch(Guid id, UpdateWarehouseInput input)
+    {
+        try
+        {
+            await _updateWarehouse.Execute(id, input);
             return NoContent();
         }
         catch (NotFoundException error)

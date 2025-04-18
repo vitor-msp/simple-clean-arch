@@ -16,6 +16,11 @@ public class WarehouseDetailsSchema
         Hydrate(details);
     }
 
+    public void Update(IWarehouseDetails details)
+    {
+        Hydrate(details);
+    }
+
     public IWarehouseDetails GetEntity()
         => WarehouseDetails.Rebuild(id: Id, createdAt: CreatedAt, city: City);
 

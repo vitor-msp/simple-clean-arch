@@ -4,7 +4,8 @@ public interface IWarehouseRepository
 {
     Task<IWarehouse?> GetById(Guid id);
     Task<IWarehouse?> GetByName(string name);
-    Task Create(IWarehouse product);
-    Task Delete(IWarehouse product);
+    Task Create(IWarehouse warehouse);
+    Task Delete(IWarehouse warehouse);
+    Task Update(IWarehouse warehouse);
     Task Commit();
 }

@@ -19,6 +19,12 @@ public class WarehouseSchema
         Details = new WarehouseDetailsSchema(warehouse.Details);
     }
 
+    public void Update(IWarehouse warehouse)
+    {
+        Hydrate(warehouse);
+        Details.Update(warehouse.Details);
+    }
+
     public IWarehouse GetEntity()
         => Warehouse.Rebuild(id: Id, createdAt: CreatedAt, name: Name,
             description: Description, details: Details.GetEntity());
