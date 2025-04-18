@@ -133,4 +133,13 @@ public class ProductTest
         var variants = product.ProductVariants;
         Assert.Empty(variants);
     }
+
+    [Fact]
+    public void RemoveProductVariant_SkuNotFound()
+    {
+        var product = GetProductWithVariant();
+        var sku = "my_product-green-large";
+        Action action = () => product.RemoveProductVariant(sku);
+        Assert.Throws<DomainException>(() => action);
+    }
 }
