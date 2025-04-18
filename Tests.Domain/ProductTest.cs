@@ -159,7 +159,7 @@ public class ProductTest
         var product = GetProductWithVariant();
         var sku = "my_product-green-large";
         Action action = () => product.RemoveProductVariant(sku);
-        Assert.Throws<DomainException>(() => action);
+        Assert.Throws<DomainException>(action);
     }
 
     [Fact]
