@@ -24,6 +24,25 @@ public class ProductTest
                 description: null
             )]);
 
+    private Product GetProductWithTwoVariants()
+    {
+        var variant1 = ProductVariant.Rebuild(
+            id: _id,
+            createdAt: _createdAt,
+            color: Color.Red,
+            size: Size.Small,
+            description: null
+        );
+        var variant2 = ProductVariant.Rebuild(
+            id: Guid.NewGuid(),
+            createdAt: _createdAt,
+            color: Color.Green,
+            size: Size.Medium,
+            description: null
+        );
+        return GetProduct([variant1, variant2]);
+    }
+
     [Fact]
     public void CreateProduct_Success()
     {
@@ -141,5 +160,37 @@ public class ProductTest
         var sku = "my_product-green-large";
         Action action = () => product.RemoveProductVariant(sku);
         Assert.Throws<DomainException>(() => action);
+    }
+
+    [Fact]
+    public void UpdateProductVariant_Success()
+    {
+        var product = GetProductWithTwoVariants();
+        var newVariants = new List<IProductVariant>
+        {
+            new ProductVariant()
+            {
+                Color = Color.Red,
+                Size = Size.Small,
+                Description = "new description",
+                Product = product,
+            },
+            new ProductVariant()
+            {
+                Color = Color.Blue,
+                Size = Size.Large,
+                Product = product,
+            }
+        };
+        product.UpdateProductVariants(newVariants);
+        Assert.Equal(2, product.ProductVariants.Count);
+        var variantGreenMedium = product.ProductVariants.Find(variant => variant.Sku == "my_product-green-medium");
+        Assert.Null(variantGreenMedium);
+        var variantRedSmall = product.ProductVariants.Find(variant => variant.Sku == "my_product-red-small");
+        Assert.NotNull(variantRedSmall);
+        Assert.Equal("new description", variantRedSmall.Description);
+        var variantBlueLarge = product.ProductVariants.Find(variant => variant.Sku == "my_product-blue-large");
+        Assert.NotNull(variantBlueLarge);
+        Assert.Null(variantBlueLarge.Description);
     }
 }
