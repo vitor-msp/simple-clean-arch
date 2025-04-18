@@ -8,5 +8,5 @@ public interface IWarehouse
     public string? Description { get; set; }
     public IWarehouseDetails Details { get; }
 
-    public void UpdateDetails(IWarehouseDetails details);
+    public void UpdateDetails(WarehouseDetailsDto details);
 }

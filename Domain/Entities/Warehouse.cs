@@ -19,25 +19,27 @@ public class Warehouse : IWarehouse
     {
         Id = Guid.NewGuid();
         CreatedAt = DateTime.Now;
-        _details = new WarehouseDetails(this);
+        _details = new WarehouseDetails() { Warehouse = this };
     }
 
-    private Warehouse(Guid id, DateTime createdAt, IWarehouseDetails details)
+    private Warehouse(Guid id, DateTime createdAt, WarehouseDetailsDto details)
     {
         Id = id;
         CreatedAt = createdAt;
-        _details = details;
-        _details.Warehouse = this;
+        _details = WarehouseDetails.Rebuild(
+            details: details,
+            warehouse: this
+        );
     }
 
-    public static IWarehouse Rebuild(Guid id, DateTime createdAt, string name, string? description, IWarehouseDetails details)
+    public static IWarehouse Rebuild(Guid id, DateTime createdAt, string name, string? description, WarehouseDetailsDto details)
         => new Warehouse(id, createdAt, details)
         {
             Name = name,
             Description = description,
         };
 
-    public void UpdateDetails(IWarehouseDetails details)
+    public void UpdateDetails(WarehouseDetailsDto details)
     {
         _details.City = details.City;
     }

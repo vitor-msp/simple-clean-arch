@@ -15,10 +15,10 @@ public class WarehouseTest
             description: "my description",
             id: Guid.NewGuid(),
             createdAt: DateTime.Now,
-            details: WarehouseDetails.Rebuild(
-                city: "belo horizonte",
-                id: Guid.NewGuid(),
-                createdAt: DateTime.Now
+            details: new WarehouseDetailsDto(
+                City: "belo horizonte",
+                Id: Guid.NewGuid(),
+                CreatedAt: DateTime.Now
             )
         );
 
@@ -48,10 +48,10 @@ public class WarehouseTest
             description: "my description",
             id: warehouseId,
             createdAt: createdAt,
-            details: WarehouseDetails.Rebuild(
-                city: "belo horizonte",
-                id: warehouseDetailsId,
-                createdAt: createdAt
+            details: new WarehouseDetailsDto(
+                City: "belo horizonte",
+                Id: warehouseDetailsId,
+                CreatedAt: createdAt
             )
         );
         Assert.Equal(warehouseId, warehouse.Id);
@@ -76,10 +76,7 @@ public class WarehouseTest
     public void UpdateWarehouseDetails_Success()
     {
         var warehouse = GetWarehouse();
-        var details = new WarehouseDetails
-        {
-            City = "sao paulo",
-        };
+        var details = new WarehouseDetailsDto(City: "sao paulo");
         warehouse.UpdateDetails(details);
         Assert.Equal("sao paulo", warehouse.Details.City);
         Assert.Equal(warehouse, warehouse.Details.Warehouse);

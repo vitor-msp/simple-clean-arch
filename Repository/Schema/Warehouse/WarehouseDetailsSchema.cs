@@ -1,5 +1,4 @@
 using SimpleCleanArch.Domain.Contract;
-using SimpleCleanArch.Domain.Entities;
 
 namespace SimpleCleanArch.Repository.Schema;
 
@@ -21,8 +20,7 @@ public class WarehouseDetailsSchema
         Hydrate(details);
     }
 
-    public IWarehouseDetails GetEntity()
-        => WarehouseDetails.Rebuild(id: Id, createdAt: CreatedAt, city: City);
+    public WarehouseDetailsDto GetEntity() => new(Id: Id, CreatedAt: CreatedAt, City: City);
 
     private void Hydrate(IWarehouseDetails details)
     {

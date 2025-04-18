@@ -24,10 +24,7 @@ public class UpdateWarehouseInput
     public IWarehouse Update(IWarehouse warehouse)
     {
         warehouse.Description = Description;
-        warehouse.UpdateDetails(new Domain.Entities.WarehouseDetails()
-        {
-            City = Details.City,
-        });
+        warehouse.UpdateDetails(new WarehouseDetailsDto(City: Details.City));
         return warehouse;
     }
 }
