@@ -1,5 +1,5 @@
 #!/bin/bash
 
-touch products.db
+touch database.db
 
 exit 0
