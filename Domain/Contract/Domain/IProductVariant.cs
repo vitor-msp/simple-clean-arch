@@ -17,4 +17,5 @@ public interface IProductVariant : ICloneable
 
 public record ProductVariantDto(
     Guid? Id = null, DateTime? CreatedAt = null, Color? Color = null,
-    Size? Size = null, string? Description = null, string? Sku = null);
+    Size? Size = null, string? Description = null, string? Sku = null
+);

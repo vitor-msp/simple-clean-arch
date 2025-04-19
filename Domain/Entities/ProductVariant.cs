@@ -36,12 +36,10 @@ public class ProductVariant : IProductVariant
         };
 
     public object Clone()
-    {
-        var variant = Rebuild(
+        => Rebuild(
             variant: new ProductVariantDto(Id, CreatedAt, Color, Size, Description, Sku),
-            product: Product);
-        return variant;
-    }
+            product: Product
+        );
 
     private static string FormatSkuText(string text)
         => text.ToLower().Replace(" ", "_");
