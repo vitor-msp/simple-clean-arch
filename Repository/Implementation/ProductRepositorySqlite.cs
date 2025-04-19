@@ -5,9 +5,9 @@ using SimpleCleanArch.Repository.Schema;
 
 namespace SimpleCleanArch.Repository.Implementation;
 
-public class ProductRepositorySqlite(ProductContext database) : IProductRepository
+public class ProductRepositorySqlite(AppDbContext database) : IProductRepository
 {
-    private readonly ProductContext _database = database;
+    private readonly AppDbContext _database = database;
 
     public async Task<IProduct?> Get(Guid id)
     {

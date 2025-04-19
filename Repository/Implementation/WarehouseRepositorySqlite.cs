@@ -6,9 +6,9 @@ using SimpleCleanArch.Repository.Schema;
 
 namespace SimpleCleanArch.Repository.Implementation;
 
-public class WarehouseRepositorySqlite(WarehouseContext database) : IWarehouseRepository
+public class WarehouseRepositorySqlite(AppDbContext database) : IWarehouseRepository
 {
-    private readonly WarehouseContext _database = database;
+    private readonly AppDbContext _database = database;
 
     public async Task<IWarehouse?> GetById(Guid id)
     {

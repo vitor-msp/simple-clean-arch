@@ -2,12 +2,12 @@ namespace SimpleCleanArch.Tests.Api;
 
 public class WarehouseControllerTest
 {
-    private static (WarehouseController controller, WarehouseContext context) MakeSut()
+    private static (WarehouseController controller, AppDbContext context) MakeSut()
     {
         var connection = new SqliteConnection("Filename=:memory:");
         connection.Open();
-        var contextOptions = new DbContextOptionsBuilder<WarehouseContext>().UseSqlite(connection).Options;
-        var context = new WarehouseContext(contextOptions);
+        var contextOptions = new DbContextOptionsBuilder<AppDbContext>().UseSqlite(connection).Options;
+        var context = new AppDbContext(contextOptions);
         context.Database.EnsureCreatedAsync();
         var repository = new WarehouseRepositorySqlite(context);
         var createWarehouse = new CreateWarehouse(repository);

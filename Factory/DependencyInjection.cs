@@ -19,7 +19,7 @@ public static class DependencyInjection
 
         var sqliteConnection = configuration.GetConnectionString("SqliteConnection")
             ?? throw new Exception("Missing Sqlite configuration.");
-        services.AddDbContext<ProductContext>(options => options.UseSqlite(sqliteConnection));
+        services.AddDbContext<AppDbContext>(options => options.UseSqlite(sqliteConnection));
 
         services.AddScoped<ICreateProduct, CreateProduct>();
         services.AddScoped<IUpdateProduct, UpdateProduct>();

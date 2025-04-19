@@ -4,12 +4,12 @@ namespace SimpleCleanArch.Tests.Api;
 
 public class ProductControllerTest
 {
-    private static (ProductController controller, ProductContext context) MakeSut()
+    private static (ProductController controller, AppDbContext context) MakeSut()
     {
         var connection = new SqliteConnection("Filename=:memory:");
         connection.Open();
-        var contextOptions = new DbContextOptionsBuilder<ProductContext>().UseSqlite(connection).Options;
-        var context = new ProductContext(contextOptions);
+        var contextOptions = new DbContextOptionsBuilder<AppDbContext>().UseSqlite(connection).Options;
+        var context = new AppDbContext(contextOptions);
         context.Database.EnsureCreatedAsync();
         var repository = new ProductRepositorySqlite(context);
         var mail = new Mock<IMailGateway>().Object;
