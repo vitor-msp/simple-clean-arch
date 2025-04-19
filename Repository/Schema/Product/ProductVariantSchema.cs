@@ -10,8 +10,6 @@ public class ProductVariantSchema : BaseSchema<IProductVariant, ProductVariantDt
     [Column("sku")]
     public string? Sku { get; set; }
 
-    public required ProductSchema Product { get; set; }
-
     [Column("color")]
     public Color Color { get; set; }
 
@@ -20,6 +18,10 @@ public class ProductVariantSchema : BaseSchema<IProductVariant, ProductVariantDt
 
     [Column("description")]
     public string? Description { get; set; }
+
+    [ForeignKey("Product"), Column("product_id")]
+    public int ProductId { get; set; }
+    public required ProductSchema Product { get; set; }
 
     public ProductVariantSchema() { }
 
