@@ -3,11 +3,9 @@ using SimpleCleanArch.Repository.Schema;
 
 namespace SimpleCleanArch.Domain.Contract;
 
-public class ProductVariantSchema
+public class ProductVariantSchema : BaseSchema<ProductVariantDto>
 {
-    public Guid Id { get; set; }
     public string? Sku { get; set; }
-    public DateTime CreatedAt { get; set; }
     public required ProductSchema Product { get; set; }
     public Color Color { get; set; }
     public Size Size { get; set; }
@@ -35,5 +33,5 @@ public class ProductVariantSchema
         Description = variant.Description;
     }
 
-    public ProductVariantDto GetEntity() => new(Id, CreatedAt, Color, Size, Description, Sku);
+    public override ProductVariantDto GetEntity() => new(Id, CreatedAt, Color, Size, Description, Sku);
 }

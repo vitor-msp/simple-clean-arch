@@ -3,10 +3,8 @@ using SimpleCleanArch.Domain.Entities;
 
 namespace SimpleCleanArch.Repository.Schema;
 
-public class ProductSchema
+public class ProductSchema : BaseSchema<IProduct>
 {
-    public Guid Id { get; set; }
-    public DateTime CreatedAt { get; set; }
     public string Name { get; set; } = "";
     public double Price { get; set; }
     public string? Description { get; set; }
@@ -29,7 +27,7 @@ public class ProductSchema
         UpdateProductVariants(variants);
     }
 
-    public IProduct GetEntity()
+    public override IProduct GetEntity()
     {
         var variants = new List<ProductVariantDto>();
         ProductVariants.ForEach(variantSchema => variants.Add(variantSchema.GetEntity()));

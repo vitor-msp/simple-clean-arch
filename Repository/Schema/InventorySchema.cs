@@ -3,10 +3,8 @@ using SimpleCleanArch.Domain.Entities;
 
 namespace SimpleCleanArch.Repository.Schema;
 
-public class InventorySchema
+public class InventorySchema : BaseSchema<IInventory>
 {
-    public Guid Id { get; set; }
-    public DateTime CreatedAt { get; set; }
     public Guid WarehouseId { get; set; }
     public Guid ProductId { get; set; }
     public int Quantity { get; set; }
@@ -22,6 +20,6 @@ public class InventorySchema
         Quantity = inventory.Quantity;
     }
 
-    public IInventory GetEntity()
+    public override IInventory GetEntity()
         => Inventory.Rebuild(Id, CreatedAt, WarehouseId, ProductId, Quantity);
 }

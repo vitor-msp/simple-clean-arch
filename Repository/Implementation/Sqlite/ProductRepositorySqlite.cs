@@ -5,7 +5,7 @@ using SimpleCleanArch.Repository.Schema;
 
 namespace SimpleCleanArch.Repository.Implementation;
 
-public class ProductRepositorySqlite(AppDbContext database) : IProductRepository
+public class ProductRepositorySqlite(AppDbContext database) : BaseRepositorySqlite(database), IProductRepository
 {
     private readonly AppDbContext _database = database;
 
@@ -33,10 +33,5 @@ public class ProductRepositorySqlite(AppDbContext database) : IProductRepository
         var productSchema = await _database.Products.FindAsync(product.Id)
             ?? throw new Exception($"Product id {product.Id} not found.");
         _database.Products.Remove(productSchema);
-    }
-
-    public async Task Commit()
-    {
-        await _database.SaveChangesAsync();
     }
 }

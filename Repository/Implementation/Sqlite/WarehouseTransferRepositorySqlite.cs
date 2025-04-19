@@ -5,17 +5,13 @@ using SimpleCleanArch.Repository.Schema;
 
 namespace SimpleCleanArch.Repository.Implementation;
 
-public class InventoryRepositorySqlite(AppDbContext database) : IInventoryRepository
+public class WarehouseTransferRepositorySqlite(AppDbContext database) : BaseRepositorySqlite(database), IWarehouseTransferRepository
 {
     private readonly AppDbContext _database = database;
 
-    public async Task Create(IInventory inventory)
-    {
-        await _database.Inventories.AddAsync(new InventorySchema(inventory));
-    }
 
-    public async Task Commit()
+    public async Task Create(IWarehouseTransfer warehouseTransfer)
     {
-        await _database.SaveChangesAsync();
+        await _database.WarehouseTransfers.AddAsync(new WarehouseTransferSchema(warehouseTransfer));
     }
 }

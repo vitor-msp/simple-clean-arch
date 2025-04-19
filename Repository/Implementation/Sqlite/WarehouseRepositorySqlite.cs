@@ -6,7 +6,7 @@ using SimpleCleanArch.Repository.Schema;
 
 namespace SimpleCleanArch.Repository.Implementation;
 
-public class WarehouseRepositorySqlite(AppDbContext database) : IWarehouseRepository
+public class WarehouseRepositorySqlite(AppDbContext database) : BaseRepositorySqlite(database), IWarehouseRepository
 {
     private readonly AppDbContext _database = database;
 
@@ -41,10 +41,5 @@ public class WarehouseRepositorySqlite(AppDbContext database) : IWarehouseReposi
         var warehouseSchema = await _database.Warehouses.FindAsync(warehouse.Id)
             ?? throw new Exception($"Warehouse id {warehouse.Id} not found.");
         warehouseSchema.Update(warehouse);
-    }
-
-    public async Task Commit()
-    {
-        await _database.SaveChangesAsync();
     }
 }

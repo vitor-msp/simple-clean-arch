@@ -3,10 +3,8 @@ using SimpleCleanArch.Domain.Entities;
 
 namespace SimpleCleanArch.Repository.Schema;
 
-public class WarehouseSchema
+public class WarehouseSchema : BaseSchema<IWarehouse>
 {
-    public Guid Id { get; set; }
-    public DateTime CreatedAt { get; set; }
     public string Name { get; set; } = "";
     public string? Description { get; set; }
     public WarehouseDetailsSchema Details { get; set; }
@@ -25,7 +23,7 @@ public class WarehouseSchema
         Details.Update(warehouse.Details);
     }
 
-    public IWarehouse GetEntity()
+    public override IWarehouse GetEntity()
         => Warehouse.Rebuild(id: Id, createdAt: CreatedAt, name: Name,
             description: Description, details: Details.GetEntity());
 

@@ -2,10 +2,8 @@ using SimpleCleanArch.Domain.Contract;
 
 namespace SimpleCleanArch.Repository.Schema;
 
-public class WarehouseDetailsSchema
+public class WarehouseDetailsSchema : BaseSchema<WarehouseDetailsDto>
 {
-    public Guid Id { get; set; }
-    public DateTime CreatedAt { get; set; }
     public string? City { get; set; }
 
     public WarehouseDetailsSchema() { }
@@ -20,7 +18,7 @@ public class WarehouseDetailsSchema
         Hydrate(details);
     }
 
-    public WarehouseDetailsDto GetEntity() => new(Id: Id, CreatedAt: CreatedAt, City: City);
+    public override WarehouseDetailsDto GetEntity() => new(Id: Id, CreatedAt: CreatedAt, City: City);
 
     private void Hydrate(IWarehouseDetails details)
     {
