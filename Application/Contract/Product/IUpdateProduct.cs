@@ -6,7 +6,7 @@ namespace SimpleCleanArch.Application.Contract;
 
 public interface IUpdateProduct
 {
-    Task Execute(Guid id, UpdateProductInput input);
+    Task Execute(int id, UpdateProductInput input);
 }
 
 public class UpdateProductInput

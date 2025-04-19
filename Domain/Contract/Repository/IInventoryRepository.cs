@@ -1,6 +1,6 @@
 namespace SimpleCleanArch.Domain.Contract.Repository;
 
-public interface IInventoryRepository: IBaseRepository
+public interface IInventoryRepository : IBaseRepository
 {
-    Task Create(IInventory inventory);
+    Task<int> Create(IInventory inventory);
 }

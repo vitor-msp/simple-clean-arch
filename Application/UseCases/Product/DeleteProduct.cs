@@ -10,7 +10,7 @@ public class DeleteProduct(IProductRepository repository, IMailGateway mail) : I
     private readonly IProductRepository _repository = repository;
     private readonly IMailGateway _mail = mail;
 
-    public async Task Execute(Guid id)
+    public async Task Execute(int id)
     {
         var product = await _repository.Get(id)
             ?? throw new Exception($"Product id {id} not found.");

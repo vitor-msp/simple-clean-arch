@@ -23,31 +23,29 @@ public class InventoryControllerTest
     public async Task CreateInventory_Success()
     {
         var (controller, context) = MakeSut();
-        var warehouseId = Guid.NewGuid();
-        var productId = Guid.NewGuid();
         await context.Warehouses.AddAsync(new WarehouseSchema()
         {
-            Id = warehouseId,
+            Id = 1,
             CreatedAt = DateTime.UtcNow,
             Name = "warehouse",
             Details = new WarehouseDetailsSchema()
             {
-                Id = Guid.NewGuid(),
                 CreatedAt = DateTime.Now,
                 City = "belo horizonte"
             }
         });
         await context.Products.AddAsync(new ProductSchema()
         {
-            Id = productId,
+            Id = 1,
             CreatedAt = DateTime.UtcNow,
             Name = "my-product",
             Price = 10
         });
+        await context.SaveChangesAsync();
         var input = new CreateInventoryInput()
         {
-            WarehouseId = warehouseId,
-            ProductId = productId,
+            WarehouseId = 1,
+            ProductId = 1,
             Quantity = 2,
         };
         var output = await controller.Post(input);
@@ -56,8 +54,8 @@ public class InventoryControllerTest
         Assert.NotEqual(default, outputContent.InventoryId);
         var inventorySchema = await context.Inventories.FindAsync(outputContent.InventoryId);
         Assert.NotNull(inventorySchema);
-        Assert.Equal(warehouseId, inventorySchema.WarehouseId);
-        Assert.Equal(productId, inventorySchema.ProductId);
+        Assert.Equal(1, inventorySchema.WarehouseId);
+        Assert.Equal(1, inventorySchema.ProductId);
         Assert.Equal(2, inventorySchema.Quantity);
     }
 }

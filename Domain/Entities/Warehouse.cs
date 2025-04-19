@@ -4,7 +4,7 @@ namespace SimpleCleanArch.Domain.Entities;
 
 public class Warehouse : IWarehouse
 {
-    public Guid Id { get; }
+    public int Id { get; }
     public DateTime CreatedAt { get; }
     public required string Name { get; init; }
     public string? Description { get; set; }
@@ -17,12 +17,11 @@ public class Warehouse : IWarehouse
 
     public Warehouse()
     {
-        Id = Guid.NewGuid();
         CreatedAt = DateTime.Now;
         _details = new WarehouseDetails() { Warehouse = this };
     }
 
-    private Warehouse(Guid id, DateTime createdAt, WarehouseDetailsDto details)
+    private Warehouse(int id, DateTime createdAt, WarehouseDetailsDto details)
     {
         Id = id;
         CreatedAt = createdAt;
@@ -32,7 +31,7 @@ public class Warehouse : IWarehouse
         );
     }
 
-    public static IWarehouse Rebuild(Guid id, DateTime createdAt, string name, string? description, WarehouseDetailsDto details)
+    public static IWarehouse Rebuild(int id, DateTime createdAt, string name, string? description, WarehouseDetailsDto details)
         => new Warehouse(id, createdAt, details)
         {
             Name = name,

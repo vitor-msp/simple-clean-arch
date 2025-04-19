@@ -7,36 +7,31 @@ public class WarehouseTransferTest
     {
         var warehouseTransfer = new WarehouseTransfer()
         {
-            SourceWarehouseId = Guid.NewGuid(),
-            TargetWarehouseId = Guid.NewGuid(),
-            ProductId = Guid.NewGuid(),
+            SourceWarehouseId = 1,
+            TargetWarehouseId = 2,
+            ProductId = 1,
             ProductQuantity = 2,
         };
-        Assert.NotEqual(default, warehouseTransfer.Id);
         Assert.NotEqual(default, warehouseTransfer.CreatedAt);
     }
 
     [Fact]
     public void RebuildWarehouseTransfer_Success()
     {
-        var warehouseTransferId = Guid.NewGuid();
         var createdAt = DateTime.Now;
-        var sourceWarehouseId = Guid.NewGuid();
-        var targetWarehouseId = Guid.NewGuid();
-        var productId = Guid.NewGuid();
         var warehouseTransfer = WarehouseTransfer.Rebuild(
-            id: warehouseTransferId,
+            id: 1,
             createdAt: createdAt,
-            sourceWarehouseId: sourceWarehouseId,
-            targetWarehouseId: targetWarehouseId,
-            productId: productId,
+            sourceWarehouseId: 1,
+            targetWarehouseId: 2,
+            productId: 1,
             productQuantity: 2
         );
-        Assert.Equal(warehouseTransferId, warehouseTransfer.Id);
+        Assert.Equal(1, warehouseTransfer.Id);
         Assert.Equal(createdAt, warehouseTransfer.CreatedAt);
-        Assert.Equal(sourceWarehouseId, warehouseTransfer.SourceWarehouseId);
-        Assert.Equal(targetWarehouseId, warehouseTransfer.TargetWarehouseId);
-        Assert.Equal(productId, warehouseTransfer.ProductId);
+        Assert.Equal(1, warehouseTransfer.SourceWarehouseId);
+        Assert.Equal(2, warehouseTransfer.TargetWarehouseId);
+        Assert.Equal(1, warehouseTransfer.ProductId);
         Assert.Equal(2, warehouseTransfer.ProductQuantity);
     }
 }

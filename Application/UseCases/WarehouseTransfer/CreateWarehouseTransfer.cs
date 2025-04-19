@@ -24,8 +24,7 @@ public class CreateWarehouseTransfer(
             ?? throw new NotFoundException($"Warehouse id {input.TargetWarehouseId} not found.");
 
         var warehouseTransfer = input.GetEntity();
-        await _warehouseTransferRepository.Create(warehouseTransfer);
-        await _warehouseTransferRepository.Commit();
-        return new() { WarehouseTransferId = warehouseTransfer.Id };
+        var warehouseTransferId = await _warehouseTransferRepository.Create(warehouseTransfer);
+        return new() { WarehouseTransferId = warehouseTransferId };
     }
 }

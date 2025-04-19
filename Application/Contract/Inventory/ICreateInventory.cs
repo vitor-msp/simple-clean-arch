@@ -12,10 +12,10 @@ public interface ICreateInventory
 public class CreateInventoryInput
 {
     [Required(ErrorMessage = "warehouse is required")]
-    public Guid WarehouseId { get; set; }
+    public int WarehouseId { get; set; }
 
     [Required(ErrorMessage = "product id is required")]
-    public Guid ProductId { get; set; }
+    public int ProductId { get; set; }
 
     [Required(ErrorMessage = "quantity is required")]
     public int Quantity { get; set; }
@@ -31,5 +31,5 @@ public class CreateInventoryInput
 
 public class CreateInventoryOutput
 {
-    public required Guid InventoryId { get; init; }
+    public required int InventoryId { get; init; }
 }

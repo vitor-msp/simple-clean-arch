@@ -2,5 +2,5 @@ namespace SimpleCleanArch.Application.Contract;
 
 public interface IDeleteWarehouse
 {
-    Task Execute(Guid id);
+    Task Execute(int id);
 }

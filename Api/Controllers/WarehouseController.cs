@@ -45,7 +45,7 @@ public class WarehouseController(
 
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult> Delete(Guid id)
+    public async Task<ActionResult> Delete(int id)
     {
         try
         {
@@ -65,7 +65,7 @@ public class WarehouseController(
     }
 
     [HttpPatch("{id}")]
-    public async Task<ActionResult> Patch(Guid id, UpdateWarehouseInput input)
+    public async Task<ActionResult> Patch(int id, UpdateWarehouseInput input)
     {
         try
         {

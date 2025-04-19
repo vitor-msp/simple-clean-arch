@@ -9,16 +9,19 @@ public class ProductRepositorySqlite(AppDbContext database) : BaseRepositorySqli
 {
     private readonly AppDbContext _database = database;
 
-    public async Task<IProduct?> Get(Guid id)
+    public async Task<IProduct?> Get(int id)
     {
         var productSchema = await _database.Products.FindAsync(id);
         if (productSchema is null) return null;
         return productSchema.GetEntity();
     }
 
-    public async Task Create(IProduct product)
+    public async Task<int> Create(IProduct product)
     {
-        await _database.Products.AddAsync(new ProductSchema(product));
+        var schema = new ProductSchema(product);
+        await _database.Products.AddAsync(schema);
+        await Commit();
+        return schema.Id;
     }
 
     public async Task Update(IProduct product)

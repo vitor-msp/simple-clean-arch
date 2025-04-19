@@ -44,7 +44,7 @@ public class ProductControllerTest
         var output = await controller.Post(input);
         var outputResult = Assert.IsType<CreatedAtRouteResult>(output.Result);
         var outputContent = Assert.IsType<CreateProductOutput>(outputResult.Value);
-        var productId = Assert.IsType<Guid>(outputContent.ProductId);
+        var productId = Assert.IsType<int>(outputContent.ProductId);
         var productSchema = await context.Products.FindAsync(productId);
         Assert.NotNull(productSchema);
         Assert.IsType<DateTime>(productSchema.CreatedAt);
@@ -85,7 +85,6 @@ public class ProductControllerTest
     {
         var productSchema = new ProductSchema()
         {
-            Id = Guid.NewGuid(),
             CreatedAt = DateTime.Now,
             Name = "my product",
             Price = 10.56,
@@ -111,6 +110,7 @@ public class ProductControllerTest
         productSchema.ProductVariants = [variant1, variant2];
         var (controller, context) = MakeSut();
         await context.Products.AddAsync(productSchema);
+        await context.SaveChangesAsync();
         var input = new UpdateProductInput()
         {
             Price = 15.74,
@@ -156,10 +156,9 @@ public class ProductControllerTest
     [Fact]
     public async Task DeleteProduct_Success()
     {
-        var productId = Guid.NewGuid();
         var productSchema = new ProductSchema()
         {
-            Id = productId,
+            Id = 1,
             CreatedAt = DateTime.Now,
             Name = "my product",
             Price = 10.56,
@@ -177,9 +176,10 @@ public class ProductControllerTest
         productSchema.ProductVariants = [variant];
         var (controller, context) = MakeSut();
         await context.Products.AddAsync(productSchema);
-        var output = await controller.Delete(productId);
+        await context.SaveChangesAsync();
+        var output = await controller.Delete(1);
         Assert.IsType<NoContentResult>(output);
-        var deletedProductSchema = await context.Products.FindAsync(productId);
+        var deletedProductSchema = await context.Products.FindAsync(1);
         Assert.Null(deletedProductSchema);
     }
 }

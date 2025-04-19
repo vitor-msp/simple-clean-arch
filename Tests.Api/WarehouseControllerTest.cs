@@ -17,7 +17,7 @@ public class WarehouseControllerTest
         return (controller, context);
     }
 
-    private static WarehouseSchema GetWarehouseSchema(Guid id)
+    private static WarehouseSchema GetWarehouseSchema(int id)
         => new()
         {
             Id = id,
@@ -26,7 +26,6 @@ public class WarehouseControllerTest
             Description = "my warehouse",
             Details = new WarehouseDetailsSchema()
             {
-                Id = Guid.NewGuid(),
                 CreatedAt = DateTime.Now,
                 City = "belo horizonte",
             }
@@ -62,10 +61,11 @@ public class WarehouseControllerTest
     [Fact]
     public async Task DeleteWarehouse_Success()
     {
-        var warehouseId = Guid.NewGuid();
+        var warehouseId = 1;
         var warehouseSchema = GetWarehouseSchema(warehouseId);
         var (controller, context) = MakeSut();
         await context.Warehouses.AddAsync(warehouseSchema);
+        await context.SaveChangesAsync();
         var output = await controller.Delete(warehouseId);
         Assert.IsType<NoContentResult>(output);
         var deletedWarehouseSchema = await context.Warehouses.FindAsync(warehouseId);
@@ -75,10 +75,11 @@ public class WarehouseControllerTest
     [Fact]
     public async Task UpdateWarehouse_Success()
     {
-        var warehouseId = Guid.NewGuid();
+        var warehouseId = 1;
         var warehouseSchema = GetWarehouseSchema(warehouseId);
         var (controller, context) = MakeSut();
         await context.Warehouses.AddAsync(warehouseSchema);
+        await context.SaveChangesAsync();
         var input = new UpdateWarehouseInput()
         {
             Description = "my warehouse description edited",

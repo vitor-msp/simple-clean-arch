@@ -13,11 +13,11 @@ public class WarehouseTest
         => Warehouse.Rebuild(
             name: "my-warehouse",
             description: "my description",
-            id: Guid.NewGuid(),
+            id: 1,
             createdAt: DateTime.Now,
             details: new WarehouseDetailsDto(
                 City: "belo horizonte",
-                Id: Guid.NewGuid(),
+                Id: 1,
                 CreatedAt: DateTime.Now
             )
         );
@@ -30,9 +30,7 @@ public class WarehouseTest
             Name = "my-warehouse",
             Description = "my description",
         };
-        Assert.NotEqual(default, warehouse.Id);
         Assert.NotEqual(default, warehouse.CreatedAt);
-        Assert.NotEqual(default, warehouse.Details.Id);
         Assert.Null(warehouse.Details.City);
         Assert.Equal(warehouse, warehouse.Details.Warehouse);
     }
@@ -40,25 +38,23 @@ public class WarehouseTest
     [Fact]
     public void RebuildWarehouse_Success()
     {
-        var warehouseId = Guid.NewGuid();
-        var warehouseDetailsId = Guid.NewGuid();
         var createdAt = DateTime.Now;
         var warehouse = Warehouse.Rebuild(
             name: "my-warehouse",
             description: "my description",
-            id: warehouseId,
+            id: 1,
             createdAt: createdAt,
             details: new WarehouseDetailsDto(
                 City: "belo horizonte",
-                Id: warehouseDetailsId,
+                Id: 1,
                 CreatedAt: createdAt
             )
         );
-        Assert.Equal(warehouseId, warehouse.Id);
+        Assert.Equal(1, warehouse.Id);
         Assert.Equal(createdAt, warehouse.CreatedAt);
         Assert.Equal("my-warehouse", warehouse.Name);
         Assert.Equal("my description", warehouse.Description);
-        Assert.Equal(warehouseDetailsId, warehouse.Details.Id);
+        Assert.Equal(1, warehouse.Details.Id);
         Assert.Equal(createdAt, warehouse.Details.CreatedAt);
         Assert.Equal("belo horizonte", warehouse.Details.City);
         Assert.Equal(warehouse, warehouse.Details.Warehouse);

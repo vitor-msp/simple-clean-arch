@@ -22,8 +22,7 @@ public class CreateInventory(
             ?? throw new NotFoundException($"Warehouse id {input.WarehouseId} not found.");
 
         var inventory = input.GetEntity();
-        await _inventoryRepository.Create(inventory);
-        await _inventoryRepository.Commit();
-        return new() { InventoryId = inventory.Id };
+        var inventoryId = await _inventoryRepository.Create(inventory);
+        return new() { InventoryId = inventoryId };
     }
 }

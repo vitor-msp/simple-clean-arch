@@ -10,7 +10,7 @@ public class WarehouseRepositorySqlite(AppDbContext database) : BaseRepositorySq
 {
     private readonly AppDbContext _database = database;
 
-    public async Task<IWarehouse?> GetById(Guid id)
+    public async Task<IWarehouse?> GetById(int id)
     {
         var warehouseSchema = await _database.Warehouses.FindAsync(id);
         if (warehouseSchema is null) return null;
@@ -24,9 +24,12 @@ public class WarehouseRepositorySqlite(AppDbContext database) : BaseRepositorySq
         return warehouseSchema.GetEntity();
     }
 
-    public async Task Create(IWarehouse warehouse)
+    public async Task<int> Create(IWarehouse warehouse)
     {
-        await _database.Warehouses.AddAsync(new WarehouseSchema(warehouse));
+        var schema = new WarehouseSchema(warehouse);
+        await _database.Warehouses.AddAsync(schema);
+        await Commit();
+        return schema.Id;
     }
 
     public async Task Delete(IWarehouse warehouse)

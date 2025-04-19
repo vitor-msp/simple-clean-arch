@@ -9,9 +9,11 @@ public class WarehouseTransferRepositorySqlite(AppDbContext database) : BaseRepo
 {
     private readonly AppDbContext _database = database;
 
-
-    public async Task Create(IWarehouseTransfer warehouseTransfer)
+    public async Task<int> Create(IWarehouseTransfer warehouseTransfer)
     {
-        await _database.WarehouseTransfers.AddAsync(new WarehouseTransferSchema(warehouseTransfer));
+        var schema = new WarehouseTransferSchema(warehouseTransfer);
+        await _database.WarehouseTransfers.AddAsync(schema);
+        await Commit();
+        return schema.Id;
     }
 }

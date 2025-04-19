@@ -13,8 +13,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
-        optionsBuilder.EnableSensitiveDataLogging();
+        // optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
+        // optionsBuilder.EnableSensitiveDataLogging();
         base.OnConfiguring(optionsBuilder);
     }
 }

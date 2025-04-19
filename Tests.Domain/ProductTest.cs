@@ -2,11 +2,10 @@ namespace SimpleCleanArch.Tests.Domain;
 
 public class ProductTest
 {
-    private readonly Guid _id = Guid.NewGuid();
     private readonly DateTime _createdAt = DateTime.Now;
 
     private Product GetProduct(List<ProductVariantDto>? variants) => Product.Rebuild(
-        id: _id,
+        id: 1,
         createdAt: _createdAt,
         name: "my product",
         price: 10.6,
@@ -17,7 +16,7 @@ public class ProductTest
 
     private Product GetProductWithVariant()
         => GetProduct([new ProductVariantDto(
-                Id: _id,
+                Id: 1,
                 CreatedAt: _createdAt,
                 Color: Color.Blue,
                 Size: Size.Medium,
@@ -27,14 +26,14 @@ public class ProductTest
     private Product GetProductWithTwoVariants()
     {
         var variant1 = new ProductVariantDto(
-            Id: _id,
+            Id: 1,
             CreatedAt: _createdAt,
             Color: Color.Red,
             Size: Size.Small,
             Sku: "my_product-red-small"
         );
         var variant2 = new ProductVariantDto(
-            Id: Guid.NewGuid(),
+            Id: 1,
             CreatedAt: _createdAt,
             Color: Color.Green,
             Size: Size.Medium,
@@ -53,7 +52,7 @@ public class ProductTest
             Description = "description",
             Category = "category"
         };
-        Assert.IsType<Guid>(product.Id);
+        Assert.IsType<int>(product.Id);
         Assert.IsType<DateTime>(product.CreatedAt);
     }
 
@@ -74,11 +73,10 @@ public class ProductTest
     [Fact]
     public void RebuildProduct_Success()
     {
-        var id = Guid.NewGuid();
         var createdAt = DateTime.Now;
         var product = Product.Rebuild
         (
-            id: id,
+            id: 1,
             createdAt: createdAt,
             name: "product",
             price: 15.1,
@@ -86,7 +84,7 @@ public class ProductTest
             category: "category",
             []
         );
-        Assert.Equal(id, product.Id);
+        Assert.Equal(1, product.Id);
         Assert.Equal(createdAt, product.CreatedAt);
         Assert.Equal("product", product.Name);
         Assert.Equal(15.1, product.Price);
@@ -102,7 +100,7 @@ public class ProductTest
         var sku = "my_product-blue-medium";
         var variant = product.GetProductVariant(sku);
         Assert.NotNull(variant);
-        Assert.Equal(_id, variant.Id);
+        Assert.Equal(1, variant.Id);
         Assert.Equal(_createdAt, variant.CreatedAt);
         Assert.Equal(Color.Blue, variant.Color);
         Assert.Equal(Size.Medium, variant.Size);
@@ -121,7 +119,7 @@ public class ProductTest
         var sku = "my_product-red-small";
         var variant = product.GetProductVariant(sku);
         Assert.NotNull(variant);
-        Assert.IsType<Guid>(variant.Id);
+        Assert.IsType<int>(variant.Id);
         Assert.IsType<DateTime>(variant.CreatedAt);
         Assert.Equal(Color.Red, variant.Color);
         Assert.Equal(Size.Small, variant.Size);

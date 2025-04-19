@@ -12,11 +12,10 @@ public class CreateProduct(IProductRepository repository, IMailGateway mail) : I
     public async Task<CreateProductOutput> Execute(CreateProductInput input)
     {
         var product = input.GetEntity();
-        await _repository.Create(product);
-        await _repository.Commit();
+        var productId = await _repository.Create(product);
         await _mail.SendMail(new SendMailInput(
             "logs@mysystem.com", "Product Creation", $"Created product id {product.Id}."
         ));
-        return new() { ProductId = product.Id };
+        return new() { ProductId = productId };
     }
 }

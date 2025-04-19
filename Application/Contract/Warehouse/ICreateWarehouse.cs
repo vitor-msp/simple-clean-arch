@@ -40,5 +40,5 @@ public class CreateWarehouseInput
 
 public class CreateWarehouseOutput
 {
-    public Guid WarehouseId { get; set; }
+    public int WarehouseId { get; set; }
 }

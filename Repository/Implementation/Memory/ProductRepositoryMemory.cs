@@ -8,12 +8,13 @@ public class ProductRepositoryMemory : IProductRepository
 {
     private readonly List<IProduct> _products = [];
 
-    public Task<IProduct?> Get(Guid id)
+    public Task<IProduct?> Get(int id)
         => Task.FromResult(_products.Find(p => p.Id == id));
 
-    public async Task Create(IProduct product)
+    public async Task<int> Create(IProduct product)
     {
         _products.Add(product);
+        return 1;
     }
 
     public async Task Update(IProduct product)

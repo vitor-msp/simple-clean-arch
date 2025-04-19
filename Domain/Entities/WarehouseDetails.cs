@@ -4,14 +4,13 @@ namespace SimpleCleanArch.Domain.Entities;
 
 public class WarehouseDetails : IWarehouseDetails
 {
-    public Guid Id { get; }
+    public int Id { get; }
     public DateTime CreatedAt { get; }
     public required IWarehouse Warehouse { get; init; }
     public string? City { get; set; }
 
     public WarehouseDetails()
     {
-        Id = Guid.NewGuid();
         CreatedAt = DateTime.Now;
     }
 

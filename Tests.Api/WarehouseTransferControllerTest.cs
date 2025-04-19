@@ -22,45 +22,41 @@ public class WarehouseTransferControllerTest
     public async Task CreateWarehouseTransfer_Success()
     {
         var (controller, context) = MakeSut();
-        var sourceWarehouseId = Guid.NewGuid();
-        var targetWarehouseId = Guid.NewGuid();
-        var productId = Guid.NewGuid();
         await context.Warehouses.AddAsync(new WarehouseSchema()
         {
-            Id = sourceWarehouseId,
+            Id = 1,
             CreatedAt = DateTime.UtcNow,
             Name = "warehouse 1",
             Details = new WarehouseDetailsSchema()
             {
-                Id = Guid.NewGuid(),
                 CreatedAt = DateTime.Now,
                 City = "belo horizonte"
             }
         });
         await context.Warehouses.AddAsync(new WarehouseSchema()
         {
-            Id = targetWarehouseId,
+            Id = 2,
             CreatedAt = DateTime.UtcNow,
             Name = "warehouse 2",
             Details = new WarehouseDetailsSchema()
             {
-                Id = Guid.NewGuid(),
                 CreatedAt = DateTime.Now,
                 City = "belo horizonte"
             }
         });
         await context.Products.AddAsync(new ProductSchema()
         {
-            Id = productId,
+            Id = 1,
             CreatedAt = DateTime.UtcNow,
             Name = "my-product",
             Price = 10
         });
+        await context.SaveChangesAsync();
         var input = new CreateWarehouseTransferInput()
         {
-            SourceWarehouseId = sourceWarehouseId,
-            TargetWarehouseId = targetWarehouseId,
-            ProductId = productId,
+            SourceWarehouseId = 1,
+            TargetWarehouseId = 2,
+            ProductId = 1,
             ProductQuantity = 2,
         };
         var output = await controller.Post(input);
@@ -69,9 +65,9 @@ public class WarehouseTransferControllerTest
         Assert.NotEqual(default, outputContent.WarehouseTransferId);
         var warehouseTransferSchema = await context.WarehouseTransfers.FindAsync(outputContent.WarehouseTransferId);
         Assert.NotNull(warehouseTransferSchema);
-        Assert.Equal(sourceWarehouseId, warehouseTransferSchema.SourceWarehouseId);
-        Assert.Equal(targetWarehouseId, warehouseTransferSchema.TargetWarehouseId);
-        Assert.Equal(productId, warehouseTransferSchema.ProductId);
+        Assert.Equal(1, warehouseTransferSchema.SourceWarehouseId);
+        Assert.Equal(2, warehouseTransferSchema.TargetWarehouseId);
+        Assert.Equal(1, warehouseTransferSchema.ProductId);
         Assert.Equal(2, warehouseTransferSchema.ProductQuantity);
     }
 }

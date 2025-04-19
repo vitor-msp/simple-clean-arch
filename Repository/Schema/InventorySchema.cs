@@ -8,10 +8,10 @@ namespace SimpleCleanArch.Repository.Schema;
 public class InventorySchema : BaseSchema<IInventory, IInventory>
 {
     [Column("warehouse_id")]
-    public Guid WarehouseId { get; set; }
+    public int WarehouseId { get; set; }
 
     [Column("product_id")]
-    public Guid ProductId { get; set; }
+    public int ProductId { get; set; }
 
     [Column("quantity")]
     public int Quantity { get; set; }

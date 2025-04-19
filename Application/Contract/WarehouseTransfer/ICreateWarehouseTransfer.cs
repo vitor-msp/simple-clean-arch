@@ -12,13 +12,13 @@ public interface ICreateWarehouseTransfer
 public class CreateWarehouseTransferInput
 {
     [Required(ErrorMessage = "source warehouse id is required")]
-    public Guid SourceWarehouseId { get; set; }
+    public int SourceWarehouseId { get; set; }
 
     [Required(ErrorMessage = "target warehouse id is required")]
-    public Guid TargetWarehouseId { get; set; }
+    public int TargetWarehouseId { get; set; }
 
     [Required(ErrorMessage = "product id is required")]
-    public Guid ProductId { get; set; }
+    public int ProductId { get; set; }
 
     [Required(ErrorMessage = "product quantity is required")]
     public int ProductQuantity { get; set; }
@@ -35,5 +35,5 @@ public class CreateWarehouseTransferInput
 
 public class CreateWarehouseTransferOutput
 {
-    public required Guid WarehouseTransferId { get; init; }
+    public required int WarehouseTransferId { get; init; }
 }

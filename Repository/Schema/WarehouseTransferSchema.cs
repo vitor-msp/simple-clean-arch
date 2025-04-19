@@ -8,13 +8,13 @@ namespace SimpleCleanArch.Repository.Schema;
 public class WarehouseTransferSchema : BaseSchema<IWarehouseTransfer, IWarehouseTransfer>
 {
     [Column("source_warehouse_id")]
-    public Guid SourceWarehouseId { get; set; }
+    public int SourceWarehouseId { get; set; }
 
     [Column("target_warehouse_id")]
-    public Guid TargetWarehouseId { get; set; }
+    public int TargetWarehouseId { get; set; }
 
     [Column("product_id")]
-    public Guid ProductId { get; set; }
+    public int ProductId { get; set; }
 
     [Column("product_quantity")]
     public int ProductQuantity { get; set; }
