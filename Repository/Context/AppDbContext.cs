@@ -9,6 +9,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<ProductSchema> Products { get; set; }
     public DbSet<WarehouseSchema> Warehouses { get; set; }
     public DbSet<WarehouseTransferSchema> WarehouseTransfers { get; set; }
+    public DbSet<InventorySchema> Inventories { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

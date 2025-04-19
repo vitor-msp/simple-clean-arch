@@ -9,12 +9,12 @@ public class WarehouseTransferControllerTest
         var contextOptions = new DbContextOptionsBuilder<AppDbContext>().UseSqlite(connection).Options;
         var context = new AppDbContext(contextOptions);
         context.Database.EnsureCreatedAsync();
-        var createWarehouse = new CreateWarehouseTransfer(
+        var createWarehouseTransfer = new CreateWarehouseTransfer(
             new WarehouseTransferRepositorySqlite(context),
             new ProductRepositorySqlite(context),
             new WarehouseRepositorySqlite(context)
         );
-        var controller = new WarehouseTransferController(createWarehouse);
+        var controller = new WarehouseTransferController(createWarehouseTransfer);
         return (controller, context);
     }
 

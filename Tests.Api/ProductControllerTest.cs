@@ -1,5 +1,3 @@
-using SimpleCleanArch.Domain.Contract.Infra;
-
 namespace SimpleCleanArch.Tests.Api;
 
 public class ProductControllerTest

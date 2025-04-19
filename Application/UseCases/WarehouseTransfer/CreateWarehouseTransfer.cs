@@ -5,12 +5,12 @@ using SimpleCleanArch.Domain.Contract.Repository;
 namespace SimpleCleanArch.Application;
 
 public class CreateWarehouseTransfer(
-    IWarehouseTransferRepository repository,
+    IWarehouseTransferRepository warehouseTransferRepository,
     IProductRepository productRepository,
     IWarehouseRepository warehouseRepository
 ) : ICreateWarehouseTransfer
 {
-    private readonly IWarehouseTransferRepository _warehouseTransferRepository = repository;
+    private readonly IWarehouseTransferRepository _warehouseTransferRepository = warehouseTransferRepository;
     private readonly IProductRepository _productRepository = productRepository;
     private readonly IWarehouseRepository _warehouseRepository = warehouseRepository;
 
