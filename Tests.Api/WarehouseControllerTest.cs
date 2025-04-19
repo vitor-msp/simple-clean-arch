@@ -1,14 +1,10 @@
 namespace SimpleCleanArch.Tests.Api;
 
-public class WarehouseControllerTest
+public class WarehouseControllerTest : BaseControllerTest
 {
-    private static (WarehouseController controller, AppDbContext context) MakeSut()
+    private async Task<(WarehouseController controller, AppDbContext context)> MakeSut()
     {
-        var connection = new SqliteConnection("Filename=:memory:");
-        connection.Open();
-        var contextOptions = new DbContextOptionsBuilder<AppDbContext>().UseSqlite(connection).Options;
-        var context = new AppDbContext(contextOptions);
-        context.Database.EnsureCreatedAsync();
+        var context = await CreateContext();
         var repository = new WarehouseRepositorySqlite(context);
         var createWarehouse = new CreateWarehouse(repository);
         var deleteWarehouse = new DeleteWarehouse(repository);
@@ -17,10 +13,9 @@ public class WarehouseControllerTest
         return (controller, context);
     }
 
-    private static WarehouseSchema GetWarehouseSchema(int id)
+    private static WarehouseSchema GetWarehouseSchema()
         => new()
         {
-            Id = id,
             CreatedAt = DateTime.Now,
             Name = "my-warehouse",
             Description = "my warehouse",
@@ -34,6 +29,7 @@ public class WarehouseControllerTest
     [Fact]
     public async Task PostWarehouse_Success()
     {
+        var (controller, context) = await MakeSut();
         var input = new CreateWarehouseInput()
         {
             Name = "my-warehouse",
@@ -43,7 +39,6 @@ public class WarehouseControllerTest
                 City = "belo horizonte"
             }
         };
-        var (controller, context) = MakeSut();
         var output = await controller.Post(input);
         var outputResult = Assert.IsType<CreatedAtRouteResult>(output.Result);
         var outputContent = Assert.IsType<CreateWarehouseOutput>(outputResult.Value);
@@ -61,23 +56,21 @@ public class WarehouseControllerTest
     [Fact]
     public async Task DeleteWarehouse_Success()
     {
-        var warehouseId = 1;
-        var warehouseSchema = GetWarehouseSchema(warehouseId);
-        var (controller, context) = MakeSut();
+        var (controller, context) = await MakeSut();
+        var warehouseSchema = GetWarehouseSchema();
         await context.Warehouses.AddAsync(warehouseSchema);
         await context.SaveChangesAsync();
-        var output = await controller.Delete(warehouseId);
+        var output = await controller.Delete(warehouseSchema.Id);
         Assert.IsType<NoContentResult>(output);
-        var deletedWarehouseSchema = await context.Warehouses.FindAsync(warehouseId);
+        var deletedWarehouseSchema = await context.Warehouses.FindAsync(warehouseSchema.Id);
         Assert.Null(deletedWarehouseSchema);
     }
 
     [Fact]
     public async Task UpdateWarehouse_Success()
     {
-        var warehouseId = 1;
-        var warehouseSchema = GetWarehouseSchema(warehouseId);
-        var (controller, context) = MakeSut();
+        var (controller, context) = await MakeSut();
+        var warehouseSchema = GetWarehouseSchema();
         await context.Warehouses.AddAsync(warehouseSchema);
         await context.SaveChangesAsync();
         var input = new UpdateWarehouseInput()
@@ -88,9 +81,9 @@ public class WarehouseControllerTest
                 City = "sao paulo"
             }
         };
-        var output = await controller.Patch(warehouseId, input);
+        var output = await controller.Patch(warehouseSchema.Id, input);
         Assert.IsType<NoContentResult>(output);
-        warehouseSchema = await context.Warehouses.FindAsync(warehouseId);
+        warehouseSchema = await context.Warehouses.FindAsync(warehouseSchema.Id);
         Assert.NotNull(warehouseSchema);
         Assert.NotEqual(default, warehouseSchema.CreatedAt);
         Assert.Equal("my-warehouse", warehouseSchema.Name);

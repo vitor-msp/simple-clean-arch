@@ -14,7 +14,7 @@ public class CreateProduct(IProductRepository repository, IMailGateway mail) : I
         var product = input.GetEntity();
         var productId = await _repository.Create(product);
         await _mail.SendMail(new SendMailInput(
-            "logs@mysystem.com", "Product Creation", $"Created product id {product.Id}."
+            "logs@mysystem.com", "Product Creation", $"Created product id {productId}."
         ));
         return new() { ProductId = productId };
     }

@@ -11,9 +11,9 @@ public class CreateWarehouse(IWarehouseRepository repository) : ICreateWarehouse
     public async Task<CreateWarehouseOutput> Execute(CreateWarehouseInput input)
     {
         var savedWarehouse = await _repository.GetByName(input.Name);
-        var warehouse = input.GetEntity();
         if (savedWarehouse is not null)
-            throw new ConflictException($"Warehouse with name {warehouse.Name} already exists.");
+            throw new ConflictException($"Warehouse with name {input.Name} already exists.");
+        var warehouse = input.GetEntity();
         var warehouseId = await _repository.Create(warehouse);
         return new() { WarehouseId = warehouseId };
     }

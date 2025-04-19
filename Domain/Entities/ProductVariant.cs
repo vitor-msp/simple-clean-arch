@@ -15,6 +15,7 @@ public class ProductVariant : IProductVariant
 
     public ProductVariant()
     {
+        Id = default;
         CreatedAt = DateTime.Now;
     }
 

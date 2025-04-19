@@ -36,6 +36,7 @@ public class Product : IProduct
 
     public Product()
     {
+        Id = default;
         CreatedAt = DateTime.Now;
     }
 

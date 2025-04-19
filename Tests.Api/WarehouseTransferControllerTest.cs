@@ -1,14 +1,10 @@
 namespace SimpleCleanArch.Tests.Api;
 
-public class WarehouseTransferControllerTest
+public class WarehouseTransferControllerTest : BaseControllerTest
 {
-    private static (WarehouseTransferController controller, AppDbContext context) MakeSut()
+    private async Task<(WarehouseTransferController controller, AppDbContext context)> MakeSut()
     {
-        var connection = new SqliteConnection("Filename=:memory:");
-        connection.Open();
-        var contextOptions = new DbContextOptionsBuilder<AppDbContext>().UseSqlite(connection).Options;
-        var context = new AppDbContext(contextOptions);
-        context.Database.EnsureCreatedAsync();
+        var context = await CreateContext();
         var createWarehouseTransfer = new CreateWarehouseTransfer(
             new WarehouseTransferRepositorySqlite(context),
             new ProductRepositorySqlite(context),
@@ -19,12 +15,11 @@ public class WarehouseTransferControllerTest
     }
 
     [Fact]
-    public async Task CreateWarehouseTransfer_Success()
+    public async Task PostWarehouseTransfer_Success()
     {
-        var (controller, context) = MakeSut();
-        await context.Warehouses.AddAsync(new WarehouseSchema()
+        var (controller, context) = await MakeSut();
+        var warehouse1 = new WarehouseSchema()
         {
-            Id = 1,
             CreatedAt = DateTime.UtcNow,
             Name = "warehouse 1",
             Details = new WarehouseDetailsSchema()
@@ -32,10 +27,9 @@ public class WarehouseTransferControllerTest
                 CreatedAt = DateTime.Now,
                 City = "belo horizonte"
             }
-        });
-        await context.Warehouses.AddAsync(new WarehouseSchema()
+        };
+        var warehouse2 = new WarehouseSchema()
         {
-            Id = 2,
             CreatedAt = DateTime.UtcNow,
             Name = "warehouse 2",
             Details = new WarehouseDetailsSchema()
@@ -43,20 +37,22 @@ public class WarehouseTransferControllerTest
                 CreatedAt = DateTime.Now,
                 City = "belo horizonte"
             }
-        });
-        await context.Products.AddAsync(new ProductSchema()
+        };
+        var product = new ProductSchema()
         {
-            Id = 1,
             CreatedAt = DateTime.UtcNow,
             Name = "my-product",
             Price = 10
-        });
+        };
+        await context.Warehouses.AddAsync(warehouse1);
+        await context.Warehouses.AddAsync(warehouse2);
+        await context.Products.AddAsync(product);
         await context.SaveChangesAsync();
         var input = new CreateWarehouseTransferInput()
         {
-            SourceWarehouseId = 1,
-            TargetWarehouseId = 2,
-            ProductId = 1,
+            SourceWarehouseId = warehouse1.Id,
+            TargetWarehouseId = warehouse2.Id,
+            ProductId = product.Id,
             ProductQuantity = 2,
         };
         var output = await controller.Post(input);
@@ -65,9 +61,9 @@ public class WarehouseTransferControllerTest
         Assert.NotEqual(default, outputContent.WarehouseTransferId);
         var warehouseTransferSchema = await context.WarehouseTransfers.FindAsync(outputContent.WarehouseTransferId);
         Assert.NotNull(warehouseTransferSchema);
-        Assert.Equal(1, warehouseTransferSchema.SourceWarehouseId);
-        Assert.Equal(2, warehouseTransferSchema.TargetWarehouseId);
-        Assert.Equal(1, warehouseTransferSchema.ProductId);
+        Assert.Equal(warehouse1.Id, warehouseTransferSchema.SourceWarehouseId);
+        Assert.Equal(warehouse2.Id, warehouseTransferSchema.TargetWarehouseId);
+        Assert.Equal(product.Id, warehouseTransferSchema.ProductId);
         Assert.Equal(2, warehouseTransferSchema.ProductQuantity);
     }
 }

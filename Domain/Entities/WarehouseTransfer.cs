@@ -13,6 +13,7 @@ public class WarehouseTransfer : IWarehouseTransfer
 
     public WarehouseTransfer()
     {
+        Id = default;
         CreatedAt = DateTime.Now;
     }
 

@@ -9,6 +9,12 @@ public class WarehouseDetailsSchema : BaseSchema<IWarehouseDetails, WarehouseDet
     [Column("city")]
     public string? City { get; set; }
 
+    [Column("warehouse_id")]
+    [ForeignKey("Warehouse")]
+    public int WarehouseId { get; set; }
+
+    public WarehouseSchema Warehouse { get; set; }
+
     public WarehouseDetailsSchema() { }
 
     public WarehouseDetailsSchema(IWarehouseDetails details)

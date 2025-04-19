@@ -12,6 +12,7 @@ public class Inventory : IInventory
 
     public Inventory()
     {
+        Id = default;
         CreatedAt = DateTime.Now;
     }
 

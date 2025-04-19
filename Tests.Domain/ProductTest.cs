@@ -33,7 +33,7 @@ public class ProductTest
             Sku: "my_product-red-small"
         );
         var variant2 = new ProductVariantDto(
-            Id: 1,
+            Id: 2,
             CreatedAt: _createdAt,
             Color: Color.Green,
             Size: Size.Medium,
@@ -135,8 +135,7 @@ public class ProductTest
             Color: Color.Red,
             Size: Size.Small
         ));
-        var variants = product.ProductVariants;
-        Assert.Equal(2, variants.Count);
+        Assert.Equal(2, product.ProductVariants.Count);
     }
 
     [Fact]

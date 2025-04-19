@@ -11,6 +11,7 @@ public class WarehouseDetails : IWarehouseDetails
 
     public WarehouseDetails()
     {
+        Id = default;
         CreatedAt = DateTime.Now;
     }
 

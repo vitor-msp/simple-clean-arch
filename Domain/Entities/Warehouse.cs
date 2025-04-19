@@ -17,6 +17,7 @@ public class Warehouse : IWarehouse
 
     public Warehouse()
     {
+        Id = default;
         CreatedAt = DateTime.Now;
         _details = new WarehouseDetails() { Warehouse = this };
     }
