@@ -1,13 +1,22 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using SimpleCleanArch.Domain.Contract;
 using SimpleCleanArch.Domain.Entities;
 
 namespace SimpleCleanArch.Repository.Schema;
 
+[Table("warehouse_transfers")]
 public class WarehouseTransferSchema : BaseSchema<IWarehouseTransfer, IWarehouseTransfer>
 {
+    [Column("source_warehouse_id")]
     public Guid SourceWarehouseId { get; set; }
+
+    [Column("target_warehouse_id")]
     public Guid TargetWarehouseId { get; set; }
+
+    [Column("product_id")]
     public Guid ProductId { get; set; }
+
+    [Column("product_quantity")]
     public int ProductQuantity { get; set; }
 
     public WarehouseTransferSchema() { }

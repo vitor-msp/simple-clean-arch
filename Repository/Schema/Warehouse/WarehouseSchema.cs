@@ -1,12 +1,18 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using SimpleCleanArch.Domain.Contract;
 using SimpleCleanArch.Domain.Entities;
 
 namespace SimpleCleanArch.Repository.Schema;
 
+[Table("warehouses")]
 public class WarehouseSchema : BaseSchema<IWarehouse, IWarehouse>
 {
+    [Column("name")]
     public string Name { get; set; } = "";
+
+    [Column("description")]
     public string? Description { get; set; }
+
     public WarehouseDetailsSchema Details { get; set; }
 
     public WarehouseSchema() { }

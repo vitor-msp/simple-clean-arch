@@ -1,14 +1,24 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using SimpleCleanArch.Domain.Contract;
 using SimpleCleanArch.Domain.Entities;
 
 namespace SimpleCleanArch.Repository.Schema;
 
+[Table("products")]
 public class ProductSchema : BaseSchema<IProduct, IProduct>
 {
+    [Column("name")]
     public string Name { get; set; } = "";
+
+    [Column("price")]
     public double Price { get; set; }
+
+    [Column("description")]
     public string? Description { get; set; }
+
+    [Column("category")]
     public string? Category { get; set; }
+
     public List<ProductVariantSchema> ProductVariants { get; set; } = [];
 
     public ProductSchema() { }

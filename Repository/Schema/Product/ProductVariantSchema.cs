@@ -1,14 +1,24 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using SimpleCleanArch.Domain.ValueObjects;
 using SimpleCleanArch.Repository.Schema;
 
 namespace SimpleCleanArch.Domain.Contract;
 
+[Table("product_variants")]
 public class ProductVariantSchema : BaseSchema<IProductVariant, ProductVariantDto>
 {
+    [Column("sku")]
     public string? Sku { get; set; }
+
     public required ProductSchema Product { get; set; }
+
+    [Column("color")]
     public Color Color { get; set; }
+
+    [Column("size")]
     public Size Size { get; set; }
+
+    [Column("description")]
     public string? Description { get; set; }
 
     public ProductVariantSchema() { }
