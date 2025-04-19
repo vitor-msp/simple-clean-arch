@@ -5,8 +5,7 @@ namespace SimpleCleanArch.Repository.Schema;
 
 public abstract class BaseSchema<I, O>
 {
-    [Column("id")]
-    [Key]
+    [Key, Column("id")]
     public int Id { get; set; }
 
     [Column("created_at")]
