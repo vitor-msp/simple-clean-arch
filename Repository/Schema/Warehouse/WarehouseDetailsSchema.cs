@@ -2,7 +2,7 @@ using SimpleCleanArch.Domain.Contract;
 
 namespace SimpleCleanArch.Repository.Schema;
 
-public class WarehouseDetailsSchema : BaseSchema<WarehouseDetailsDto>
+public class WarehouseDetailsSchema : BaseSchema<IWarehouseDetails, WarehouseDetailsDto>
 {
     public string? City { get; set; }
 
@@ -13,7 +13,7 @@ public class WarehouseDetailsSchema : BaseSchema<WarehouseDetailsDto>
         Hydrate(details);
     }
 
-    public void Update(IWarehouseDetails details)
+    public override void Update(IWarehouseDetails details)
     {
         Hydrate(details);
     }

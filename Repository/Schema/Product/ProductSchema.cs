@@ -3,7 +3,7 @@ using SimpleCleanArch.Domain.Entities;
 
 namespace SimpleCleanArch.Repository.Schema;
 
-public class ProductSchema : BaseSchema<IProduct>
+public class ProductSchema : BaseSchema<IProduct, IProduct>
 {
     public string Name { get; set; } = "";
     public double Price { get; set; }
@@ -19,7 +19,7 @@ public class ProductSchema : BaseSchema<IProduct>
         CreateProductVariants(product);
     }
 
-    public void Update(IProduct product)
+    public override void Update(IProduct product)
     {
         Hydrate(product);
         var variants = product.ProductVariants;

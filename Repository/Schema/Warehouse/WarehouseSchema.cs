@@ -3,7 +3,7 @@ using SimpleCleanArch.Domain.Entities;
 
 namespace SimpleCleanArch.Repository.Schema;
 
-public class WarehouseSchema : BaseSchema<IWarehouse>
+public class WarehouseSchema : BaseSchema<IWarehouse, IWarehouse>
 {
     public string Name { get; set; } = "";
     public string? Description { get; set; }
@@ -17,7 +17,7 @@ public class WarehouseSchema : BaseSchema<IWarehouse>
         Details = new WarehouseDetailsSchema(warehouse.Details);
     }
 
-    public void Update(IWarehouse warehouse)
+    public override void Update(IWarehouse warehouse)
     {
         Hydrate(warehouse);
         Details.Update(warehouse.Details);

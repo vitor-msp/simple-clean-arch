@@ -1,7 +1,6 @@
 namespace SimpleCleanArch.Domain.Contract.Repository;
 
-public interface IWarehouseTransferRepository
+public interface IWarehouseTransferRepository: IBaseRepository
 {
     Task Create(IWarehouseTransfer warehouseTransfer);
-    Task Commit();
 }

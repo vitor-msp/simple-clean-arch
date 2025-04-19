@@ -3,7 +3,7 @@ using SimpleCleanArch.Domain.Entities;
 
 namespace SimpleCleanArch.Repository.Schema;
 
-public class WarehouseTransferSchema : BaseSchema<IWarehouseTransfer>
+public class WarehouseTransferSchema : BaseSchema<IWarehouseTransfer, IWarehouseTransfer>
 {
     public Guid SourceWarehouseId { get; set; }
     public Guid TargetWarehouseId { get; set; }
@@ -14,6 +14,19 @@ public class WarehouseTransferSchema : BaseSchema<IWarehouseTransfer>
 
     public WarehouseTransferSchema(IWarehouseTransfer warehouseTransfer)
     {
+        Hydrate(warehouseTransfer);
+    }
+
+    public override IWarehouseTransfer GetEntity()
+        => WarehouseTransfer.Rebuild(Id, CreatedAt, SourceWarehouseId, TargetWarehouseId, ProductId, ProductQuantity);
+
+    public override void Update(IWarehouseTransfer warehouseTransfer)
+    {
+        Hydrate(warehouseTransfer);
+    }
+
+    public void Hydrate(IWarehouseTransfer warehouseTransfer)
+    {
         Id = warehouseTransfer.Id;
         CreatedAt = warehouseTransfer.CreatedAt;
         SourceWarehouseId = warehouseTransfer.SourceWarehouseId;
@@ -21,7 +34,4 @@ public class WarehouseTransferSchema : BaseSchema<IWarehouseTransfer>
         ProductId = warehouseTransfer.ProductId;
         ProductQuantity = warehouseTransfer.ProductQuantity;
     }
-
-    public override IWarehouseTransfer GetEntity()
-        => WarehouseTransfer.Rebuild(Id, CreatedAt, SourceWarehouseId, TargetWarehouseId, ProductId, ProductQuantity);
 }

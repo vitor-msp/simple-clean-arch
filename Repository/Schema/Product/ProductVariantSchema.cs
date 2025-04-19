@@ -3,7 +3,7 @@ using SimpleCleanArch.Repository.Schema;
 
 namespace SimpleCleanArch.Domain.Contract;
 
-public class ProductVariantSchema : BaseSchema<ProductVariantDto>
+public class ProductVariantSchema : BaseSchema<IProductVariant, ProductVariantDto>
 {
     public string? Sku { get; set; }
     public required ProductSchema Product { get; set; }
@@ -18,7 +18,7 @@ public class ProductVariantSchema : BaseSchema<ProductVariantDto>
         Hydrate(variant);
     }
 
-    public void Update(IProductVariant variant)
+    public override void Update(IProductVariant variant)
     {
         Hydrate(variant);
     }
