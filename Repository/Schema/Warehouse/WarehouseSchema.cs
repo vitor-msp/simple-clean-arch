@@ -35,13 +35,12 @@ public class WarehouseSchema : BaseSchema, IUpdatableSchema<IWarehouse>, IRegene
     }
 
     public IWarehouse GetEntity()
-        => Warehouse.Rebuild(id: Id, createdAt: CreatedAt, name: Name,
+        => Warehouse.Rebuild(id: Id, name: Name,
             description: Description, details: Details.GetEntity());
 
     private void Hydrate(IWarehouse warehouse)
     {
         Id = warehouse.Id;
-        CreatedAt = warehouse.CreatedAt;
         Name = warehouse.Name;
         Description = warehouse.Description;
     }

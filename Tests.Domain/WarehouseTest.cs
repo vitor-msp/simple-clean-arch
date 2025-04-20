@@ -14,10 +14,8 @@ public class WarehouseTest
             name: "my-warehouse",
             description: "my description",
             id: 1,
-            createdAt: DateTime.Now,
             details: new WarehouseDetailsDto(
-                City: "belo horizonte",
-                CreatedAt: DateTime.Now
+                City: "belo horizonte"
             )
         );
 
@@ -29,7 +27,6 @@ public class WarehouseTest
             Name = "my-warehouse",
             Description = "my description",
         };
-        Assert.NotEqual(default, warehouse.CreatedAt);
         Assert.Null(warehouse.Details.City);
         Assert.Equal(warehouse, warehouse.Details.Warehouse);
     }
@@ -37,22 +34,17 @@ public class WarehouseTest
     [Fact]
     public void RebuildWarehouse_Success()
     {
-        var createdAt = DateTime.Now;
         var warehouse = Warehouse.Rebuild(
             name: "my-warehouse",
             description: "my description",
             id: 1,
-            createdAt: createdAt,
             details: new WarehouseDetailsDto(
-                City: "belo horizonte",
-                CreatedAt: createdAt
+                City: "belo horizonte"
             )
         );
         Assert.Equal(1, warehouse.Id);
-        Assert.Equal(createdAt, warehouse.CreatedAt);
         Assert.Equal("my-warehouse", warehouse.Name);
         Assert.Equal("my description", warehouse.Description);
-        Assert.Equal(createdAt, warehouse.Details.CreatedAt);
         Assert.Equal("belo horizonte", warehouse.Details.City);
         Assert.Equal(warehouse, warehouse.Details.Warehouse);
     }

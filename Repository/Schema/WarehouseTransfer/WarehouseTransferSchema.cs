@@ -37,12 +37,11 @@ public class WarehouseTransferSchema : BaseSchema, IRegenerableSchema<IWarehouse
     }
 
     public IWarehouseTransfer GetEntity()
-        => WarehouseTransfer.Rebuild(Id, CreatedAt, SourceWarehouseId, TargetWarehouseId, ProductId, Details.ProductQuantity);
+        => WarehouseTransfer.Rebuild(Id, SourceWarehouseId, TargetWarehouseId, ProductId, Details.ProductQuantity);
 
     private void Hydrate(IWarehouseTransfer warehouseTransfer)
     {
         Id = warehouseTransfer.Id;
-        CreatedAt = warehouseTransfer.CreatedAt;
         SourceWarehouseId = warehouseTransfer.SourceWarehouseId;
         TargetWarehouseId = warehouseTransfer.TargetWarehouseId;
         ProductId = warehouseTransfer.ProductId;

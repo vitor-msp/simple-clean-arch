@@ -5,7 +5,6 @@ namespace SimpleCleanArch.Domain.Entities;
 public class Product : IProduct
 {
     public int Id { get; }
-    public DateTime CreatedAt { get; }
     public required string Name { get; init; }
     private double _price;
     public required double Price
@@ -37,21 +36,19 @@ public class Product : IProduct
     public Product()
     {
         Id = default;
-        CreatedAt = DateTime.Now;
     }
 
-    private Product(int id, DateTime createdAt, List<ProductVariantDto> variants)
+    private Product(int id, List<ProductVariantDto> variants)
     {
         Id = id;
-        CreatedAt = createdAt;
         _productVariants = variants.Select(
             variant => ProductVariant.Rebuild(variant: variant, product: this))
         .ToList();
     }
 
-    public static Product Rebuild(int id, DateTime createdAt, string name,
+    public static Product Rebuild(int id, string name,
         double price, string? description, string? category, List<ProductVariantDto> variants)
-        => new(id, createdAt, variants)
+        => new(id, variants)
         {
             Name = name,
             Price = price,

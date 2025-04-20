@@ -47,11 +47,10 @@ public class ProductVariantSchema : BaseSchema, IUpdatableSchema<IProductVariant
     {
         Id = variant.Id;
         Sku = variant.Sku;
-        CreatedAt = variant.CreatedAt;
         Color = variant.Color;
         Size = variant.Size;
         Description = variant.Description;
     }
 
-    public ProductVariantDto GetEntity() => new(Id, CreatedAt, Color, Size, Description, Sku);
+    public ProductVariantDto GetEntity() => new(Id, Color, Size, Description, Sku);
 }

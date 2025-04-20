@@ -2,11 +2,8 @@ namespace SimpleCleanArch.Tests.Domain;
 
 public class ProductTest
 {
-    private readonly DateTime _createdAt = DateTime.Now;
-
     private Product GetProduct(List<ProductVariantDto>? variants) => Product.Rebuild(
         id: 1,
-        createdAt: _createdAt,
         name: "my product",
         price: 10.6,
         description: "my product description",
@@ -17,7 +14,6 @@ public class ProductTest
     private Product GetProductWithVariant()
         => GetProduct([new ProductVariantDto(
                 Id: 1,
-                CreatedAt: _createdAt,
                 Color: Color.Blue,
                 Size: Size.Medium,
                 Sku: "my_product-blue-medium"
@@ -27,14 +23,12 @@ public class ProductTest
     {
         var variant1 = new ProductVariantDto(
             Id: 1,
-            CreatedAt: _createdAt,
             Color: Color.Red,
             Size: Size.Small,
             Sku: "my_product-red-small"
         );
         var variant2 = new ProductVariantDto(
             Id: 2,
-            CreatedAt: _createdAt,
             Color: Color.Green,
             Size: Size.Medium,
             Sku: "my_product-green-medium"
@@ -53,7 +47,6 @@ public class ProductTest
             Category = "category"
         };
         Assert.IsType<int>(product.Id);
-        Assert.IsType<DateTime>(product.CreatedAt);
     }
 
     [Fact]
@@ -73,19 +66,16 @@ public class ProductTest
     [Fact]
     public void RebuildProduct_Success()
     {
-        var createdAt = DateTime.Now;
         var product = Product.Rebuild
         (
             id: 1,
-            createdAt: createdAt,
             name: "product",
             price: 15.1,
             description: "description",
             category: "category",
-            []
+            variants: []
         );
         Assert.Equal(1, product.Id);
-        Assert.Equal(createdAt, product.CreatedAt);
         Assert.Equal("product", product.Name);
         Assert.Equal(15.1, product.Price);
         Assert.Equal("description", product.Description);
@@ -101,7 +91,6 @@ public class ProductTest
         var variant = product.GetProductVariant(sku);
         Assert.NotNull(variant);
         Assert.Equal(1, variant.Id);
-        Assert.Equal(_createdAt, variant.CreatedAt);
         Assert.Equal(Color.Blue, variant.Color);
         Assert.Equal(Size.Medium, variant.Size);
         Assert.Equal(product, variant.Product);
@@ -120,7 +109,6 @@ public class ProductTest
         var variant = product.GetProductVariant(sku);
         Assert.NotNull(variant);
         Assert.IsType<int>(variant.Id);
-        Assert.IsType<DateTime>(variant.CreatedAt);
         Assert.Equal(Color.Red, variant.Color);
         Assert.Equal(Size.Small, variant.Size);
         Assert.Equal(product, variant.Product);

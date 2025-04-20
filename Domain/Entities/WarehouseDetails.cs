@@ -4,22 +4,13 @@ namespace SimpleCleanArch.Domain.Entities;
 
 public class WarehouseDetails : IWarehouseDetails
 {
-    public DateTime CreatedAt { get; }
     public required IWarehouse Warehouse { get; init; }
     public string? City { get; set; }
 
-    public WarehouseDetails()
-    {
-        CreatedAt = DateTime.Now;
-    }
-
-    private WarehouseDetails(WarehouseDetailsDto details)
-    {
-        CreatedAt = details.CreatedAt ?? throw new Exception("Cannot rebuild WarehouseDetails without CreatedAt."); ;
-    }
+    public WarehouseDetails() { }
 
     public static IWarehouseDetails Rebuild(WarehouseDetailsDto details, IWarehouse warehouse)
-        => new WarehouseDetails(details)
+        => new WarehouseDetails()
         {
             City = details.City,
             Warehouse = warehouse,
@@ -27,7 +18,7 @@ public class WarehouseDetails : IWarehouseDetails
 
     public object Clone()
         => Rebuild(
-            details: new WarehouseDetailsDto(CreatedAt: CreatedAt, City: City),
+            details: new WarehouseDetailsDto(City: City),
             warehouse: Warehouse
         );
 }

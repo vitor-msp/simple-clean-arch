@@ -28,11 +28,10 @@ public class WarehouseDetailsSchema : BaseSchema, IUpdatableSchema<IWarehouseDet
         base.Update();
     }
 
-    public WarehouseDetailsDto GetEntity() => new(CreatedAt: CreatedAt, City: City);
+    public WarehouseDetailsDto GetEntity() => new(City: City);
 
     private void Hydrate(IWarehouseDetails details)
     {
-        CreatedAt = details.CreatedAt;
         City = details.City;
     }
 }

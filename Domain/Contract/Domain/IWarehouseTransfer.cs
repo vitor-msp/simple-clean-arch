@@ -3,7 +3,6 @@ namespace SimpleCleanArch.Domain.Contract;
 public interface IWarehouseTransfer
 {
     public int Id { get; }
-    public DateTime CreatedAt { get; }
     public int SourceWarehouseId { get; init; }
     public int TargetWarehouseId { get; init; }
     public int ProductId { get; init; }

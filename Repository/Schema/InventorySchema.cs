@@ -30,11 +30,10 @@ public class InventorySchema : BaseSchema, IRegenerableSchema<IInventory>
     }
 
     public IInventory GetEntity()
-        => Inventory.Rebuild(CreatedAt, WarehouseId, ProductId, Quantity);
+        => Inventory.Rebuild(WarehouseId, ProductId, Quantity);
 
     private void Hydrate(IInventory inventory)
     {
-        CreatedAt = inventory.CreatedAt;
         WarehouseId = inventory.WarehouseId;
         ProductId = inventory.ProductId;
         Quantity = inventory.Quantity;

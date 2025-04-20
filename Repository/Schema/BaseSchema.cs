@@ -10,8 +10,13 @@ public abstract class BaseSchema
     [Column("updated_at")]
     public DateTime UpdatedAt { get; set; }
 
-    public void Update()
+    protected BaseSchema()
     {
-        UpdatedAt = DateTime.Now;
+        CreatedAt = DateTime.UtcNow;
+    }
+
+    protected void Update()
+    {
+        UpdatedAt = DateTime.UtcNow;
     }
 }

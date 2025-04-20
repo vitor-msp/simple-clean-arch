@@ -48,13 +48,12 @@ public class ProductSchema : BaseSchema, IUpdatableSchema<IProduct>, IRegenerabl
     {
         var variants = new List<ProductVariantDto>();
         ProductVariants.ForEach(variantSchema => variants.Add(variantSchema.GetEntity()));
-        return Product.Rebuild(Id, CreatedAt, Name, Price, Description, Category, variants);
+        return Product.Rebuild(Id, Name, Price, Description, Category, variants);
     }
 
     private void Hydrate(IProduct product)
     {
         Id = product.Id;
-        CreatedAt = product.CreatedAt;
         Name = product.Name;
         Price = product.Price;
         Description = product.Description;

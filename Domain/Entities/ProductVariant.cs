@@ -6,7 +6,6 @@ namespace SimpleCleanArch.Domain.Entities;
 public class ProductVariant : IProductVariant
 {
     public int Id { get; }
-    public DateTime CreatedAt { get; }
     public required Color Color { get; init; }
     public required Size Size { get; init; }
     public required IProduct Product { get; init; }
@@ -16,13 +15,11 @@ public class ProductVariant : IProductVariant
     public ProductVariant()
     {
         Id = default;
-        CreatedAt = DateTime.Now;
     }
 
     private ProductVariant(ProductVariantDto variant)
     {
         Id = variant.Id ?? throw new Exception("Cannot create ProductVariant without Id.");
-        CreatedAt = variant.CreatedAt ?? throw new Exception("Cannot create ProductVariant without CreatedAt.");
     }
 
     public static IProductVariant Rebuild(ProductVariantDto variant, IProduct product)
@@ -37,7 +34,7 @@ public class ProductVariant : IProductVariant
 
     public object Clone()
         => Rebuild(
-            variant: new ProductVariantDto(Id, CreatedAt, Color, Size, Description, Sku),
+            variant: new ProductVariantDto(Id, Color, Size, Description, Sku),
             product: Product
         );
 
