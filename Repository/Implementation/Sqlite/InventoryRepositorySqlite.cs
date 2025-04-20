@@ -9,11 +9,10 @@ public class InventoryRepositorySqlite(AppDbContext database) : BaseRepositorySq
 {
     private readonly AppDbContext _database = database;
 
-    public async Task<int> Create(IInventory inventory)
+    public async Task Create(IInventory inventory)
     {
         var schema = new InventorySchema(inventory);
         await _database.Inventories.AddAsync(schema);
         await Commit();
-        return schema.Id;
     }
 }

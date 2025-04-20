@@ -46,8 +46,10 @@ public class InventoryControllerTest : BaseControllerTest
         var output = await controller.Post(input);
         var outputResult = Assert.IsType<CreatedAtRouteResult>(output.Result);
         var outputContent = Assert.IsType<CreateInventoryOutput>(outputResult.Value);
-        Assert.NotEqual(default, outputContent.InventoryId);
-        var inventorySchema = await context.Inventories.FindAsync(outputContent.InventoryId);
+        Assert.NotNull(outputContent.InventoryId);
+        Assert.Equal(warehouse.Id, outputContent.InventoryId.WarehouseId);
+        Assert.Equal(product.Id, outputContent.InventoryId.ProductId);
+        var inventorySchema = await context.Inventories.FindAsync(outputContent.InventoryId.WarehouseId, outputContent.InventoryId.ProductId);
         Assert.NotNull(inventorySchema);
         Assert.Equal(warehouse.Id, inventorySchema.WarehouseId);
         Assert.Equal(product.Id, inventorySchema.ProductId);

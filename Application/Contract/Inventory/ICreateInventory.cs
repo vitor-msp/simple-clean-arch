@@ -31,5 +31,7 @@ public class CreateInventoryInput
 
 public class CreateInventoryOutput
 {
-    public required int InventoryId { get; init; }
+    public required InventoryIdModel InventoryId { get; init; }
+
+    public record InventoryIdModel(int WarehouseId, int ProductId);
 }

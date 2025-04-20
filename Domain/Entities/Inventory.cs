@@ -4,7 +4,6 @@ namespace SimpleCleanArch.Domain.Entities;
 
 public class Inventory : IInventory
 {
-    public int Id { get; }
     public DateTime CreatedAt { get; }
     public required int WarehouseId { get; init; }
     public required int ProductId { get; init; }
@@ -12,18 +11,16 @@ public class Inventory : IInventory
 
     public Inventory()
     {
-        Id = default;
         CreatedAt = DateTime.Now;
     }
 
-    private Inventory(int id, DateTime createdAt)
+    private Inventory(DateTime createdAt)
     {
-        Id = id;
         CreatedAt = createdAt;
     }
 
-    public static IInventory Rebuild(int id, DateTime createdAt, int warehouseId, int productId, int quantity)
-        => new Inventory(id, createdAt)
+    public static IInventory Rebuild(DateTime createdAt, int warehouseId, int productId, int quantity)
+        => new Inventory(createdAt)
         {
             WarehouseId = warehouseId,
             ProductId = productId,

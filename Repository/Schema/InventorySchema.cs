@@ -1,16 +1,14 @@
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 using SimpleCleanArch.Domain.Contract;
 using SimpleCleanArch.Domain.Entities;
 
 namespace SimpleCleanArch.Repository.Schema;
 
 [Table("inventories")]
+[PrimaryKey(nameof(WarehouseId), nameof(ProductId))]
 public class InventorySchema : BaseSchema<IInventory, IInventory>
 {
-    [Key, Column("id")]
-    public int Id { get; set; }
-
     [ForeignKey("Warehouse"), Column("warehouse_id")]
     public int WarehouseId { get; set; }
 
@@ -32,7 +30,7 @@ public class InventorySchema : BaseSchema<IInventory, IInventory>
     }
 
     public override IInventory GetEntity()
-        => Inventory.Rebuild(Id, CreatedAt, WarehouseId, ProductId, Quantity);
+        => Inventory.Rebuild(CreatedAt, WarehouseId, ProductId, Quantity);
 
     public override void Update(IInventory inventory)
     {
@@ -41,7 +39,6 @@ public class InventorySchema : BaseSchema<IInventory, IInventory>
 
     private void Hydrate(IInventory inventory)
     {
-        Id = inventory.Id;
         CreatedAt = inventory.CreatedAt;
         WarehouseId = inventory.WarehouseId;
         ProductId = inventory.ProductId;
