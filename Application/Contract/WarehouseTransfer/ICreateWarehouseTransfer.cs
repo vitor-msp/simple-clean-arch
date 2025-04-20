@@ -9,7 +9,7 @@ public interface ICreateWarehouseTransfer
     Task<CreateWarehouseTransferOutput> Execute(CreateWarehouseTransferInput input);
 }
 
-public class CreateWarehouseTransferInput
+public class CreateWarehouseTransferInput : IInputToCreate<IWarehouseTransfer>
 {
     [Required(ErrorMessage = "source warehouse id is required")]
     public int SourceWarehouseId { get; set; }

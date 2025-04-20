@@ -10,7 +10,7 @@ public interface ICreateProduct
     Task<CreateProductOutput> Execute(CreateProductInput input);
 }
 
-public class CreateProductInput
+public class CreateProductInput : IInputToCreate<IProduct>
 {
     [Required(ErrorMessage = "name is required")]
     [MinLength(3)]

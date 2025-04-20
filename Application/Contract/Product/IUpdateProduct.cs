@@ -9,7 +9,7 @@ public interface IUpdateProduct
     Task Execute(int id, UpdateProductInput input);
 }
 
-public class UpdateProductInput
+public class UpdateProductInput : IInputToUpdate<IProduct>
 {
     [Range(0.0, 100.0)]
     public double? Price { get; set; }

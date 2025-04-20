@@ -9,7 +9,7 @@ public interface ICreateInventory
     Task<CreateInventoryOutput> Execute(CreateInventoryInput input);
 }
 
-public class CreateInventoryInput
+public class CreateInventoryInput : IInputToCreate<IInventory>
 {
     [Required(ErrorMessage = "warehouse is required")]
     public int WarehouseId { get; set; }

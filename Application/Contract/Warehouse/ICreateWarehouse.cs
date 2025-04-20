@@ -9,7 +9,7 @@ public interface ICreateWarehouse
     Task<CreateWarehouseOutput> Execute(CreateWarehouseInput input);
 }
 
-public class CreateWarehouseInput
+public class CreateWarehouseInput : IInputToCreate<IWarehouse>
 {
     [Required(ErrorMessage = "name is required")]
     [MaxLength(20)]

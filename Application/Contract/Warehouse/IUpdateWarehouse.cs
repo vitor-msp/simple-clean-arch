@@ -8,7 +8,7 @@ public interface IUpdateWarehouse
     Task Execute(int id, UpdateWarehouseInput input);
 }
 
-public class UpdateWarehouseInput
+public class UpdateWarehouseInput : IInputToUpdate<IWarehouse>
 {
     [MaxLength(100)]
     public string? Description { get; set; }
@@ -21,10 +21,9 @@ public class UpdateWarehouseInput
         public string? City { get; set; }
     }
 
-    public IWarehouse Update(IWarehouse warehouse)
+    public void Update(IWarehouse warehouse)
     {
         warehouse.Description = Description;
         warehouse.UpdateDetails(new WarehouseDetailsDto(City: Details.City));
-        return warehouse;
     }
 }
