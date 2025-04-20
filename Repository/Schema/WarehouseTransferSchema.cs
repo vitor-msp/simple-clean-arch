@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using SimpleCleanArch.Domain.Contract;
 using SimpleCleanArch.Domain.Entities;
@@ -7,14 +8,23 @@ namespace SimpleCleanArch.Repository.Schema;
 [Table("warehouse_transfers")]
 public class WarehouseTransferSchema : BaseSchema<IWarehouseTransfer, IWarehouseTransfer>
 {
-    [Column("source_warehouse_id")]
+    [Key, Column("id")]
+    public int Id { get; set; }
+
+    [ForeignKey("SourceWarehouse"), Column("source_warehouse_id")]
     public int SourceWarehouseId { get; set; }
 
-    [Column("target_warehouse_id")]
+    public WarehouseSchema SourceWarehouse { get; set; }
+
+    [ForeignKey("TargetWarehouse"), Column("target_warehouse_id")]
     public int TargetWarehouseId { get; set; }
 
-    [Column("product_id")]
+    public WarehouseSchema TargetWarehouse { get; set; }
+
+    [ForeignKey("Product"), Column("product_id")]
     public int ProductId { get; set; }
+
+    public ProductSchema Product { get; set; }
 
     [Column("product_quantity")]
     public int ProductQuantity { get; set; }

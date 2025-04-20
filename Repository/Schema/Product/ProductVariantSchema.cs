@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using SimpleCleanArch.Domain.ValueObjects;
 using SimpleCleanArch.Repository.Schema;
@@ -7,6 +8,9 @@ namespace SimpleCleanArch.Domain.Contract;
 [Table("product_variants")]
 public class ProductVariantSchema : BaseSchema<IProductVariant, ProductVariantDto>
 {
+    [Key, Column("id")]
+    public int Id { get; set; }
+
     [Column("sku")]
     public string? Sku { get; set; }
 
@@ -21,6 +25,7 @@ public class ProductVariantSchema : BaseSchema<IProductVariant, ProductVariantDt
 
     [ForeignKey("Product"), Column("product_id")]
     public int ProductId { get; set; }
+
     public required ProductSchema Product { get; set; }
 
     public ProductVariantSchema() { }

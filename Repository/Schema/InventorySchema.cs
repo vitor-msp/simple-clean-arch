@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using SimpleCleanArch.Domain.Contract;
 using SimpleCleanArch.Domain.Entities;
@@ -7,11 +8,18 @@ namespace SimpleCleanArch.Repository.Schema;
 [Table("inventories")]
 public class InventorySchema : BaseSchema<IInventory, IInventory>
 {
-    [Column("warehouse_id")]
+    [Key, Column("id")]
+    public int Id { get; set; }
+
+    [ForeignKey("Warehouse"), Column("warehouse_id")]
     public int WarehouseId { get; set; }
 
-    [Column("product_id")]
+    public WarehouseSchema Warehouse { get; set; }
+
+    [ForeignKey("Product"), Column("product_id")]
     public int ProductId { get; set; }
+
+    public ProductSchema Product { get; set; }
 
     [Column("quantity")]
     public int Quantity { get; set; }

@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using SimpleCleanArch.Domain.Contract;
 
@@ -6,6 +7,9 @@ namespace SimpleCleanArch.Repository.Schema;
 [Table("warehouse_details")]
 public class WarehouseDetailsSchema : BaseSchema<IWarehouseDetails, WarehouseDetailsDto>
 {
+    [Key, Column("id")]
+    public int Id { get; set; }
+
     [Column("city")]
     public string? City { get; set; }
 
