@@ -1,11 +1,13 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 using SimpleCleanArch.Domain.ValueObjects;
 using SimpleCleanArch.Repository.Schema;
 
 namespace SimpleCleanArch.Domain.Contract;
 
 [Table("product_variants")]
+[Index(nameof(Sku), IsUnique = true)]
 public class ProductVariantSchema : BaseSchema<IProductVariant, ProductVariantDto>
 {
     [Key, Column("id")]

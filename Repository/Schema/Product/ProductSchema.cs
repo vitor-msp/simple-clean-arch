@@ -1,11 +1,13 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 using SimpleCleanArch.Domain.Contract;
 using SimpleCleanArch.Domain.Entities;
 
 namespace SimpleCleanArch.Repository.Schema;
 
 [Table("products")]
+[Index(nameof(Name), IsUnique = true)]
 public class ProductSchema : BaseSchema<IProduct, IProduct>
 {
     [Key, Column("id")]
