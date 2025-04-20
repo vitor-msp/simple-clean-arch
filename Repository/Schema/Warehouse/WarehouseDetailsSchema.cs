@@ -25,6 +25,7 @@ public class WarehouseDetailsSchema : BaseSchema<IWarehouseDetails, WarehouseDet
     public override void Update(IWarehouseDetails details)
     {
         Hydrate(details);
+        base.Update(details);
     }
 
     public override WarehouseDetailsDto GetEntity() => new(CreatedAt: CreatedAt, City: City);

@@ -43,6 +43,7 @@ public class WarehouseTransferSchema : BaseSchema<IWarehouseTransfer, IWarehouse
     {
         Hydrate(warehouseTransfer);
         Details.Update(warehouseTransfer);
+        base.Update(warehouseTransfer);
     }
 
     private void Hydrate(IWarehouseTransfer warehouseTransfer)

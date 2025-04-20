@@ -41,6 +41,7 @@ public class ProductSchema : BaseSchema<IProduct, IProduct>
         var variants = product.ProductVariants;
         ProductVariants = EliminateDeletedProductVariants(variants);
         UpdateProductVariants(variants);
+        base.Update(product);
     }
 
     public override IProduct GetEntity()

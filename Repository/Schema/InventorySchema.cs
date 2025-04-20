@@ -35,6 +35,7 @@ public class InventorySchema : BaseSchema<IInventory, IInventory>
     public override void Update(IInventory inventory)
     {
         Hydrate(inventory);
+        base.Update(inventory);
     }
 
     private void Hydrate(IInventory inventory)

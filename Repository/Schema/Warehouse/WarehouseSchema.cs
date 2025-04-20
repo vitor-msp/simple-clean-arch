@@ -31,6 +31,7 @@ public class WarehouseSchema : BaseSchema<IWarehouse, IWarehouse>
     {
         Hydrate(warehouse);
         Details.Update(warehouse.Details);
+        base.Update(warehouse);
     }
 
     public override IWarehouse GetEntity()

@@ -40,6 +40,7 @@ public class ProductVariantSchema : BaseSchema<IProductVariant, ProductVariantDt
     public override void Update(IProductVariant variant)
     {
         Hydrate(variant);
+        base.Update(variant);
     }
 
     private void Hydrate(IProductVariant variant)

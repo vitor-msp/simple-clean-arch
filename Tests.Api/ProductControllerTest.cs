@@ -49,14 +49,17 @@ public class ProductControllerTest : BaseControllerTest
         Assert.Equal("my product description", productSchema.Description);
         Assert.Equal("category", productSchema.Category);
         Assert.Equal(2, productSchema.ProductVariants.Count);
+        Assert.Equal(default, productSchema.UpdatedAt);
         var variantBlueLarge = productSchema.ProductVariants.Find(v => v.Sku == "my_product-blue-large");
         Assert.NotNull(variantBlueLarge);
         Assert.Equal(Color.Blue, variantBlueLarge.Color);
         Assert.Equal(Size.Large, variantBlueLarge.Size);
+        Assert.Equal(default, variantBlueLarge.UpdatedAt);
         var variantGreenMedium = productSchema.ProductVariants.Find(v => v.Sku == "my_product-green-medium");
         Assert.NotNull(variantGreenMedium);
         Assert.Equal(Color.Green, variantGreenMedium.Color);
         Assert.Equal(Size.Medium, variantGreenMedium.Size);
+        Assert.Equal(default, variantGreenMedium.UpdatedAt);
     }
 
     [Fact]
@@ -135,6 +138,7 @@ public class ProductControllerTest : BaseControllerTest
         Assert.Equal("new description", productSchema.Description);
         Assert.Equal("new category", productSchema.Category);
         Assert.Equal(2, productSchema.ProductVariants.Count);
+        Assert.NotEqual(default, productSchema.UpdatedAt);
         var variantRedSmall = productSchema.ProductVariants.Find(v => v.Sku == "my_product-red-small");
         Assert.Null(variantRedSmall);
         var variantGreenMedium = productSchema.ProductVariants.Find(v => v.Sku == "my_product-green-medium");
@@ -142,11 +146,13 @@ public class ProductControllerTest : BaseControllerTest
         Assert.Equal(Color.Green, variantGreenMedium.Color);
         Assert.Equal(Size.Medium, variantGreenMedium.Size);
         Assert.Equal("green medium new description", variantGreenMedium.Description);
+        Assert.NotEqual(default, variantGreenMedium.UpdatedAt);
         var variantBlueLarge = productSchema.ProductVariants.Find(v => v.Sku == "my_product-blue-large");
         Assert.NotNull(variantBlueLarge);
         Assert.Equal(Color.Blue, variantBlueLarge.Color);
         Assert.Equal(Size.Large, variantBlueLarge.Size);
         Assert.Equal("blue large description", variantBlueLarge.Description);
+        Assert.Equal(default, variantBlueLarge.UpdatedAt);
     }
 
     [Fact]

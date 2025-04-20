@@ -7,6 +7,13 @@ public abstract class BaseSchema<I, O>
     [Column("created_at")]
     public DateTime CreatedAt { get; set; }
 
-    public abstract void Update(I entity);
+    [Column("updated_at")]
+    public DateTime UpdatedAt { get; set; }
+
+    public virtual void Update(I entity)
+    {
+        UpdatedAt = DateTime.Now;
+    }
+
     public abstract O GetEntity();
 }
