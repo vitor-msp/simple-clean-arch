@@ -7,16 +7,13 @@ namespace SimpleCleanArch.Repository.Schema;
 [Table("warehouse_details")]
 public class WarehouseDetailsSchema : BaseSchema<IWarehouseDetails, WarehouseDetailsDto>
 {
-    [Key, Column("id")]
-    public int Id { get; set; }
-
-    [Column("city")]
-    public string? City { get; set; }
-
-    [ForeignKey("Warehouse"), Column("warehouse_id")]
+    [Key, ForeignKey("Warehouse"), Column("warehouse_id")]
     public int WarehouseId { get; set; }
 
     public WarehouseSchema Warehouse { get; set; }
+
+    [Column("city")]
+    public string? City { get; set; }
 
     public WarehouseDetailsSchema() { }
 
@@ -30,11 +27,10 @@ public class WarehouseDetailsSchema : BaseSchema<IWarehouseDetails, WarehouseDet
         Hydrate(details);
     }
 
-    public override WarehouseDetailsDto GetEntity() => new(Id: Id, CreatedAt: CreatedAt, City: City);
+    public override WarehouseDetailsDto GetEntity() => new(CreatedAt: CreatedAt, City: City);
 
     private void Hydrate(IWarehouseDetails details)
     {
-        Id = details.Id;
         CreatedAt = details.CreatedAt;
         City = details.City;
     }

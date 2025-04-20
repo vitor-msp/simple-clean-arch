@@ -17,7 +17,6 @@ public class WarehouseTest
             createdAt: DateTime.Now,
             details: new WarehouseDetailsDto(
                 City: "belo horizonte",
-                Id: 1,
                 CreatedAt: DateTime.Now
             )
         );
@@ -46,7 +45,6 @@ public class WarehouseTest
             createdAt: createdAt,
             details: new WarehouseDetailsDto(
                 City: "belo horizonte",
-                Id: 1,
                 CreatedAt: createdAt
             )
         );
@@ -54,7 +52,6 @@ public class WarehouseTest
         Assert.Equal(createdAt, warehouse.CreatedAt);
         Assert.Equal("my-warehouse", warehouse.Name);
         Assert.Equal("my description", warehouse.Description);
-        Assert.Equal(1, warehouse.Details.Id);
         Assert.Equal(createdAt, warehouse.Details.CreatedAt);
         Assert.Equal("belo horizonte", warehouse.Details.City);
         Assert.Equal(warehouse, warehouse.Details.Warehouse);

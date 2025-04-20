@@ -48,7 +48,6 @@ public class WarehouseControllerTest : BaseControllerTest
         Assert.NotEqual(default, warehouseSchema.CreatedAt);
         Assert.Equal("my-warehouse", warehouseSchema.Name);
         Assert.Equal("my warehouse description", warehouseSchema.Description);
-        Assert.NotEqual(default, warehouseSchema.Details.Id);
         Assert.NotEqual(default, warehouseSchema.Details.CreatedAt);
         Assert.Equal("belo horizonte", warehouseSchema.Details.City);
     }
@@ -88,7 +87,6 @@ public class WarehouseControllerTest : BaseControllerTest
         Assert.NotEqual(default, warehouseSchema.CreatedAt);
         Assert.Equal("my-warehouse", warehouseSchema.Name);
         Assert.Equal("my warehouse description edited", warehouseSchema.Description);
-        Assert.NotEqual(default, warehouseSchema.Details.Id);
         Assert.NotEqual(default, warehouseSchema.Details.CreatedAt);
         Assert.Equal("sao paulo", warehouseSchema.Details.City);
     }
