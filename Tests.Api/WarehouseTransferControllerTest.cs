@@ -64,6 +64,6 @@ public class WarehouseTransferControllerTest : BaseControllerTest
         Assert.Equal(warehouse1.Id, warehouseTransferSchema.SourceWarehouseId);
         Assert.Equal(warehouse2.Id, warehouseTransferSchema.TargetWarehouseId);
         Assert.Equal(product.Id, warehouseTransferSchema.ProductId);
-        Assert.Equal(2, warehouseTransferSchema.ProductQuantity);
+        Assert.Equal(2, warehouseTransferSchema.Details.ProductQuantity);
     }
 }

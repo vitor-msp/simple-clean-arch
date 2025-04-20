@@ -26,31 +26,31 @@ public class WarehouseTransferSchema : BaseSchema<IWarehouseTransfer, IWarehouse
 
     public ProductSchema Product { get; set; }
 
-    [Column("product_quantity")]
-    public int ProductQuantity { get; set; }
+    public WarehouseTransferDetailsSchema Details { get; set; }
 
     public WarehouseTransferSchema() { }
 
     public WarehouseTransferSchema(IWarehouseTransfer warehouseTransfer)
     {
         Hydrate(warehouseTransfer);
+        Details = new WarehouseTransferDetailsSchema(warehouseTransfer);
     }
 
     public override IWarehouseTransfer GetEntity()
-        => WarehouseTransfer.Rebuild(Id, CreatedAt, SourceWarehouseId, TargetWarehouseId, ProductId, ProductQuantity);
+        => WarehouseTransfer.Rebuild(Id, CreatedAt, SourceWarehouseId, TargetWarehouseId, ProductId, Details.ProductQuantity);
 
     public override void Update(IWarehouseTransfer warehouseTransfer)
     {
         Hydrate(warehouseTransfer);
+        Details.Update(warehouseTransfer);
     }
 
-    public void Hydrate(IWarehouseTransfer warehouseTransfer)
+    private void Hydrate(IWarehouseTransfer warehouseTransfer)
     {
         Id = warehouseTransfer.Id;
         CreatedAt = warehouseTransfer.CreatedAt;
         SourceWarehouseId = warehouseTransfer.SourceWarehouseId;
         TargetWarehouseId = warehouseTransfer.TargetWarehouseId;
         ProductId = warehouseTransfer.ProductId;
-        ProductQuantity = warehouseTransfer.ProductQuantity;
     }
 }
