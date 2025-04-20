@@ -6,7 +6,7 @@ using SimpleCleanArch.Domain.Entities;
 namespace SimpleCleanArch.Repository.Schema;
 
 [Table("warehouses")]
-public class WarehouseSchema : BaseSchema<IWarehouse, IWarehouse>
+public class WarehouseSchema : BaseSchema, IUpdatableSchema<IWarehouse>, IRegenerableSchema<IWarehouse>
 {
     [Key, Column("id")]
     public int Id { get; set; }
@@ -27,14 +27,14 @@ public class WarehouseSchema : BaseSchema<IWarehouse, IWarehouse>
         Details = new WarehouseDetailsSchema(warehouse.Details);
     }
 
-    public override void Update(IWarehouse warehouse)
+    public void Update(IWarehouse warehouse)
     {
         Hydrate(warehouse);
         Details.Update(warehouse.Details);
-        base.Update(warehouse);
+        base.Update();
     }
 
-    public override IWarehouse GetEntity()
+    public IWarehouse GetEntity()
         => Warehouse.Rebuild(id: Id, createdAt: CreatedAt, name: Name,
             description: Description, details: Details.GetEntity());
 

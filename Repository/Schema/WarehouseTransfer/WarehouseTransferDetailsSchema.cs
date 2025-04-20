@@ -5,7 +5,7 @@ using SimpleCleanArch.Domain.Contract;
 namespace SimpleCleanArch.Repository.Schema;
 
 [Table("warehouse_transfer_details")]
-public class WarehouseTransferDetailsSchema
+public class WarehouseTransferDetailsSchema : BaseSchema
 {
     [Key, ForeignKey("WarehouseTransfer"), Column("warehouse_transfer_id")]
     public int WarehouseTransferId { get; set; }
@@ -18,11 +18,6 @@ public class WarehouseTransferDetailsSchema
     public WarehouseTransferDetailsSchema() { }
 
     public WarehouseTransferDetailsSchema(IWarehouseTransfer warehouseTransfer)
-    {
-        Hydrate(warehouseTransfer);
-    }
-
-    public void Update(IWarehouseTransfer warehouseTransfer)
     {
         Hydrate(warehouseTransfer);
     }

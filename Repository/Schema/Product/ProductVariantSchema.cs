@@ -8,7 +8,7 @@ namespace SimpleCleanArch.Domain.Contract;
 
 [Table("product_variants")]
 [Index(nameof(Sku), IsUnique = true)]
-public class ProductVariantSchema : BaseSchema<IProductVariant, ProductVariantDto>
+public class ProductVariantSchema : BaseSchema, IUpdatableSchema<IProductVariant>, IRegenerableSchema<ProductVariantDto>
 {
     [Key, Column("id")]
     public int Id { get; set; }
@@ -37,10 +37,10 @@ public class ProductVariantSchema : BaseSchema<IProductVariant, ProductVariantDt
         Hydrate(variant);
     }
 
-    public override void Update(IProductVariant variant)
+    public void Update(IProductVariant variant)
     {
         Hydrate(variant);
-        base.Update(variant);
+        base.Update();
     }
 
     private void Hydrate(IProductVariant variant)
@@ -53,5 +53,5 @@ public class ProductVariantSchema : BaseSchema<IProductVariant, ProductVariantDt
         Description = variant.Description;
     }
 
-    public override ProductVariantDto GetEntity() => new(Id, CreatedAt, Color, Size, Description, Sku);
+    public ProductVariantDto GetEntity() => new(Id, CreatedAt, Color, Size, Description, Sku);
 }

@@ -5,7 +5,7 @@ using SimpleCleanArch.Domain.Contract;
 namespace SimpleCleanArch.Repository.Schema;
 
 [Table("warehouse_details")]
-public class WarehouseDetailsSchema : BaseSchema<IWarehouseDetails, WarehouseDetailsDto>
+public class WarehouseDetailsSchema : BaseSchema, IUpdatableSchema<IWarehouseDetails>, IRegenerableSchema<WarehouseDetailsDto>
 {
     [Key, ForeignKey("Warehouse"), Column("warehouse_id")]
     public int WarehouseId { get; set; }
@@ -22,13 +22,13 @@ public class WarehouseDetailsSchema : BaseSchema<IWarehouseDetails, WarehouseDet
         Hydrate(details);
     }
 
-    public override void Update(IWarehouseDetails details)
+    public void Update(IWarehouseDetails details)
     {
         Hydrate(details);
-        base.Update(details);
+        base.Update();
     }
 
-    public override WarehouseDetailsDto GetEntity() => new(CreatedAt: CreatedAt, City: City);
+    public WarehouseDetailsDto GetEntity() => new(CreatedAt: CreatedAt, City: City);
 
     private void Hydrate(IWarehouseDetails details)
     {

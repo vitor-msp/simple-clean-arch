@@ -7,7 +7,7 @@ namespace SimpleCleanArch.Repository.Schema;
 
 [Table("inventories")]
 [PrimaryKey(nameof(WarehouseId), nameof(ProductId))]
-public class InventorySchema : BaseSchema<IInventory, IInventory>
+public class InventorySchema : BaseSchema, IRegenerableSchema<IInventory>
 {
     [ForeignKey("Warehouse"), Column("warehouse_id")]
     public int WarehouseId { get; set; }
@@ -29,14 +29,8 @@ public class InventorySchema : BaseSchema<IInventory, IInventory>
         Hydrate(inventory);
     }
 
-    public override IInventory GetEntity()
+    public IInventory GetEntity()
         => Inventory.Rebuild(CreatedAt, WarehouseId, ProductId, Quantity);
-
-    public override void Update(IInventory inventory)
-    {
-        Hydrate(inventory);
-        base.Update(inventory);
-    }
 
     private void Hydrate(IInventory inventory)
     {

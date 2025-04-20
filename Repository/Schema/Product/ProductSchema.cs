@@ -8,7 +8,7 @@ namespace SimpleCleanArch.Repository.Schema;
 
 [Table("products")]
 [Index(nameof(Name), IsUnique = true)]
-public class ProductSchema : BaseSchema<IProduct, IProduct>
+public class ProductSchema : BaseSchema, IUpdatableSchema<IProduct>, IRegenerableSchema<IProduct>
 {
     [Key, Column("id")]
     public int Id { get; set; }
@@ -35,16 +35,16 @@ public class ProductSchema : BaseSchema<IProduct, IProduct>
         CreateProductVariants(product);
     }
 
-    public override void Update(IProduct product)
+    public void Update(IProduct product)
     {
         Hydrate(product);
         var variants = product.ProductVariants;
         ProductVariants = EliminateDeletedProductVariants(variants);
         UpdateProductVariants(variants);
-        base.Update(product);
+        base.Update();
     }
 
-    public override IProduct GetEntity()
+    public IProduct GetEntity()
     {
         var variants = new List<ProductVariantDto>();
         ProductVariants.ForEach(variantSchema => variants.Add(variantSchema.GetEntity()));

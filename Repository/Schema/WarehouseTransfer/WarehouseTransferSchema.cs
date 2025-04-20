@@ -6,7 +6,7 @@ using SimpleCleanArch.Domain.Entities;
 namespace SimpleCleanArch.Repository.Schema;
 
 [Table("warehouse_transfers")]
-public class WarehouseTransferSchema : BaseSchema<IWarehouseTransfer, IWarehouseTransfer>
+public class WarehouseTransferSchema : BaseSchema, IRegenerableSchema<IWarehouseTransfer>
 {
     [Key, Column("id")]
     public int Id { get; set; }
@@ -36,15 +36,8 @@ public class WarehouseTransferSchema : BaseSchema<IWarehouseTransfer, IWarehouse
         Details = new WarehouseTransferDetailsSchema(warehouseTransfer);
     }
 
-    public override IWarehouseTransfer GetEntity()
+    public IWarehouseTransfer GetEntity()
         => WarehouseTransfer.Rebuild(Id, CreatedAt, SourceWarehouseId, TargetWarehouseId, ProductId, Details.ProductQuantity);
-
-    public override void Update(IWarehouseTransfer warehouseTransfer)
-    {
-        Hydrate(warehouseTransfer);
-        Details.Update(warehouseTransfer);
-        base.Update(warehouseTransfer);
-    }
 
     private void Hydrate(IWarehouseTransfer warehouseTransfer)
     {

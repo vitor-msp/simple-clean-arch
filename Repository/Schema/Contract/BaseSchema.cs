@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SimpleCleanArch.Repository.Schema;
 
-public abstract class BaseSchema<I, O>
+public abstract class BaseSchema
 {
     [Column("created_at")]
     public DateTime CreatedAt { get; set; }
@@ -10,10 +10,8 @@ public abstract class BaseSchema<I, O>
     [Column("updated_at")]
     public DateTime UpdatedAt { get; set; }
 
-    public virtual void Update(I entity)
+    public void Update()
     {
         UpdatedAt = DateTime.Now;
     }
-
-    public abstract O GetEntity();
 }
