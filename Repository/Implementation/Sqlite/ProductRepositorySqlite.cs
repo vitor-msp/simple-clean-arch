@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using SimpleCleanArch.Domain.Contract;
 using SimpleCleanArch.Domain.Contract.Repository;
 using SimpleCleanArch.Repository.Context;
@@ -9,9 +10,18 @@ public class ProductRepositorySqlite(AppDbContext database) : BaseRepositorySqli
 {
     private readonly AppDbContext _database = database;
 
-    public async Task<IProduct?> Get(int id)
+    public async Task<IProduct?> GetById(int id)
     {
-        var productSchema = await _database.Products.FindAsync(id);
+        var productSchema = await _database.Products
+            .Include("ProductVariants").FirstOrDefaultAsync(product => product.Id == id);
+        if (productSchema is null) return null;
+        return productSchema.GetEntity();
+    }
+
+    public async Task<IProduct?> GetByName(string name)
+    {
+        var productSchema = await _database.Products
+            .Include("ProductVariants").FirstOrDefaultAsync(product => product.Name.Equals(name));
         if (productSchema is null) return null;
         return productSchema.GetEntity();
     }

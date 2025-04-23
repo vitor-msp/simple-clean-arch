@@ -83,4 +83,7 @@ public class WarehouseController(
             return StatusCode(StatusCodes.Status500InternalServerError, output);
         }
     }
+
+    [HttpGet(Name = "GetWarehouse")]
+    public void GetFake(int id) => NoContent();
 }

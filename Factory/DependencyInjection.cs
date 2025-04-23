@@ -24,8 +24,16 @@ public static class DependencyInjection
         services.AddScoped<ICreateProduct, CreateProduct>();
         services.AddScoped<IUpdateProduct, UpdateProduct>();
         services.AddScoped<IDeleteProduct, DeleteProduct>();
+        services.AddScoped<ICreateWarehouse, CreateWarehouse>();
+        services.AddScoped<IUpdateWarehouse, UpdateWarehouse>();
+        services.AddScoped<IDeleteWarehouse, DeleteWarehouse>();
+        services.AddScoped<ICreateWarehouseTransfer, CreateWarehouseTransfer>();
+        services.AddScoped<ICreateInventory, CreateInventory>();
 
         services.AddScoped<IProductRepository, ProductRepositorySqlite>();
+        services.AddScoped<IWarehouseRepository, WarehouseRepositorySqlite>();
+        services.AddScoped<IWarehouseTransferRepository, WarehouseTransferRepositorySqlite>();
+        services.AddScoped<IInventoryRepository, InventoryRepositorySqlite>();
 
         services.AddScoped<IMailGateway, MailGateway>();
     }

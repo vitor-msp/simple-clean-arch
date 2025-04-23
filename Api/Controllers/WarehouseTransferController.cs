@@ -38,4 +38,7 @@ public class WarehouseTransferController(
             return StatusCode(StatusCodes.Status500InternalServerError, output);
         }
     }
+
+    [HttpGet(Name = "GetWarehouseTransfer")]
+    public void GetFake(int id) => NoContent();
 }

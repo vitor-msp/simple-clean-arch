@@ -1,5 +1,6 @@
 using System.Text.Json;
 using SimpleCleanArch.Application.Contract;
+using SimpleCleanArch.Application.Exceptions;
 using SimpleCleanArch.Domain.Contract.Infra;
 using SimpleCleanArch.Domain.Contract.Repository;
 
@@ -12,8 +13,8 @@ public class DeleteProduct(IProductRepository repository, IMailGateway mail) : I
 
     public async Task Execute(int id)
     {
-        var product = await _repository.Get(id)
-            ?? throw new Exception($"Product id {id} not found.");
+        var product = await _repository.GetById(id)
+            ?? throw new NotFoundException($"Product id {id} not found.");
         await _mail.SendMail(new SendMailInput(
             "logs@mysystem.com", "Product Deletion", JsonSerializer.Serialize(product)
         ));

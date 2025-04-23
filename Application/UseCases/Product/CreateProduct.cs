@@ -1,4 +1,5 @@
 using SimpleCleanArch.Application.Contract;
+using SimpleCleanArch.Application.Exceptions;
 using SimpleCleanArch.Domain.Contract.Infra;
 using SimpleCleanArch.Domain.Contract.Repository;
 
@@ -11,6 +12,9 @@ public class CreateProduct(IProductRepository repository, IMailGateway mail) : I
 
     public async Task<CreateProductOutput> Execute(CreateProductInput input)
     {
+        var savedProduct = await _repository.GetByName(input.Name);
+        if (savedProduct is not null)
+            throw new ConflictException($"Product with name {input.Name} already exists.");
         var product = input.GetEntity();
         var productId = await _repository.Create(product);
         await _mail.SendMail(new SendMailInput(

@@ -40,8 +40,10 @@ public class UpdateProductInput : IInputToUpdate<IProduct>
     {
         if (Price is not null)
             product.Price = (double)Price;
-        product.Description = Description;
-        product.Category = Category;
+        if (Description is not null)
+            product.Description = Description;
+        if (Category is not null)
+            product.Category = Category;
         if (ProductVariants.Count < 0) return;
         var newVariants = ProductVariants.Select(variant
             => new ProductVariantDto(

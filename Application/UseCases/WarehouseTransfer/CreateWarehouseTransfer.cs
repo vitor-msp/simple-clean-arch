@@ -16,7 +16,7 @@ public class CreateWarehouseTransfer(
 
     public async Task<CreateWarehouseTransferOutput> Execute(CreateWarehouseTransferInput input)
     {
-        var product = await _productRepository.Get(input.ProductId)
+        var product = await _productRepository.GetById(input.ProductId)
             ?? throw new NotFoundException($"Product id {input.ProductId} not found.");
         var sourceWarehouse = await _warehouseRepository.GetById(input.SourceWarehouseId)
             ?? throw new NotFoundException($"Warehouse id {input.SourceWarehouseId} not found.");

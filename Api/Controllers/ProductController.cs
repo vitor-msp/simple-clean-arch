@@ -30,6 +30,11 @@ public class ProductController(
             var output = ErrorPresenter.GenerateJson(error.Message);
             return UnprocessableEntity(output);
         }
+        catch (ConflictException error)
+        {
+            var output = ErrorPresenter.GenerateJson(error.Message);
+            return Conflict(output);
+        }
         catch (Exception error)
         {
             var output = ErrorPresenter.GenerateJson(error.Message);
@@ -76,4 +81,7 @@ public class ProductController(
             return StatusCode(StatusCodes.Status500InternalServerError, output);
         }
     }
+
+    [HttpGet(Name = "GetProduct")]
+    public void GetFake(int id) => NoContent();
 }

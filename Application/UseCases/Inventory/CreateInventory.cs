@@ -16,7 +16,7 @@ public class CreateInventory(
 
     public async Task<CreateInventoryOutput> Execute(CreateInventoryInput input)
     {
-        var product = await _productRepository.Get(input.ProductId)
+        var product = await _productRepository.GetById(input.ProductId)
             ?? throw new NotFoundException($"Product id {input.ProductId} not found.");
         var warehouse = await _warehouseRepository.GetById(input.WarehouseId)
             ?? throw new NotFoundException($"Warehouse id {input.WarehouseId} not found.");

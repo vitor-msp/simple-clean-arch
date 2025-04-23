@@ -12,14 +12,16 @@ public class WarehouseRepositorySqlite(AppDbContext database) : BaseRepositorySq
 
     public async Task<IWarehouse?> GetById(int id)
     {
-        var warehouseSchema = await _database.Warehouses.FindAsync(id);
+        var warehouseSchema = await _database.Warehouses.Include("Details")
+            .FirstOrDefaultAsync(warehouse => warehouse.Id == id);
         if (warehouseSchema is null) return null;
         return warehouseSchema.GetEntity();
     }
 
     public async Task<IWarehouse?> GetByName(string name)
     {
-        var warehouseSchema = await _database.Warehouses.FirstOrDefaultAsync(warehouse => warehouse.Name.Equals(name));
+        var warehouseSchema = await _database.Warehouses.Include("Details")
+            .FirstOrDefaultAsync(warehouse => warehouse.Name.Equals(name));
         if (warehouseSchema is null) return null;
         return warehouseSchema.GetEntity();
     }

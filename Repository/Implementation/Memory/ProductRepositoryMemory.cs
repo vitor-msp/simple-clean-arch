@@ -8,8 +8,11 @@ public class ProductRepositoryMemory : IProductRepository
 {
     private readonly List<IProduct> _products = [];
 
-    public Task<IProduct?> Get(int id)
+    public Task<IProduct?> GetById(int id)
         => Task.FromResult(_products.Find(p => p.Id == id));
+
+    public Task<IProduct?> GetByName(string name)
+        => Task.FromResult(_products.Find(p => p.Name.Equals(name)));
 
     public async Task<int> Create(IProduct product)
     {

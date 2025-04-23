@@ -38,4 +38,7 @@ public class InventoryController(
             return StatusCode(StatusCodes.Status500InternalServerError, output);
         }
     }
+
+    [HttpGet(Name = "GetInventory")]
+    public void GetFake(int id) => NoContent();
 }
