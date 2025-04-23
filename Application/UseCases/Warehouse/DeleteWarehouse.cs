@@ -2,7 +2,7 @@ using System.Text.Json;
 using SimpleCleanArch.Application.Contract;
 using SimpleCleanArch.Domain.Contract.Repository;
 
-namespace SimpleCleanArch.Application;
+namespace SimpleCleanArch.Application.UseCases;
 
 public class DeleteWarehouse(IWarehouseRepository repository) : IDeleteWarehouse
 {

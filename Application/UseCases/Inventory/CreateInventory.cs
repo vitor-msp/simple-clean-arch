@@ -2,7 +2,7 @@ using SimpleCleanArch.Application.Contract;
 using SimpleCleanArch.Application.Exceptions;
 using SimpleCleanArch.Domain.Contract.Repository;
 
-namespace SimpleCleanArch.Application;
+namespace SimpleCleanArch.Application.UseCases;
 
 public class CreateInventory(
     IInventoryRepository inventoryRepository,

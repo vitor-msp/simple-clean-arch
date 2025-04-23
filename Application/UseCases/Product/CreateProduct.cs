@@ -3,7 +3,7 @@ using SimpleCleanArch.Application.Exceptions;
 using SimpleCleanArch.Domain.Contract.Infra;
 using SimpleCleanArch.Domain.Contract.Repository;
 
-namespace SimpleCleanArch.Application;
+namespace SimpleCleanArch.Application.UseCases;
 
 public class CreateProduct(IProductRepository repository, IMailGateway mail) : ICreateProduct
 {

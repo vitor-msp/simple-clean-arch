@@ -1,10 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using SimpleCleanArch.Domain.Contract;
 using SimpleCleanArch.Domain.ValueObjects;
-using SimpleCleanArch.Repository.Schema;
 
-namespace SimpleCleanArch.Domain.Contract;
+namespace SimpleCleanArch.Repository.Schema;
 
 [Table("product_variants")]
 [Index(nameof(Sku), IsUnique = true)]

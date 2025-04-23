@@ -1,5 +1,3 @@
-using System.Data.Common;
-
 namespace SimpleCleanArch.Tests.Api;
 
 public abstract class BaseControllerTest : IDisposable

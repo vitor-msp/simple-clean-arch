@@ -7,7 +7,7 @@ using SimpleCleanArch.Repository.Context;
 using SimpleCleanArch.Domain.Contract.Repository;
 using SimpleCleanArch.Domain.Contract.Infra;
 using SimpleCleanArch.Repository.Implementation;
-using SimpleCleanArch.Application;
+using SimpleCleanArch.Application.UseCases;
 
 namespace SimpleCleanArch.Factory;
 
