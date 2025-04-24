@@ -12,6 +12,8 @@ public class AppDbContext : DbContext
     public DbSet<WarehouseSchema> Warehouses { get; set; }
     public DbSet<WarehouseTransferSchema> WarehouseTransfers { get; set; }
     public DbSet<InventorySchema> Inventories { get; set; }
+    public DbSet<ProjectSchema> Projects { get; set; }
+    public DbSet<EmployeeSchema> Employees { get; set; }
 
     public AppDbContext() { }
 
@@ -30,5 +32,17 @@ public class AppDbContext : DbContext
         // optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
         // optionsBuilder.EnableSensitiveDataLogging();
         base.OnConfiguring(optionsBuilder);
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<EmployeeSchema>()
+            .HasMany(e => e.Projects)
+            .WithMany(p => p.Employees)
+            .UsingEntity(
+                "employees_projects",
+                r => r.HasOne(typeof(ProjectSchema)).WithMany().HasForeignKey("project_id"),
+                l => l.HasOne(typeof(EmployeeSchema)).WithMany().HasForeignKey("employee_id"));
+        base.OnModelCreating(modelBuilder);
     }
 }
