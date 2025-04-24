@@ -44,7 +44,7 @@ namespace Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("employees");
+                    b.ToTable("employees", (string)null);
                 });
 
             modelBuilder.Entity("SimpleCleanArch.Repository.Schema.InventorySchema", b =>
@@ -73,7 +73,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("inventories");
+                    b.ToTable("inventories", (string)null);
                 });
 
             modelBuilder.Entity("SimpleCleanArch.Repository.Schema.ProductSchema", b =>
@@ -113,7 +113,7 @@ namespace Repository.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("products");
+                    b.ToTable("products", (string)null);
                 });
 
             modelBuilder.Entity("SimpleCleanArch.Repository.Schema.ProductVariantSchema", b =>
@@ -158,7 +158,7 @@ namespace Repository.Migrations
                     b.HasIndex("Sku")
                         .IsUnique();
 
-                    b.ToTable("product_variants");
+                    b.ToTable("product_variants", (string)null);
                 });
 
             modelBuilder.Entity("SimpleCleanArch.Repository.Schema.ProjectSchema", b =>
@@ -183,7 +183,7 @@ namespace Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("projects");
+                    b.ToTable("projects", (string)null);
                 });
 
             modelBuilder.Entity("SimpleCleanArch.Repository.Schema.WarehouseDetailsSchema", b =>
@@ -206,7 +206,7 @@ namespace Repository.Migrations
 
                     b.HasKey("WarehouseId");
 
-                    b.ToTable("warehouse_details");
+                    b.ToTable("warehouse_details", (string)null);
                 });
 
             modelBuilder.Entity("SimpleCleanArch.Repository.Schema.WarehouseSchema", b =>
@@ -235,7 +235,7 @@ namespace Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("warehouses");
+                    b.ToTable("warehouses", (string)null);
                 });
 
             modelBuilder.Entity("SimpleCleanArch.Repository.Schema.WarehouseTransferDetailsSchema", b =>
@@ -258,7 +258,7 @@ namespace Repository.Migrations
 
                     b.HasKey("WarehouseTransferId");
 
-                    b.ToTable("warehouse_transfer_details");
+                    b.ToTable("warehouse_transfer_details", (string)null);
                 });
 
             modelBuilder.Entity("SimpleCleanArch.Repository.Schema.WarehouseTransferSchema", b =>
@@ -296,7 +296,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("TargetWarehouseId");
 
-                    b.ToTable("warehouse_transfers");
+                    b.ToTable("warehouse_transfers", (string)null);
                 });
 
             modelBuilder.Entity("employees_projects", b =>
@@ -311,7 +311,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("project_id");
 
-                    b.ToTable("employees_projects");
+                    b.ToTable("employees_projects", (string)null);
                 });
 
             modelBuilder.Entity("SimpleCleanArch.Repository.Schema.InventorySchema", b =>

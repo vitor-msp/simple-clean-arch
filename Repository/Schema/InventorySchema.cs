@@ -9,15 +9,11 @@ namespace SimpleCleanArch.Repository.Schema;
 [PrimaryKey(nameof(WarehouseId), nameof(ProductId))]
 public class InventorySchema : BaseSchema, IRegenerableSchema<IInventory>
 {
-    [ForeignKey("Warehouse"), Column("warehouse_id")]
+    [Column("warehouse_id")]
     public int WarehouseId { get; set; }
 
-    public WarehouseSchema? Warehouse { get; set; }
-
-    [ForeignKey("Product"), Column("product_id")]
+    [Column("product_id")]
     public int ProductId { get; set; }
-
-    public ProductSchema? Product { get; set; }
 
     [Column("quantity")]
     public int Quantity { get; set; }

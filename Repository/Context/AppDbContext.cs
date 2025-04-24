@@ -43,6 +43,15 @@ public class AppDbContext : DbContext
                 "employees_projects",
                 r => r.HasOne(typeof(ProjectSchema)).WithMany().HasForeignKey("project_id"),
                 l => l.HasOne(typeof(EmployeeSchema)).WithMany().HasForeignKey("employee_id"));
+
+        modelBuilder.Entity<ProductSchema>()
+            .HasMany(p => p.Warehouses)
+            .WithMany(w => w.Products)
+            .UsingEntity<InventorySchema>(
+                r => r.HasOne<WarehouseSchema>().WithMany().HasForeignKey(i => i.WarehouseId),
+                l => l.HasOne<ProductSchema>().WithMany().HasForeignKey(i => i.ProductId)
+            );
+
         base.OnModelCreating(modelBuilder);
     }
 }

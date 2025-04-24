@@ -27,6 +27,8 @@ public class ProductSchema : BaseSchema, IUpdatableSchema<IProduct>, IRegenerabl
 
     public List<ProductVariantSchema> ProductVariants { get; set; } = [];
 
+    public List<WarehouseSchema> Warehouses { get; set; } = [];
+
     public ProductSchema() { }
 
     public ProductSchema(IProduct product)

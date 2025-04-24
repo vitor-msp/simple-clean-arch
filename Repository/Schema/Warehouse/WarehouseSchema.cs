@@ -19,6 +19,8 @@ public class WarehouseSchema : BaseSchema, IUpdatableSchema<IWarehouse>, IRegene
 
     public WarehouseDetailsSchema? Details { get; set; }
 
+    public List<ProductSchema> Products { get; set; } = [];
+
     public WarehouseSchema() { }
 
     public WarehouseSchema(IWarehouse warehouse)
