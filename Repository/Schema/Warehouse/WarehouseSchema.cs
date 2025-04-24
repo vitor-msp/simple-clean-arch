@@ -17,26 +17,30 @@ public class WarehouseSchema : BaseSchema, IUpdatableSchema<IWarehouse>, IRegene
     [Column("description")]
     public string? Description { get; set; }
 
-    public WarehouseDetailsSchema Details { get; set; }
+    public WarehouseDetailsSchema? Details { get; set; }
 
     public WarehouseSchema() { }
 
     public WarehouseSchema(IWarehouse warehouse)
     {
         Hydrate(warehouse);
-        Details = new WarehouseDetailsSchema(warehouse.Details);
+        Details = new WarehouseDetailsSchema(warehouse.Details) { Warehouse = this };
     }
 
     public void Update(IWarehouse warehouse)
     {
         Hydrate(warehouse);
-        Details.Update(warehouse.Details);
+        Details?.Update(warehouse.Details);
         base.Update();
     }
 
     public IWarehouse GetEntity()
-        => Warehouse.Rebuild(id: Id, name: Name,
-            description: Description, details: Details.GetEntity());
+        => Warehouse.Rebuild(
+            id: Id,
+            name: Name,
+            description: Description,
+            details: Details?.GetEntity()
+                ?? throw new Exception("WarehouseSchema must contain Details to rebuild Warehouse."));
 
     private void Hydrate(IWarehouse warehouse)
     {

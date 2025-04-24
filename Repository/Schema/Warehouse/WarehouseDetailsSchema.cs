@@ -10,7 +10,7 @@ public class WarehouseDetailsSchema : BaseSchema, IUpdatableSchema<IWarehouseDet
     [Key, ForeignKey("Warehouse"), Column("warehouse_id")]
     public int WarehouseId { get; set; }
 
-    public WarehouseSchema Warehouse { get; set; }
+    public required WarehouseSchema Warehouse { get; set; }
 
     [Column("city")]
     public string? City { get; set; }

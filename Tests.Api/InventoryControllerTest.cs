@@ -22,11 +22,12 @@ public class InventoryControllerTest : BaseControllerTest
         {
             CreatedAt = DateTime.UtcNow,
             Name = "warehouse",
-            Details = new WarehouseDetailsSchema()
-            {
-                CreatedAt = DateTime.Now,
-                City = "belo horizonte"
-            }
+        };
+        warehouse.Details = new WarehouseDetailsSchema()
+        {
+            CreatedAt = DateTime.Now,
+            City = "belo horizonte",
+            Warehouse = warehouse,
         };
         var product = new ProductSchema()
         {

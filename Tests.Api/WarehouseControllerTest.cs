@@ -14,17 +14,21 @@ public class WarehouseControllerTest : BaseControllerTest
     }
 
     private static WarehouseSchema GetWarehouseSchema()
-        => new()
+    {
+        var warehouse = new WarehouseSchema()
         {
             CreatedAt = DateTime.Now,
             Name = "my-warehouse",
             Description = "my warehouse",
-            Details = new WarehouseDetailsSchema()
-            {
-                CreatedAt = DateTime.Now,
-                City = "belo horizonte",
-            }
         };
+        warehouse.Details = new WarehouseDetailsSchema()
+        {
+            CreatedAt = DateTime.Now,
+            City = "belo horizonte",
+            Warehouse = warehouse,
+        };
+        return warehouse;
+    }
 
     [Fact]
     public async Task PostWarehouse_Success()
@@ -48,6 +52,7 @@ public class WarehouseControllerTest : BaseControllerTest
         Assert.NotEqual(default, warehouseSchema.CreatedAt);
         Assert.Equal("my-warehouse", warehouseSchema.Name);
         Assert.Equal("my warehouse description", warehouseSchema.Description);
+        Assert.NotNull(warehouseSchema.Details);
         Assert.NotEqual(default, warehouseSchema.Details.CreatedAt);
         Assert.Equal("belo horizonte", warehouseSchema.Details.City);
     }
@@ -87,6 +92,7 @@ public class WarehouseControllerTest : BaseControllerTest
         Assert.NotEqual(default, warehouseSchema.CreatedAt);
         Assert.Equal("my-warehouse", warehouseSchema.Name);
         Assert.Equal("my warehouse description edited", warehouseSchema.Description);
+        Assert.NotNull(warehouseSchema.Details);
         Assert.NotEqual(default, warehouseSchema.Details.CreatedAt);
         Assert.Equal("sao paulo", warehouseSchema.Details.City);
     }

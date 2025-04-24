@@ -22,21 +22,23 @@ public class WarehouseTransferControllerTest : BaseControllerTest
         {
             CreatedAt = DateTime.UtcNow,
             Name = "warehouse 1",
-            Details = new WarehouseDetailsSchema()
-            {
-                CreatedAt = DateTime.Now,
-                City = "belo horizonte"
-            }
+        };
+        warehouse1.Details = new WarehouseDetailsSchema()
+        {
+            CreatedAt = DateTime.Now,
+            City = "belo horizonte",
+            Warehouse = warehouse1,
         };
         var warehouse2 = new WarehouseSchema()
         {
             CreatedAt = DateTime.UtcNow,
             Name = "warehouse 2",
-            Details = new WarehouseDetailsSchema()
-            {
-                CreatedAt = DateTime.Now,
-                City = "belo horizonte"
-            }
+        };
+        warehouse2.Details = new WarehouseDetailsSchema()
+        {
+            CreatedAt = DateTime.Now,
+            City = "belo horizonte",
+            Warehouse = warehouse2,
         };
         var product = new ProductSchema()
         {
@@ -64,6 +66,7 @@ public class WarehouseTransferControllerTest : BaseControllerTest
         Assert.Equal(warehouse1.Id, warehouseTransferSchema.SourceWarehouseId);
         Assert.Equal(warehouse2.Id, warehouseTransferSchema.TargetWarehouseId);
         Assert.Equal(product.Id, warehouseTransferSchema.ProductId);
+        Assert.NotNull(warehouseTransferSchema.Details);
         Assert.Equal(2, warehouseTransferSchema.Details.ProductQuantity);
     }
 }
