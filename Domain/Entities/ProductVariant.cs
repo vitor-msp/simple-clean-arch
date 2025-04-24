@@ -38,17 +38,16 @@ public class ProductVariant : IProductVariant
             product: Product
         );
 
-    private static string FormatSkuText(string text)
-        => text.ToLower().Replace(" ", "_");
-
     public IProductVariant GenerateSku()
     {
         if (Product is null)
             throw new Exception("Cannot generate sku without Product.");
-        var name = FormatSkuText(Product.Name);
-        var color = FormatSkuText(Color.ToString());
-        var size = FormatSkuText(Size.ToString());
-        Sku = $"{name}-{color}-{size}";
+        Sku = new Sku()
+        {
+            ProductName = Product.Name,
+            Color = Color,
+            Size = Size,
+        }.Value;
         return this;
     }
 }
