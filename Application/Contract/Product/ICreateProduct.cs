@@ -28,7 +28,7 @@ public class CreateProductInput : IInputToCreate<IProduct>
     [MaxLength(10)]
     public string? Category { get; set; }
 
-    public List<ProductVariant> ProductVariants = [];
+    public List<ProductVariant> ProductVariants { get; set; } = [];
 
     public class ProductVariant
     {

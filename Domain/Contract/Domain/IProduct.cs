@@ -9,8 +9,6 @@ public interface IProduct
     public double Price { get; set; }
     public string? Description { get; set; }
     public string? Category { get; set; }
-
-    [JsonIgnore]
     public List<IProductVariant> ProductVariants { get; }
 
     public void AddProductVariant(ProductVariantDto variant);
