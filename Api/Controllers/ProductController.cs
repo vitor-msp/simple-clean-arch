@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Query;
 using Query.Contract;
 using SimpleCleanArch.Api.Presenters;
 using SimpleCleanArch.Application.Contract;
@@ -94,6 +93,30 @@ public class ProductController(
         {
             var product = await _productQuery.GetById(id);
             return product is null ? NotFound() : Ok(product);
+        }
+        catch (Exception error)
+        {
+            var output = ErrorPresenter.GenerateJson(error.Message);
+            return StatusCode(StatusCodes.Status500InternalServerError, output);
+        }
+    }
+
+    [HttpGet]
+    public async Task<ActionResult> GetMany(
+        [FromQuery] double? minPrice, [FromQuery] double? maxPrice, [FromQuery] string? category,
+        [FromQuery] int? skip, [FromQuery] int? limit, [FromQuery] string? orderBy, [FromQuery] bool? orderAsc
+    )
+    {
+        try
+        {
+            var input = new GetProductsInput(skip, limit, orderBy, orderAsc)
+            {
+                MinPrice = minPrice,
+                MaxPrice = maxPrice,
+                Category = category,
+            };
+            var products = await _productQuery.GetMany(input);
+            return Ok(products);
         }
         catch (Exception error)
         {
