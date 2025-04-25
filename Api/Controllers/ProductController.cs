@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Query;
+using Query.Contract;
 using SimpleCleanArch.Api.Presenters;
 using SimpleCleanArch.Application.Contract;
 using SimpleCleanArch.Application.Exceptions;
@@ -13,13 +14,13 @@ public class ProductController(
     ICreateProduct createProduct,
     IDeleteProduct deleteProduct,
     IUpdateProduct updateProduct,
-    ProductQuery productQuery
+    IProductQuery productQuery
 ) : ControllerBase
 {
     private readonly ICreateProduct _createProduct = createProduct;
     private readonly IDeleteProduct _deleteProduct = deleteProduct;
     private readonly IUpdateProduct _updateProduct = updateProduct;
-    private readonly ProductQuery _productQuery = productQuery;
+    private readonly IProductQuery _productQuery = productQuery;
 
     [HttpPost]
     public async Task<ActionResult<CreateProductOutput>> Post(CreateProductInput input)

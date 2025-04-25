@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using SimpleCleanArch.Domain.Contract;
 using SimpleCleanArch.Domain.Entities;
@@ -27,6 +28,7 @@ public class ProductSchema : BaseSchema, IUpdatableSchema<IProduct>, IRegenerabl
 
     public List<ProductVariantSchema> ProductVariants { get; set; } = [];
 
+    [JsonIgnore]
     public List<WarehouseSchema> Warehouses { get; set; } = [];
 
     public ProductSchema() { }

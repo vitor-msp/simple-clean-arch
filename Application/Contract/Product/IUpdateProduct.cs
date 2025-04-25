@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using SimpleCleanArch.Domain;
 using SimpleCleanArch.Domain.Contract;
 using SimpleCleanArch.Domain.ValueObjects;
 
@@ -27,10 +28,10 @@ public class UpdateProductInput : IInputToUpdate<IProduct>
         public string? Sku { get; set; }
 
         [Required]
-        public Color Color { get; set; }
+        public string Color { get; set; } = "";
 
         [Required]
-        public Size Size { get; set; }
+        public string Size { get; set; } = "";
 
         [Required]
         public string Description { get; set; } = "";
@@ -38,21 +39,28 @@ public class UpdateProductInput : IInputToUpdate<IProduct>
 
     public void Update(IProduct product)
     {
-        if (Price is not null)
-            product.Price = (double)Price;
-        if (Description is not null)
-            product.Description = Description;
-        if (Category is not null)
-            product.Category = Category;
-        if (ProductVariants.Count < 0) return;
-        var newVariants = ProductVariants.Select(variant
-            => new ProductVariantDto(
-                Color: variant.Color,
-                Size: variant.Size,
-                Description: variant.Description,
-                Sku: variant.Sku
-            )
-        );
-        product.UpdateProductVariants(newVariants.ToList());
+        try
+        {
+            if (Price is not null)
+                product.Price = (double)Price;
+            if (Description is not null)
+                product.Description = Description;
+            if (Category is not null)
+                product.Category = Category;
+            if (ProductVariants.Count < 0) return;
+            var newVariants = ProductVariants.Select(variant
+                => new ProductVariantDto(
+                    Color: Enum.Parse<Color>(variant.Color),
+                    Size: Enum.Parse<Size>(variant.Size),
+                    Description: variant.Description,
+                    Sku: variant.Sku
+                )
+            );
+            product.UpdateProductVariants(newVariants.ToList());
+        }
+        catch (Exception error)
+        {
+            throw new DomainException(error.Message);
+        }
     }
 }

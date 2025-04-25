@@ -1,6 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
+using SimpleCleanArch.Domain;
 using SimpleCleanArch.Domain.Contract;
 using SimpleCleanArch.Domain.ValueObjects;
 
@@ -17,10 +19,10 @@ public class ProductVariantSchema : BaseSchema, IUpdatableSchema<IProductVariant
     public string? Sku { get; set; }
 
     [Column("color")]
-    public Color Color { get; set; }
+    public string Color { get; set; } = "";
 
     [Column("size")]
-    public Size Size { get; set; }
+    public string Size { get; set; } = "";
 
     [Column("description")]
     public string? Description { get; set; }
@@ -28,7 +30,8 @@ public class ProductVariantSchema : BaseSchema, IUpdatableSchema<IProductVariant
     [ForeignKey("Product"), Column("product_id")]
     public int ProductId { get; set; }
 
-    public required ProductSchema Product { get; set; }
+    [JsonIgnore]
+    public ProductSchema? Product { get; set; }
 
     public ProductVariantSchema() { }
 
@@ -47,10 +50,20 @@ public class ProductVariantSchema : BaseSchema, IUpdatableSchema<IProductVariant
     {
         Id = variant.Id;
         Sku = variant.Sku;
-        Color = variant.Color;
-        Size = variant.Size;
+        Color = variant.Color.ToString();
+        Size = variant.Size.ToString();
         Description = variant.Description;
     }
 
-    public ProductVariantDto GetEntity() => new(Id, Color, Size, Description, Sku);
+    public ProductVariantDto GetEntity()
+    {
+        try
+        {
+            return new ProductVariantDto(Id, Enum.Parse<Color>(Color), Enum.Parse<Size>(Size), Description, Sku);
+        }
+        catch (Exception error)
+        {
+            throw new DomainException(error.Message);
+        }
+    }
 }

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using SimpleCleanArch.Domain;
 using SimpleCleanArch.Domain.Contract;
 using SimpleCleanArch.Domain.Entities;
 using SimpleCleanArch.Domain.ValueObjects;
@@ -31,28 +32,35 @@ public class CreateProductInput : IInputToCreate<IProduct>
 
     public class ProductVariant
     {
-        public Color Color { get; set; }
-        public Size Size { get; set; }
+        public string Color { get; set; } = "";
+        public string Size { get; set; } = "";
         public string? Description { get; set; }
     }
 
     public IProduct GetEntity()
     {
-        var product = new Product()
+        try
         {
-            Name = Name,
-            Price = Price,
-            Description = Description,
-            Category = Category,
-        };
-        ProductVariants.ForEach(variant => product.AddProductVariant(
-            new ProductVariantDto(
-                Color: variant.Color,
-                Size: variant.Size,
-                Description: variant.Description
-            )
-        ));
-        return product;
+            var product = new Product()
+            {
+                Name = Name,
+                Price = Price,
+                Description = Description,
+                Category = Category,
+            };
+            ProductVariants.ForEach(variant => product.AddProductVariant(
+                new ProductVariantDto(
+                    Color: Enum.Parse<Color>(variant.Color),
+                    Size: Enum.Parse<Size>(variant.Size),
+                    Description: variant.Description
+                )
+            ));
+            return product;
+        }
+        catch (Exception error)
+        {
+            throw new DomainException(error.Message);
+        }
     }
 }
 

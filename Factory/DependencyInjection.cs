@@ -9,6 +9,7 @@ using SimpleCleanArch.Domain.Contract.Infra;
 using SimpleCleanArch.Repository.Implementation;
 using SimpleCleanArch.Application.UseCases;
 using Query;
+using Query.Contract;
 
 namespace SimpleCleanArch.Factory;
 
@@ -29,7 +30,7 @@ public static class DependencyInjection
 
         services.AddScoped<IMailGateway, MailGateway>();
 
-        services.AddScoped<ProductQuery>();
+        services.AddScoped<IProductQuery, ProductQuery>();
 
         services.AddScoped<ICreateProduct, CreateProduct>();
         services.AddScoped<IUpdateProduct, UpdateProduct>();

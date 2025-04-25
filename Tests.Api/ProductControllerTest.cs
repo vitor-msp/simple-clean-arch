@@ -1,3 +1,5 @@
+using Query.Contract;
+
 namespace SimpleCleanArch.Tests.Api;
 
 public class ProductControllerTest : BaseControllerTest
@@ -10,7 +12,8 @@ public class ProductControllerTest : BaseControllerTest
         var createProduct = new CreateProduct(repository, mail);
         var deleteProduct = new DeleteProduct(repository, mail);
         var updateProduct = new UpdateProduct(repository);
-        var controller = new ProductController(createProduct, deleteProduct, updateProduct);
+        var productQuery = new Mock<IProductQuery>().Object;
+        var controller = new ProductController(createProduct, deleteProduct, updateProduct, productQuery);
         return (controller, context);
     }
 
@@ -21,12 +24,12 @@ public class ProductControllerTest : BaseControllerTest
         var variants = new List<CreateProductInput.ProductVariant>()
         {
             new() {
-                Color = Color.Blue,
-                Size = Size.Large,
+                Color = Color.Blue.ToString(),
+                Size = Size.Large.ToString(),
             },
             new() {
-                Color = Color.Green,
-                Size = Size.Medium,
+                Color = Color.Green.ToString(),
+                Size = Size.Medium.ToString(),
             },
         };
         var input = new CreateProductInput()
@@ -52,13 +55,13 @@ public class ProductControllerTest : BaseControllerTest
         Assert.Equal(default, productSchema.UpdatedAt);
         var variantBlueLarge = productSchema.ProductVariants.Find(v => v.Sku == "my_product-blue-large");
         Assert.NotNull(variantBlueLarge);
-        Assert.Equal(Color.Blue, variantBlueLarge.Color);
-        Assert.Equal(Size.Large, variantBlueLarge.Size);
+        Assert.Equal(Color.Blue.ToString(), variantBlueLarge.Color);
+        Assert.Equal(Size.Large.ToString(), variantBlueLarge.Size);
         Assert.Equal(default, variantBlueLarge.UpdatedAt);
         var variantGreenMedium = productSchema.ProductVariants.Find(v => v.Sku == "my_product-green-medium");
         Assert.NotNull(variantGreenMedium);
-        Assert.Equal(Color.Green, variantGreenMedium.Color);
-        Assert.Equal(Size.Medium, variantGreenMedium.Size);
+        Assert.Equal(Color.Green.ToString(), variantGreenMedium.Color);
+        Assert.Equal(Size.Medium.ToString(), variantGreenMedium.Size);
         Assert.Equal(default, variantGreenMedium.UpdatedAt);
     }
 
@@ -93,16 +96,16 @@ public class ProductControllerTest : BaseControllerTest
         };
         var variant1 = new ProductVariantSchema()
         {
-            Color = Color.Red,
-            Size = Size.Small,
+            Color = Color.Red.ToString(),
+            Size = Size.Small.ToString(),
             Product = productSchema,
             Description = "red small description",
             Sku = "my_product-red-small",
         };
         var variant2 = new ProductVariantSchema()
         {
-            Color = Color.Green,
-            Size = Size.Medium,
+            Color = Color.Green.ToString(),
+            Size = Size.Medium.ToString(),
             Product = productSchema,
             Description = "green medium description",
             Sku = "my_product-green-medium",
@@ -118,15 +121,15 @@ public class ProductControllerTest : BaseControllerTest
             ProductVariants = [
                 new UpdateProductInput.ProductVariant()
                 {
-                    Color = Color.Green,
-                    Size = Size.Medium,
+                    Color = Color.Green.ToString(),
+                    Size = Size.Medium.ToString(),
                     Description = "green medium new description",
                     Sku = "my_product-green-medium",
                 },
                 new UpdateProductInput.ProductVariant()
                 {
-                    Color = Color.Blue,
-                    Size = Size.Large,
+                    Color = Color.Blue.ToString(),
+                    Size = Size.Large.ToString(),
                     Description = "blue large description",
                 },
             ]
@@ -143,14 +146,14 @@ public class ProductControllerTest : BaseControllerTest
         Assert.Null(variantRedSmall);
         var variantGreenMedium = productSchema.ProductVariants.Find(v => v.Sku == "my_product-green-medium");
         Assert.NotNull(variantGreenMedium);
-        Assert.Equal(Color.Green, variantGreenMedium.Color);
-        Assert.Equal(Size.Medium, variantGreenMedium.Size);
+        Assert.Equal(Color.Green.ToString(), variantGreenMedium.Color);
+        Assert.Equal(Size.Medium.ToString(), variantGreenMedium.Size);
         Assert.Equal("green medium new description", variantGreenMedium.Description);
         Assert.NotEqual(default, variantGreenMedium.UpdatedAt);
         var variantBlueLarge = productSchema.ProductVariants.Find(v => v.Sku == "my_product-blue-large");
         Assert.NotNull(variantBlueLarge);
-        Assert.Equal(Color.Blue, variantBlueLarge.Color);
-        Assert.Equal(Size.Large, variantBlueLarge.Size);
+        Assert.Equal(Color.Blue.ToString(), variantBlueLarge.Color);
+        Assert.Equal(Size.Large.ToString(), variantBlueLarge.Size);
         Assert.Equal("blue large description", variantBlueLarge.Description);
         Assert.Equal(default, variantBlueLarge.UpdatedAt);
     }
@@ -169,8 +172,8 @@ public class ProductControllerTest : BaseControllerTest
         };
         var variant = new ProductVariantSchema()
         {
-            Color = Color.Red,
-            Size = Size.Small,
+            Color = Color.Red.ToString(),
+            Size = Size.Small.ToString(),
             Product = productSchema,
             Description = "red small description",
             Sku = "my_product-red-small",
