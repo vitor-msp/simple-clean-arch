@@ -28,6 +28,7 @@ public class ProductVariantSchema : BaseSchema, IUpdatableSchema<IProductVariant
     public string? Description { get; set; }
 
     [ForeignKey("Product"), Column("product_id")]
+    [JsonIgnore]
     public int ProductId { get; set; }
 
     [JsonIgnore]
@@ -59,7 +60,10 @@ public class ProductVariantSchema : BaseSchema, IUpdatableSchema<IProductVariant
     {
         try
         {
-            return new ProductVariantDto(Id, Enum.Parse<Color>(Color), Enum.Parse<Size>(Size), Description, Sku);
+            return new ProductVariantDto(Id,
+                Enum.Parse<Color>(Color, ignoreCase: true),
+                Enum.Parse<Size>(Size, ignoreCase: true),
+                Description, Sku);
         }
         catch (Exception error)
         {

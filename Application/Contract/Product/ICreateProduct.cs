@@ -50,8 +50,8 @@ public class CreateProductInput : IInputToCreate<IProduct>
             };
             ProductVariants.ForEach(variant => product.AddProductVariant(
                 new ProductVariantDto(
-                    Color: Enum.Parse<Color>(variant.Color),
-                    Size: Enum.Parse<Size>(variant.Size),
+                    Color: Enum.Parse<Color>(variant.Color, ignoreCase: true),
+                    Size: Enum.Parse<Size>(variant.Size, ignoreCase: true),
                     Description: variant.Description
                 )
             ));
