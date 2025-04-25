@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Query;
 using SimpleCleanArch.Api.Presenters;
 using SimpleCleanArch.Application.Contract;
 using SimpleCleanArch.Application.Exceptions;
@@ -10,12 +11,15 @@ namespace SimpleCleanArch.Api.Controllers;
 [Route("products")]
 public class ProductController(
     ICreateProduct createProduct,
-    IDeleteProduct deleteProduct, IUpdateProduct updateProduct
+    IDeleteProduct deleteProduct,
+    IUpdateProduct updateProduct,
+    ProductQuery productQuery
 ) : ControllerBase
 {
     private readonly ICreateProduct _createProduct = createProduct;
     private readonly IDeleteProduct _deleteProduct = deleteProduct;
     private readonly IUpdateProduct _updateProduct = updateProduct;
+    private readonly ProductQuery _productQuery = productQuery;
 
     [HttpPost]
     public async Task<ActionResult<CreateProductOutput>> Post(CreateProductInput input)
@@ -82,6 +86,18 @@ public class ProductController(
         }
     }
 
-    [HttpGet(Name = "GetProduct")]
-    public void GetFake(int id) => NoContent();
+    [HttpGet("{id}", Name = "GetProduct")]
+    public async Task<ActionResult> Get(int id)
+    {
+        try
+        {
+            var product = await _productQuery.GetById(id);
+            return product is null ? NotFound() : Ok(product);
+        }
+        catch (Exception error)
+        {
+            var output = ErrorPresenter.GenerateJson(error.Message);
+            return StatusCode(StatusCodes.Status500InternalServerError, output);
+        }
+    }
 }

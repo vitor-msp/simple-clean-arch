@@ -28,9 +28,8 @@ public class AppDbContext : DbContext
     {
         if (!_useInMemoryDb)
             optionsBuilder.UseSqlite();
-        // optionsBuilder.UseSqlite("DataSource=../database.db");
-        // optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
-        // optionsBuilder.EnableSensitiveDataLogging();
+        optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
+        optionsBuilder.EnableSensitiveDataLogging();
         base.OnConfiguring(optionsBuilder);
     }
 
