@@ -27,9 +27,11 @@ public class AppDbContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!_useInMemoryDb)
+        {
             optionsBuilder.UseSqlite();
-        optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
-        optionsBuilder.EnableSensitiveDataLogging();
+            optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
+            optionsBuilder.EnableSensitiveDataLogging();
+        }
         base.OnConfiguring(optionsBuilder);
     }
 
