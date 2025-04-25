@@ -16,7 +16,7 @@ public class ProductQuery(AppDbContext context) : IProductQuery
 
     public async Task<List<ProductSchema>> GetMany(GetProductsInput input)
     {
-        var query = _context.Products.AsNoTracking();
+        var query = _context.Products.AsNoTracking().Include("ProductVariants");
 
         if (input.MinPrice is not null)
             query = query.Where(p => p.Price >= input.MinPrice);

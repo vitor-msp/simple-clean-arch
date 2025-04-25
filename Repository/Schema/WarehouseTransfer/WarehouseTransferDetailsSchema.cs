@@ -10,7 +10,7 @@ public class WarehouseTransferDetailsSchema : BaseSchema
     [Key, ForeignKey("WarehouseTransfer"), Column("warehouse_transfer_id")]
     public int WarehouseTransferId { get; set; }
 
-    public required WarehouseTransferSchema WarehouseTransfer { get; set; }
+    public WarehouseTransferSchema? WarehouseTransfer { get; set; }
 
     [Column("product_quantity")]
     public int ProductQuantity { get; set; }
