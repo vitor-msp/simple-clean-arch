@@ -3,32 +3,39 @@ namespace SimpleCleanArch.Tests.Api;
 [Collection("Tests.Api")]
 public class WarehouseTransferControllerTest : BaseControllerTest
 {
-    protected override async Task CleanDatabase(AppDbContext context)
+    private readonly WarehouseTransferController _controller;
+    private readonly AppDbContext _context;
+
+    public WarehouseTransferControllerTest() : base()
     {
-        await context.Database.ExecuteSqlRawAsync("DELETE FROM warehouse_transfers;");
-        await context.Database.ExecuteSqlRawAsync("DELETE FROM warehouse_transfer_details;");
-        await context.Database.ExecuteSqlRawAsync("DELETE FROM products;");
-        await context.Database.ExecuteSqlRawAsync("DELETE FROM product_variants;");
-        await context.Database.ExecuteSqlRawAsync("DELETE FROM warehouses;");
-        await context.Database.ExecuteSqlRawAsync("DELETE FROM warehouse_details;");
+        (_controller, _context) = MakeSut();
     }
 
-    private async Task<(WarehouseTransferController controller, AppDbContext context)> MakeSut()
+    private (WarehouseTransferController _controller, AppDbContext _context) MakeSut()
     {
-        var context = await CreateContext();
+        var _context = CreateContext();
         var createWarehouseTransfer = new CreateWarehouseTransfer(
-            new WarehouseTransferRepositorySqlite(context),
-            new ProductRepositorySqlite(context),
-            new WarehouseRepositorySqlite(context)
+            new WarehouseTransferRepositorySqlite(_context),
+            new ProductRepositorySqlite(_context),
+            new WarehouseRepositorySqlite(_context)
         );
-        var controller = new WarehouseTransferController(createWarehouseTransfer);
-        return (controller, context);
+        var _controller = new WarehouseTransferController(createWarehouseTransfer);
+        return (_controller, _context);
+    }
+
+    protected override async Task CleanDatabase()
+    {
+        await _context.Database.ExecuteSqlRawAsync("DELETE FROM warehouse_transfers;");
+        await _context.Database.ExecuteSqlRawAsync("DELETE FROM warehouse_transfer_details;");
+        await _context.Database.ExecuteSqlRawAsync("DELETE FROM products;");
+        await _context.Database.ExecuteSqlRawAsync("DELETE FROM product_variants;");
+        await _context.Database.ExecuteSqlRawAsync("DELETE FROM warehouses;");
+        await _context.Database.ExecuteSqlRawAsync("DELETE FROM warehouse_details;");
     }
 
     [Fact]
     public async Task PostWarehouseTransfer_Success()
     {
-        var (controller, context) = await MakeSut();
         var warehouse1 = new WarehouseSchema()
         {
             CreatedAt = DateTime.UtcNow,
@@ -57,10 +64,10 @@ public class WarehouseTransferControllerTest : BaseControllerTest
             Name = "my-product",
             Price = 10
         };
-        await context.Warehouses.AddAsync(warehouse1);
-        await context.Warehouses.AddAsync(warehouse2);
-        await context.Products.AddAsync(product);
-        await context.SaveChangesAsync();
+        await _context.Warehouses.AddAsync(warehouse1);
+        await _context.Warehouses.AddAsync(warehouse2);
+        await _context.Products.AddAsync(product);
+        await _context.SaveChangesAsync();
         var input = new CreateWarehouseTransferInput()
         {
             SourceWarehouseId = warehouse1.Id,
@@ -68,11 +75,11 @@ public class WarehouseTransferControllerTest : BaseControllerTest
             ProductId = product.Id,
             ProductQuantity = 2,
         };
-        var output = await controller.Post(input);
+        var output = await _controller.Post(input);
         var outputResult = Assert.IsType<CreatedAtRouteResult>(output.Result);
         var outputContent = Assert.IsType<CreateWarehouseTransferOutput>(outputResult.Value);
         Assert.NotEqual(default, outputContent.WarehouseTransferId);
-        var warehouseTransferSchema = await context.WarehouseTransfers.FindAsync(outputContent.WarehouseTransferId);
+        var warehouseTransferSchema = await _context.WarehouseTransfers.FindAsync(outputContent.WarehouseTransferId);
         Assert.NotNull(warehouseTransferSchema);
         Assert.Equal(warehouse1.Id, warehouseTransferSchema.SourceWarehouseId);
         Assert.Equal(warehouse2.Id, warehouseTransferSchema.TargetWarehouseId);

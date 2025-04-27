@@ -3,29 +3,36 @@ namespace SimpleCleanArch.Tests.Api;
 [Collection("Tests.Api")]
 public class ProductControllerTest : BaseControllerTest
 {
-    protected override async Task CleanDatabase(AppDbContext context)
+    private readonly ProductController _controller;
+    private readonly AppDbContext _context;
+
+    public ProductControllerTest() : base()
     {
-        await context.Database.ExecuteSqlRawAsync("DELETE FROM products;");
-        await context.Database.ExecuteSqlRawAsync("DELETE FROM product_variants;");
+        (_controller, _context) = MakeSut();
     }
 
-    private async Task<(ProductController controller, AppDbContext context)> MakeSut()
+    private (ProductController _controller, AppDbContext _context) MakeSut()
     {
-        var context = await CreateContext();
-        var repository = new ProductRepositorySqlite(context);
+        var _context = CreateContext();
+        var repository = new ProductRepositorySqlite(_context);
         var mail = new Mock<IMailGateway>().Object;
         var createProduct = new CreateProduct(repository, mail);
         var deleteProduct = new DeleteProduct(repository, mail);
         var updateProduct = new UpdateProduct(repository);
         var productQuery = new Mock<IProductQuery>().Object;
-        var controller = new ProductController(createProduct, deleteProduct, updateProduct, productQuery);
-        return (controller, context);
+        var _controller = new ProductController(createProduct, deleteProduct, updateProduct, productQuery);
+        return (_controller, _context);
+    }
+
+    protected override async Task CleanDatabase()
+    {
+        await _context.Database.ExecuteSqlRawAsync("DELETE FROM products;");
+        await _context.Database.ExecuteSqlRawAsync("DELETE FROM product_variants;");
     }
 
     [Fact]
     public async Task PostProduct_Success()
     {
-        var (controller, context) = await MakeSut();
         var variants = new List<CreateProductInput.ProductVariant>()
         {
             new() {
@@ -45,11 +52,11 @@ public class ProductControllerTest : BaseControllerTest
             Category = "category",
             ProductVariants = variants,
         };
-        var output = await controller.Post(input);
+        var output = await _controller.Post(input);
         var outputResult = Assert.IsType<CreatedAtRouteResult>(output.Result);
         var outputContent = Assert.IsType<CreateProductOutput>(outputResult.Value);
         var productId = Assert.IsType<int>(outputContent.ProductId);
-        var productSchema = await context.Products.FindAsync(productId);
+        var productSchema = await _context.Products.FindAsync(productId);
         Assert.NotNull(productSchema);
         Assert.IsType<DateTime>(productSchema.CreatedAt);
         Assert.Equal("my product", productSchema.Name);
@@ -73,7 +80,6 @@ public class ProductControllerTest : BaseControllerTest
     [Fact]
     public async Task PostProduct_InvalidPrice()
     {
-        var (controller, context) = await MakeSut();
         var input = new CreateProductInput()
         {
             Name = "invalid-product",
@@ -81,16 +87,15 @@ public class ProductControllerTest : BaseControllerTest
             Description = "description",
             Category = "category",
         };
-        var output = await controller.Post(input);
+        var output = await _controller.Post(input);
         Assert.IsType<UnprocessableEntityObjectResult>(output.Result);
-        var productsSchema = await context.Products.FirstOrDefaultAsync(product => product.Name.Equals("invalid-product"));
+        var productsSchema = await _context.Products.FirstOrDefaultAsync(product => product.Name.Equals("invalid-product"));
         Assert.Null(productsSchema);
     }
 
     [Fact]
     public async Task PatchProduct_Success()
     {
-        var (controller, context) = await MakeSut();
         var productSchema = new ProductSchema()
         {
             CreatedAt = DateTime.UtcNow,
@@ -116,8 +121,8 @@ public class ProductControllerTest : BaseControllerTest
             Sku = "my_product-green-medium",
         };
         productSchema.ProductVariants = [variant1, variant2];
-        await context.Products.AddAsync(productSchema);
-        await context.SaveChangesAsync();
+        await _context.Products.AddAsync(productSchema);
+        await _context.SaveChangesAsync();
         var input = new UpdateProductInput()
         {
             Price = 15.74,
@@ -139,7 +144,7 @@ public class ProductControllerTest : BaseControllerTest
                 },
             ]
         };
-        var output = await controller.Patch(productSchema.Id, input);
+        var output = await _controller.Patch(productSchema.Id, input);
         Assert.IsType<NoContentResult>(output);
         Assert.Equal("my product", productSchema.Name);
         Assert.Equal(15.74, productSchema.Price);
@@ -166,7 +171,6 @@ public class ProductControllerTest : BaseControllerTest
     [Fact]
     public async Task DeleteProduct_Success()
     {
-        var (controller, context) = await MakeSut();
         var productSchema = new ProductSchema()
         {
             CreatedAt = DateTime.UtcNow,
@@ -184,11 +188,11 @@ public class ProductControllerTest : BaseControllerTest
             Sku = "my_product-red-small",
         };
         productSchema.ProductVariants = [variant];
-        await context.Products.AddAsync(productSchema);
-        await context.SaveChangesAsync();
-        var output = await controller.Delete(productSchema.Id);
+        await _context.Products.AddAsync(productSchema);
+        await _context.SaveChangesAsync();
+        var output = await _controller.Delete(productSchema.Id);
         Assert.IsType<NoContentResult>(output);
-        var deletedProductSchema = await context.Products.FindAsync(productSchema.Id);
+        var deletedProductSchema = await _context.Products.FindAsync(productSchema.Id);
         Assert.Null(deletedProductSchema);
     }
 }

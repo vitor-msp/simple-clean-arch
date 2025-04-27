@@ -1,6 +1,6 @@
 namespace SimpleCleanArch.Tests.Api;
 
-public abstract class BaseControllerTest : IAsyncDisposable
+public abstract class BaseControllerTest : IAsyncLifetime
 {
     private readonly DbConnection _connection;
     private readonly DbContextOptions<AppDbContext> _contextOptions;
@@ -14,15 +14,16 @@ public abstract class BaseControllerTest : IAsyncDisposable
         // _contextOptions = new DbContextOptionsBuilder<AppDbContext>().UseSqlite(_connection).Options;
     }
 
-    protected async Task<AppDbContext> CreateContext()
+    protected AppDbContext CreateContext()
     {
         var context = new AppDbContext(_contextOptions, inTest: true);
-        await context.Database.EnsureCreatedAsync();
-        await CleanDatabase(context);
+        context.Database.EnsureCreated();
         return context;
     }
 
-    protected abstract Task CleanDatabase(AppDbContext context);
+    public async Task InitializeAsync() => await CleanDatabase();
 
-    public async ValueTask DisposeAsync() => await _connection.DisposeAsync();
+    public async Task DisposeAsync() => await Task.CompletedTask;
+
+    protected abstract Task CleanDatabase();
 }
