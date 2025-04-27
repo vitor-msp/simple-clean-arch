@@ -19,9 +19,9 @@ public static class DependencyInjection
     {
         services.Configure<MailConfiguration>(configuration.GetSection("Mail"));
 
-        var sqliteConnection = configuration.GetConnectionString("SqliteConnection")
-            ?? throw new Exception("Missing Sqlite configuration.");
-        services.AddDbContext<AppDbContext>(options => options.UseSqlite(sqliteConnection));
+        var dbConnection = configuration.GetConnectionString("PostgresConnection")
+            ?? throw new Exception("Missing database configuration.");
+        services.AddDbContext<AppDbContext>(options => options.UseNpgsql(dbConnection));
 
         services.AddScoped<IProductRepository, ProductRepositorySqlite>();
         services.AddScoped<IWarehouseRepository, WarehouseRepositorySqlite>();
