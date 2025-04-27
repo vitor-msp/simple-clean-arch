@@ -22,19 +22,7 @@ public abstract class BaseControllerTest : IAsyncDisposable
         return context;
     }
 
-    private static async Task CleanDatabase(AppDbContext context)
-    {
-        await context.Database.ExecuteSqlRawAsync("DELETE FROM employees;");
-        await context.Database.ExecuteSqlRawAsync("DELETE FROM employees_projects;");
-        await context.Database.ExecuteSqlRawAsync("DELETE FROM inventories;");
-        await context.Database.ExecuteSqlRawAsync("DELETE FROM products;");
-        await context.Database.ExecuteSqlRawAsync("DELETE FROM product_variants;");
-        await context.Database.ExecuteSqlRawAsync("DELETE FROM projects;");
-        await context.Database.ExecuteSqlRawAsync("DELETE FROM warehouses;");
-        await context.Database.ExecuteSqlRawAsync("DELETE FROM warehouse_details;");
-        await context.Database.ExecuteSqlRawAsync("DELETE FROM warehouse_transfers;");
-        await context.Database.ExecuteSqlRawAsync("DELETE FROM warehouse_transfer_details;");
-    }
+    protected abstract Task CleanDatabase(AppDbContext context);
 
     public async ValueTask DisposeAsync() => await _connection.DisposeAsync();
 }

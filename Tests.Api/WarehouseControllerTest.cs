@@ -2,6 +2,12 @@ namespace SimpleCleanArch.Tests.Api;
 
 public class WarehouseControllerTest : BaseControllerTest
 {
+    protected override async Task CleanDatabase(AppDbContext context)
+    {
+        await context.Database.ExecuteSqlRawAsync("DELETE FROM warehouses;");
+        await context.Database.ExecuteSqlRawAsync("DELETE FROM warehouse_details;");
+    }
+
     private async Task<(WarehouseController controller, AppDbContext context)> MakeSut()
     {
         var context = await CreateContext();

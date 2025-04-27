@@ -1,7 +1,17 @@
+using SimpleCleanArch.Tests.Api;
+
 namespace SimpleCleanArch.Tests.Other;
 
-public class ManyToManyTest : BaseTest
+[Collection("Test.Api.ManyToManyTest")]
+public class ManyToManyTest : BaseControllerTest
 {
+    protected override async Task CleanDatabase(AppDbContext context)
+    {
+        await context.Database.ExecuteSqlRawAsync("DELETE FROM employees;");
+        await context.Database.ExecuteSqlRawAsync("DELETE FROM projects;");
+        await context.Database.ExecuteSqlRawAsync("DELETE FROM employees_projects;");
+    }
+
     [Fact]
     public async Task EmployeesProjects()
     {
