@@ -6,7 +6,7 @@ namespace SimpleCleanArch.Repository.Context;
 
 public class AppDbContext : DbContext
 {
-    private readonly bool _useInMemoryDb = false;
+    private readonly bool _inTest = false;
 
     public DbSet<ProductSchema> Products { get; set; }
     public DbSet<WarehouseSchema> Warehouses { get; set; }
@@ -19,16 +19,16 @@ public class AppDbContext : DbContext
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-    public AppDbContext(DbContextOptions<AppDbContext> options, bool useInMemoryDb) : base(options)
+    public AppDbContext(DbContextOptions<AppDbContext> options, bool inTest) : base(options)
     {
-        _useInMemoryDb = useInMemoryDb;
+        _inTest = inTest;
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        if (!_useInMemoryDb)
+        if (!_inTest)
         {
-            optionsBuilder.UseSqlite();
+            optionsBuilder.UseNpgsql();
             optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
             optionsBuilder.EnableSensitiveDataLogging();
         }
