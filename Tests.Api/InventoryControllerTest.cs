@@ -15,9 +15,9 @@ public class InventoryControllerTest : BaseControllerTest
     {
         var _context = CreateContext();
         var createInventory = new CreateInventory(
-            new InventoryRepositorySqlite(_context),
-            new ProductRepositorySqlite(_context),
-            new WarehouseRepositorySqlite(_context)
+            new InventoryRepository(_context),
+            new ProductRepository(_context),
+            new WarehouseRepository(_context)
         );
         var _controller = new InventoryController(createInventory);
         return (_controller, _context);

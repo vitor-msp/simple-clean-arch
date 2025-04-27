@@ -13,7 +13,7 @@ public class WarehouseControllerTest : BaseControllerTest
     private (WarehouseController _controller, AppDbContext _context) MakeSut()
     {
         var _context = CreateContext();
-        var repository = new WarehouseRepositorySqlite(_context);
+        var repository = new WarehouseRepository(_context);
         var createWarehouse = new CreateWarehouse(repository);
         var deleteWarehouse = new DeleteWarehouse(repository);
         var updateWarehouse = new UpdateWarehouse(repository);

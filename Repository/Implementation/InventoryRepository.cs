@@ -5,7 +5,7 @@ using SimpleCleanArch.Repository.Schema;
 
 namespace SimpleCleanArch.Repository.Implementation;
 
-public class InventoryRepositorySqlite(AppDbContext database) : BaseRepositorySqlite(database), IInventoryRepository
+public class InventoryRepository(AppDbContext database) : BaseRepository(database), IInventoryRepository
 {
     private readonly AppDbContext _database = database;
 

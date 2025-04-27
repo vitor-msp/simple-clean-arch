@@ -6,7 +6,7 @@ using SimpleCleanArch.Repository.Schema;
 
 namespace SimpleCleanArch.Repository.Implementation;
 
-public class ProductRepositorySqlite(AppDbContext database) : BaseRepositorySqlite(database), IProductRepository
+public class ProductRepository(AppDbContext database) : BaseRepository(database), IProductRepository
 {
     private readonly AppDbContext _database = database;
 

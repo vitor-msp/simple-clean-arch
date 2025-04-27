@@ -3,7 +3,7 @@ using SimpleCleanArch.Repository.Context;
 
 namespace SimpleCleanArch.Repository.Implementation;
 
-public abstract class BaseRepositorySqlite(AppDbContext database) : IBaseRepository
+public abstract class BaseRepository(AppDbContext database) : IBaseRepository
 {
     private readonly AppDbContext _database = database;
 

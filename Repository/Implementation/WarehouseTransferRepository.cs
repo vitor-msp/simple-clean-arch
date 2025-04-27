@@ -5,7 +5,7 @@ using SimpleCleanArch.Repository.Schema;
 
 namespace SimpleCleanArch.Repository.Implementation;
 
-public class WarehouseTransferRepositorySqlite(AppDbContext database) : BaseRepositorySqlite(database), IWarehouseTransferRepository
+public class WarehouseTransferRepository(AppDbContext database) : BaseRepository(database), IWarehouseTransferRepository
 {
     private readonly AppDbContext _database = database;
 

@@ -15,9 +15,9 @@ public class WarehouseTransferControllerTest : BaseControllerTest
     {
         var _context = CreateContext();
         var createWarehouseTransfer = new CreateWarehouseTransfer(
-            new WarehouseTransferRepositorySqlite(_context),
-            new ProductRepositorySqlite(_context),
-            new WarehouseRepositorySqlite(_context)
+            new WarehouseTransferRepository(_context),
+            new ProductRepository(_context),
+            new WarehouseRepository(_context)
         );
         var _controller = new WarehouseTransferController(createWarehouseTransfer);
         return (_controller, _context);

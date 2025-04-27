@@ -14,7 +14,7 @@ public class ProductControllerTest : BaseControllerTest
     private (ProductController _controller, AppDbContext _context) MakeSut()
     {
         var _context = CreateContext();
-        var repository = new ProductRepositorySqlite(_context);
+        var repository = new ProductRepository(_context);
         var mail = new Mock<IMailGateway>().Object;
         var createProduct = new CreateProduct(repository, mail);
         var deleteProduct = new DeleteProduct(repository, mail);
