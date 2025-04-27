@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SimpleCleanArch.Repository.Context;
 
 #nullable disable
@@ -11,35 +12,71 @@ using SimpleCleanArch.Repository.Context;
 namespace Repository.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250423230610_CreatedSchema")]
-    partial class CreatedSchema
+    [Migration("20250427213856_CrAddedPostgresSchema")]
+    partial class CrAddedPostgresSchema
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.2");
+            modelBuilder
+                .HasAnnotation("ProductVersion", "9.0.2")
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("SimpleCleanArch.Repository.Schema.EmployeeSchema", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("Document")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("document");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("employees");
+                });
 
             modelBuilder.Entity("SimpleCleanArch.Repository.Schema.InventorySchema", b =>
                 {
                     b.Property<int>("WarehouseId")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("integer")
                         .HasColumnName("warehouse_id");
 
                     b.Property<int>("ProductId")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("integer")
                         .HasColumnName("product_id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("integer")
                         .HasColumnName("quantity");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
                     b.HasKey("WarehouseId", "ProductId");
@@ -53,32 +90,34 @@ namespace Repository.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("integer")
                         .HasColumnName("id");
 
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
                     b.Property<string>("Category")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("text")
                         .HasColumnName("category");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
                     b.Property<string>("Description")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("text")
                         .HasColumnName("description");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("TEXT")
+                        .HasColumnType("text")
                         .HasColumnName("name");
 
                     b.Property<double>("Price")
-                        .HasColumnType("REAL")
+                        .HasColumnType("double precision")
                         .HasColumnName("price");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
                     b.HasKey("Id");
@@ -93,35 +132,39 @@ namespace Repository.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("integer")
                         .HasColumnName("id");
 
-                    b.Property<int>("Color")
-                        .HasColumnType("INTEGER")
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("color");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
                     b.Property<string>("Description")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("text")
                         .HasColumnName("description");
 
                     b.Property<int>("ProductId")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("integer")
                         .HasColumnName("product_id");
 
-                    b.Property<int>("Size")
-                        .HasColumnType("INTEGER")
+                    b.Property<string>("Size")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("size");
 
                     b.Property<string>("Sku")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("text")
                         .HasColumnName("sku");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
                     b.HasKey("Id");
@@ -134,22 +177,49 @@ namespace Repository.Migrations
                     b.ToTable("product_variants");
                 });
 
+            modelBuilder.Entity("SimpleCleanArch.Repository.Schema.ProjectSchema", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("projects");
+                });
+
             modelBuilder.Entity("SimpleCleanArch.Repository.Schema.WarehouseDetailsSchema", b =>
                 {
                     b.Property<int>("WarehouseId")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("integer")
                         .HasColumnName("warehouse_id");
 
                     b.Property<string>("City")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("text")
                         .HasColumnName("city");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
                     b.HasKey("WarehouseId");
@@ -161,24 +231,26 @@ namespace Repository.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("integer")
                         .HasColumnName("id");
 
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
                     b.Property<string>("Description")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("text")
                         .HasColumnName("description");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("TEXT")
+                        .HasColumnType("text")
                         .HasColumnName("name");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
                     b.HasKey("Id");
@@ -189,19 +261,19 @@ namespace Repository.Migrations
             modelBuilder.Entity("SimpleCleanArch.Repository.Schema.WarehouseTransferDetailsSchema", b =>
                 {
                     b.Property<int>("WarehouseTransferId")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("integer")
                         .HasColumnName("warehouse_transfer_id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
                     b.Property<int>("ProductQuantity")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("integer")
                         .HasColumnName("product_quantity");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
                     b.HasKey("WarehouseTransferId");
@@ -213,27 +285,29 @@ namespace Repository.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("integer")
                         .HasColumnName("id");
 
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
                     b.Property<int>("ProductId")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("integer")
                         .HasColumnName("product_id");
 
                     b.Property<int>("SourceWarehouseId")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("integer")
                         .HasColumnName("source_warehouse_id");
 
                     b.Property<int>("TargetWarehouseId")
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("integer")
                         .HasColumnName("target_warehouse_id");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
                     b.HasKey("Id");
@@ -247,23 +321,34 @@ namespace Repository.Migrations
                     b.ToTable("warehouse_transfers");
                 });
 
+            modelBuilder.Entity("employees_projects", b =>
+                {
+                    b.Property<int>("employee_id")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("project_id")
+                        .HasColumnType("integer");
+
+                    b.HasKey("employee_id", "project_id");
+
+                    b.HasIndex("project_id");
+
+                    b.ToTable("employees_projects");
+                });
+
             modelBuilder.Entity("SimpleCleanArch.Repository.Schema.InventorySchema", b =>
                 {
-                    b.HasOne("SimpleCleanArch.Repository.Schema.ProductSchema", "Product")
+                    b.HasOne("SimpleCleanArch.Repository.Schema.ProductSchema", null)
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SimpleCleanArch.Repository.Schema.WarehouseSchema", "Warehouse")
+                    b.HasOne("SimpleCleanArch.Repository.Schema.WarehouseSchema", null)
                         .WithMany()
                         .HasForeignKey("WarehouseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Product");
-
-                    b.Navigation("Warehouse");
                 });
 
             modelBuilder.Entity("SimpleCleanArch.Repository.Schema.ProductVariantSchema", b =>
@@ -326,6 +411,21 @@ namespace Repository.Migrations
                     b.Navigation("TargetWarehouse");
                 });
 
+            modelBuilder.Entity("employees_projects", b =>
+                {
+                    b.HasOne("SimpleCleanArch.Repository.Schema.EmployeeSchema", null)
+                        .WithMany()
+                        .HasForeignKey("employee_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SimpleCleanArch.Repository.Schema.ProjectSchema", null)
+                        .WithMany()
+                        .HasForeignKey("project_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("SimpleCleanArch.Repository.Schema.ProductSchema", b =>
                 {
                     b.Navigation("ProductVariants");
@@ -333,14 +433,12 @@ namespace Repository.Migrations
 
             modelBuilder.Entity("SimpleCleanArch.Repository.Schema.WarehouseSchema", b =>
                 {
-                    b.Navigation("Details")
-                        .IsRequired();
+                    b.Navigation("Details");
                 });
 
             modelBuilder.Entity("SimpleCleanArch.Repository.Schema.WarehouseTransferSchema", b =>
                 {
-                    b.Navigation("Details")
-                        .IsRequired();
+                    b.Navigation("Details");
                 });
 #pragma warning restore 612, 618
         }
