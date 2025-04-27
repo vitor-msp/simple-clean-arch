@@ -1,28 +1,25 @@
-using System.Data.Common;
-using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
-using SimpleCleanArch.Repository.Context;
-
 namespace SimpleCleanArch.Tests.Api;
 
-public abstract class BaseTest : IDisposable
+public abstract class BaseTest : IAsyncDisposable
 {
     private readonly DbConnection _connection;
     private readonly DbContextOptions<AppDbContext> _contextOptions;
 
     protected BaseTest()
     {
-        _connection = new SqliteConnection("Filename=:memory:");
+        _connection = new NpgsqlConnection("Host=localhost;Port=5432;Database=postgres;Username=postgres;Password=simplecleanarch");
+        // _connection = new SqliteConnection("Filename=:memory:");
         _connection.Open();
-        _contextOptions = new DbContextOptionsBuilder<AppDbContext>().UseSqlite(_connection).Options;
+        _contextOptions = new DbContextOptionsBuilder<AppDbContext>().UseNpgsql(_connection).Options;
+        // _contextOptions = new DbContextOptionsBuilder<AppDbContext>().UseSqlite(_connection).Options;
     }
 
     protected async Task<AppDbContext> CreateContext()
     {
-        var context = new AppDbContext(_contextOptions, useInMemoryDb: true);
+        var context = new AppDbContext(_contextOptions, inTest: true);
         await context.Database.EnsureCreatedAsync();
         return context;
     }
 
-    public void Dispose() => _connection.Dispose();
+    public async ValueTask DisposeAsync() => await _connection.DisposeAsync();
 }

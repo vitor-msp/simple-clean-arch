@@ -1,7 +1,6 @@
-using Query.Contract;
-
 namespace SimpleCleanArch.Tests.Api;
 
+[Collection("Tests.Api")]
 public class ProductControllerTest : BaseControllerTest
 {
     private async Task<(ProductController controller, AppDbContext context)> MakeSut()
@@ -88,7 +87,7 @@ public class ProductControllerTest : BaseControllerTest
         var (controller, context) = await MakeSut();
         var productSchema = new ProductSchema()
         {
-            CreatedAt = DateTime.Now,
+            CreatedAt = DateTime.UtcNow,
             Name = "my product",
             Price = 10.56,
             Description = "my product description",
@@ -164,7 +163,7 @@ public class ProductControllerTest : BaseControllerTest
         var (controller, context) = await MakeSut();
         var productSchema = new ProductSchema()
         {
-            CreatedAt = DateTime.Now,
+            CreatedAt = DateTime.UtcNow,
             Name = "my product",
             Price = 10.56,
             Description = "my product description",

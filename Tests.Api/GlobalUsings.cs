@@ -1,7 +1,6 @@
 global using Xunit;
 global using SimpleCleanArch.Api.Controllers;
 global using Microsoft.AspNetCore.Mvc;
-global using Microsoft.Data.Sqlite;
 global using Microsoft.EntityFrameworkCore;
 global using Moq;
 global using SimpleCleanArch.Application.Contract;
@@ -12,3 +11,5 @@ global using SimpleCleanArch.Repository.Schema;
 global using SimpleCleanArch.Domain.Contract.Infra;
 global using SimpleCleanArch.Application.UseCases;
 global using System.Data.Common;
+global using Npgsql;
+global using Query.Contract;

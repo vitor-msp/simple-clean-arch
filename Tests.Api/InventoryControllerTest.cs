@@ -1,5 +1,6 @@
 namespace SimpleCleanArch.Tests.Api;
 
+[Collection("Tests.Api")]
 public class InventoryControllerTest : BaseControllerTest
 {
     private async Task<(InventoryController controller, AppDbContext context)> MakeSut()
@@ -25,7 +26,7 @@ public class InventoryControllerTest : BaseControllerTest
         };
         warehouse.Details = new WarehouseDetailsSchema()
         {
-            CreatedAt = DateTime.Now,
+            CreatedAt = DateTime.UtcNow,
             City = "belo horizonte",
             Warehouse = warehouse,
         };

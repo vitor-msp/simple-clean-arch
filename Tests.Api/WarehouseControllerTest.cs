@@ -17,13 +17,13 @@ public class WarehouseControllerTest : BaseControllerTest
     {
         var warehouse = new WarehouseSchema()
         {
-            CreatedAt = DateTime.Now,
+            CreatedAt = DateTime.UtcNow,
             Name = "my-warehouse",
             Description = "my warehouse",
         };
         warehouse.Details = new WarehouseDetailsSchema()
         {
-            CreatedAt = DateTime.Now,
+            CreatedAt = DateTime.UtcNow,
             City = "belo horizonte",
             Warehouse = warehouse,
         };
