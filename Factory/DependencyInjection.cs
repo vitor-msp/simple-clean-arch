@@ -23,10 +23,12 @@ public static class DependencyInjection
             ?? throw new Exception("Missing database configuration.");
         services.AddDbContext<AppDbContext>(options => options.UseNpgsql(dbConnection));
 
-        services.AddScoped<IProductRepository, ProductRepositorySqlite>();
-        services.AddScoped<IWarehouseRepository, WarehouseRepositorySqlite>();
-        services.AddScoped<IWarehouseTransferRepository, WarehouseTransferRepositorySqlite>();
-        services.AddScoped<IInventoryRepository, InventoryRepositorySqlite>();
+        services.AddScoped<ITransactionBuilder, TransactionBuilder>();
+
+        services.AddScoped<IProductRepository, ProductRepository>();
+        services.AddScoped<IWarehouseRepository, WarehouseRepository>();
+        services.AddScoped<IWarehouseTransferRepository, WarehouseTransferRepository>();
+        services.AddScoped<IInventoryRepository, InventoryRepository>();
 
         services.AddScoped<IMailGateway, MailGateway>();
 

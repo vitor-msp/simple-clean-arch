@@ -16,7 +16,8 @@ public class ProductControllerTest : BaseControllerTest
         var _context = CreateContext();
         var repository = new ProductRepository(_context);
         var mail = new Mock<IMailGateway>().Object;
-        var createProduct = new CreateProduct(repository, mail);
+        var transactionBuilder = new TransactionBuilder(_context);
+        var createProduct = new CreateProduct(repository, mail, transactionBuilder);
         var deleteProduct = new DeleteProduct(repository, mail);
         var updateProduct = new UpdateProduct(repository);
         var productQuery = new Mock<IProductQuery>().Object;

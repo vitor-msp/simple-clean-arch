@@ -7,7 +7,7 @@ public abstract class BaseControllerTest : IAsyncLifetime
 
     protected BaseControllerTest()
     {
-        _connection = new NpgsqlConnection("Host=localhost;Port=5432;Database=test;Username=postgres;Password=simplecleanarch;Include Error Detail=true");
+        _connection = new NpgsqlConnection("Host=localhost;Port=5432;Database=postgres;Username=postgres;Password=simplecleanarch;Include Error Detail=true");
         // _connection = new SqliteConnection("Filename=:memory:");
         _connection.Open();
         _contextOptions = new DbContextOptionsBuilder<AppDbContext>().UseNpgsql(_connection).Options;
